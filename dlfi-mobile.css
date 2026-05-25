@@ -1,0 +1,1950 @@
+/* dlfi-mobile.css
+   Splash, bottom tab bar, FAB, mobile pain-point fixes, bigger tap targets. */
+
+/* ============================================================
+   SPLASH SCREEN — 1.5s animated DLFI seal
+   ============================================================ */
+#dlfi-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1000000;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(255,27,107,0.10), transparent 60%),
+    linear-gradient(180deg, #0a0306 0%, #050204 50%, #0a0306 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation: dsBg 1.4s ease-in-out;
+}
+#dlfi-splash.is-out {
+  opacity: 0;
+  transform: scale(1.05);
+  filter: blur(8px);
+  transition: opacity 0.55s ease, transform 0.55s ease, filter 0.55s ease;
+  pointer-events: none;
+}
+@keyframes dsBg {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+.ds-stage {
+  position: relative;
+  text-align: center;
+  padding: 1rem;
+}
+.ds-rings {
+  position: absolute;
+  inset: -40px;
+  pointer-events: none;
+}
+.ds-rings span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,27,107,0.5);
+  border-radius: 50%;
+  opacity: 0;
+  animation: dsRing 1.6s ease-out infinite;
+}
+.ds-rings span:nth-child(2) { animation-delay: 0.4s; }
+.ds-rings span:nth-child(3) { animation-delay: 0.8s; }
+@keyframes dsRing {
+  0%   { transform: scale(0.4); opacity: 0.9; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.ds-seal {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(5rem, 14vw, 8rem);
+  color: #ff1b6b;
+  text-shadow:
+    0 0 30px rgba(255,27,107,0.8),
+    0 0 60px rgba(255,27,107,0.45);
+  line-height: 0.9;
+  margin-bottom: 0.8rem;
+  animation: dsSeal 1.6s cubic-bezier(.4,1.8,.4,1) both;
+}
+@keyframes dsSeal {
+  0%   { transform: scale(0.5) rotate(-12deg); opacity: 0; filter: blur(12px); }
+  50%  { transform: scale(1.12) rotate(0deg); opacity: 1; filter: blur(0); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.ds-meta {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: #ff6ba8;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  animation: dsFade 1s ease 0.4s both;
+}
+@keyframes dsFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.ds-line {
+  width: 200px;
+  height: 2px;
+  background: rgba(255,27,107,0.18);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.ds-bar {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, #ff1b6b, transparent);
+  animation: dsBar 1.6s ease-in-out forwards;
+}
+@keyframes dsBar {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(150%); }
+}
+.ds-id {
+  margin-top: 0.7rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  color: #ff6ba8;
+  text-transform: uppercase;
+  animation: dsFade 1s ease 0.7s both;
+}
+.ds-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, transparent, rgba(255,27,107,0.08), transparent);
+  pointer-events: none;
+  animation: dsScan 1.6s linear infinite;
+}
+@keyframes dsScan {
+  0%   { top: -80px; }
+  100% { top: 100%; }
+}
+
+/* ============================================================
+   BOTTOM TAB BAR — Instagram/TikTok-style phone nav
+   ============================================================ */
+#dlfi-tabbar {
+  display: none; /* Only on phones / coarse pointers */
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 0;
+  z-index: 9985;
+  padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+  background: rgba(5, 2, 4, 0.96);
+  border-top: 1px solid rgba(255, 27, 107, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
+  font-family: var(--f-mono, monospace);
+  justify-content: space-around;
+  align-items: stretch;
+  gap: 2px;
+}
+@media (max-width: 900px), (pointer: coarse) {
+  #dlfi-tabbar { display: flex !important; }
+  body.has-bottom-tabs {
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px) + 30px) !important; /* tabs + ticker */
+  }
+  /* Make sure floating chrome moves up above tab bar */
+  .audio-toggle,
+  .audio-hint,
+  .view-toggle,
+  .ticker-wrap { z-index: 9980; }
+  .audio-toggle { bottom: calc(80px + env(safe-area-inset-bottom,0px)) !important; right: 8px !important; }
+  .audio-hint { bottom: calc(120px + env(safe-area-inset-bottom,0px)) !important; }
+  .view-toggle { bottom: calc(80px + env(safe-area-inset-bottom,0px)) !important; left: 8px !important; }
+  .ticker-wrap { bottom: calc(60px + env(safe-area-inset-bottom,0px)) !important; }
+  /* Hide the FAB in the static markup since tab bar has its own */
+  .mobile-cta-floating { display: none !important; }
+  /* Hide hamburger since we have tabs now */
+  .hamburger { display: none !important; }
+  .nav-cta { display: none !important; }
+}
+.tb-item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 2px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: #6b5460;
+  font-family: inherit;
+  font-size: 0.5rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 48px;
+}
+.tb-item .tb-icon {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+}
+.tb-item .tb-icon svg { width: 100%; height: 100%; }
+.tb-item .tb-label { line-height: 1; }
+.tb-item:active { transform: scale(0.94); }
+.tb-item.is-active {
+  color: #ff1b6b;
+  background: rgba(255, 27, 107, 0.08);
+}
+.tb-item.is-active::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 30%; right: 30%;
+  height: 2px;
+  background: #ff1b6b;
+  box-shadow: 0 0 8px rgba(255, 27, 107, 0.8);
+  border-radius: 2px;
+}
+
+.tb-fab {
+  position: relative;
+  margin: -22px 4px 0;
+  background: linear-gradient(160deg, #ff1b6b, #c00858);
+  color: #050204;
+  border: 3px solid #050204;
+  border-radius: 50%;
+  width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-federal, 'Oswald', sans-serif);
+  font-weight: 800;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 0;
+  box-shadow: 0 6px 18px rgba(255, 27, 107, 0.55), 0 0 26px rgba(255, 27, 107, 0.45);
+  animation: tbFabPulse 2.4s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.tb-fab-glyph { font-size: 1.4rem; line-height: 1; }
+.tb-fab-label { font-size: 0.48rem; letter-spacing: 1.5px; margin-top: -1px; text-transform: uppercase; }
+.tb-fab:active { transform: scale(0.92); }
+@keyframes tbFabPulse {
+  0%, 100% { box-shadow: 0 6px 18px rgba(255,27,107,0.55), 0 0 26px rgba(255,27,107,0.45); }
+  50%      { box-shadow: 0 6px 18px rgba(255,27,107,0.7),  0 0 38px rgba(255,27,107,0.7); }
+}
+
+/* ============================================================
+   INSTALL APP CHIP — beforeinstallprompt slide-up
+   ============================================================ */
+#dlfi-install {
+  position: fixed;
+  left: 50%;
+  bottom: calc(110px + env(safe-area-inset-bottom, 0px) + 30px);
+  transform: translateX(-50%);
+  z-index: 9990;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(8, 4, 6, 0.95);
+  border: 1px solid #ff1b6b;
+  color: #ff1b6b;
+  font-family: var(--f-federal, 'Oswald', sans-serif);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.5), 0 0 30px rgba(255,27,107,0.4);
+  animation: installSlide 0.5s cubic-bezier(.4,1.5,.5,1) both;
+  cursor: pointer;
+}
+@keyframes installSlide {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+#dlfi-install:active { transform: translate(-50%, 1px); }
+
+/* ============================================================
+   MOBILE PAIN-POINT FIXES
+   ============================================================ */
+@media (max-width: 720px) {
+  /* Stop horizontal scrolling / black gap on right */
+  html, body { overflow-x: hidden !important; max-width: 100vw; }
+  .page-content, .section, .page-hero, .hero-wrap {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box;
+  }
+  /* Status bar — keep top banner fully visible */
+  .status-bar {
+    flex-wrap: wrap !important;
+    padding: 6px 10px !important;
+    gap: 6px !important;
+    font-size: 0.5rem !important;
+    letter-spacing: 1.2px !important;
+  }
+  .status-bar .sb-group { gap: 6px !important; flex-wrap: wrap; }
+  .status-bar .sb-hide-sm { display: none !important; }
+  /* Bigger body font for readability */
+  body { font-size: 16px; }
+  .case-meta, .form-label, .footer-marquee { font-size: 0.7rem !important; }
+  /* Bigger tap targets — minimum 48px hit area */
+  button, .btn-primary, .btn-outline, .nav-link, .filter-btn, .choice,
+  .tab-btn, .sort-select, .modal-close, .mm-close, .av-close, .pm-btn,
+  .dlfi-close, .audio-toggle {
+    min-height: 48px;
+  }
+  .filter-btn { padding: 12px 12px !important; }
+  /* Hero buttons full-width */
+  .page-hero .btn-primary,
+  .page-hero .btn-outline { width: 100%; }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .ds-seal { font-size: 5rem; }
+  .ds-meta { font-size: 0.55rem; letter-spacing: 3px; }
+  #dlfi-tabbar .tb-item .tb-label { font-size: 0.45rem; }
+}
+
+/* ============================================================
+   QUIZ — make "tap me" affordance obvious for non-tech users
+   ============================================================ */
+.quiz-card:not(.is-open) .quiz-head::after {
+  content: 'Tap to open';
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--f-mono, monospace);
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  color: #ff1b6b;
+  text-transform: uppercase;
+  background: rgba(255, 27, 107, 0.08);
+  border: 1px solid rgba(255, 27, 107, 0.4);
+  padding: 5px 10px;
+  border-radius: 999px;
+  animation: tapToOpen 2.4s ease-in-out infinite;
+  pointer-events: none;
+  white-space: nowrap;
+}
+@keyframes tapToOpen {
+  0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.85; }
+  50%      { transform: translateY(-50%) scale(1.05); opacity: 1; }
+}
+.quiz-card.is-correct .quiz-head::after,
+.quiz-card.is-wrong .quiz-head::after { display: none; }
+/* On desktop, PENDING is redundant with the pulsing "Tap to open" badge
+   and the two overlap visually. Hide PENDING until the card is opened or
+   answered — once the user interacts, the status word reappears in its
+   final form (CORRECT / INCORRECT). */
+@media (min-width: 541px) {
+  .quiz-card:not(.is-open):not(.is-correct):not(.is-wrong) .qh-status {
+    visibility: hidden;
+  }
+}
+@media (max-width: 540px) {
+  .quiz-card:not(.is-open) .quiz-head::after {
+    display: none;
+  }
+  .quiz-card:not(.is-open) .quiz-head .qh-q::after {
+    content: ' (Tap to open)';
+    color: #ff1b6b;
+    font-weight: 600;
+    display: inline-block;
+    margin-left: 4px;
+  }
+}
+
+
+/* ============================================================
+   PHASE 4 — PHONE POLISH PASS
+   Addresses:
+   • Hide phone/desktop view toggle on phone
+   • FAB no longer cut off (tab bar overflow + safe-area)
+   • Hide top "BEAD ALERT" pink banner on phone
+   • Pin ticker to true bottom, tab bar sits above it
+   • Hotline CTA gets a clearer "↗ open Hotline" affordance
+   • Modal opens above nav and is fully scrollable with hint
+   ============================================================ */
+
+/* ---- 1. Remove view toggle entirely on phone ---- */
+@media (max-width: 900px), (pointer: coarse) {
+  .view-toggle { display: none !important; }
+  /* While we're here, also hide the OS-level audio hint pill on phone —
+     the new bottom tab bar has its own visual cues. */
+  .audio-hint { display: none !important; }
+}
+
+/* ---- 2. Tab bar overflow + FAB clipping ---- */
+@media (max-width: 900px), (pointer: coarse) {
+  #dlfi-tabbar { overflow: visible !important; }
+  #dlfi-tabbar .tb-fab {
+    /* Lift higher so the full circle is always visible above the bar */
+    margin-top: -28px !important;
+  }
+}
+
+/* ---- 3. Hide the top alert banner on phone ---- */
+@media (max-width: 720px) {
+  .alert-banner { display: none !important; }
+}
+
+/* ---- 4. Pin ticker to absolute bottom, tab bar sits ABOVE it ---- */
+@media (max-width: 900px), (pointer: coarse) {
+  /* Ticker = bottom 0 */
+  .ticker-wrap {
+    bottom: env(safe-area-inset-bottom, 0px) !important;
+    height: 28px !important;
+    z-index: 9984 !important;
+  }
+  /* Tab bar sits immediately above the ticker */
+  #dlfi-tabbar {
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+    z-index: 9985 !important;
+  }
+  /* Audio toggle moves above the tab bar */
+  .audio-toggle {
+    bottom: calc(28px + 70px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 8px !important;
+    z-index: 9986 !important;
+  }
+  /* Page padding to accommodate ticker + tab bar */
+  body.has-bottom-tabs {
+    padding-bottom: calc(70px + 28px + env(safe-area-inset-bottom, 0px) + 16px) !important;
+  }
+}
+
+/* ---- 5. Hotline CTA — clearer affordance on phone ---- */
+@media (max-width: 720px) {
+  /* Add an "↗ open" suffix to the hotline shortcut button on the hero */
+  .page-hero .btn-outline[onclick*="showPage('hotline')"]::after {
+    content: ' ↗ Tap to open';
+    display: inline-block;
+    margin-left: 8px;
+    font-family: var(--f-mono);
+    font-size: 0.55rem;
+    letter-spacing: 1.5px;
+    color: var(--pink);
+    text-transform: uppercase;
+    background: rgba(255, 27, 107, 0.08);
+    border: 1px solid rgba(255, 27, 107, 0.4);
+    padding: 3px 7px;
+    border-radius: 999px;
+    vertical-align: middle;
+  }
+}
+
+/* ---- 6. Modals — sit above nav, fully scrollable with hint ---- */
+@media (max-width: 720px) {
+  /* Push modal-overlays above status bar + nav */
+  .modal-overlay {
+    z-index: 999990 !important;
+    align-items: flex-start !important;
+    padding: 18px 10px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  /* Hide nav/status while a modal is open */
+  body.modal-open .status-bar,
+  body.modal-open nav,
+  body.modal-open .mobile-menu { display: none !important; }
+  body.modal-open .alert-banner { display: none !important; }
+
+  /* Modal boxes scroll internally too, with safe top/bottom padding */
+  .modal-box,
+  .modal-box.received-box,
+  .modal-box.diary-box,
+  .modal-box.bio-box,
+  .mm-box, .pm-box, .av-box, .dc-box {
+    max-height: calc(100vh - 80px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-top: 4rem !important; /* leave room below close button */
+    padding-bottom: 1.5rem !important;
+  }
+  /* Persistent "↓ scroll" hint at bottom of every scrollable modal */
+  .modal-box::after,
+  .mm-box::after, .pm-box::after, .av-box::after {
+    content: '↓ scroll';
+    position: sticky;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    font-family: var(--f-mono);
+    font-size: 0.5rem;
+    letter-spacing: 2px;
+    color: var(--pink);
+    background: rgba(5, 2, 4, 0.92);
+    border: 1px solid var(--pink);
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin: 12px auto 0;
+    text-align: center;
+    text-transform: uppercase;
+    pointer-events: none;
+    width: fit-content;
+    animation: modalScrollHint 1.8s ease-in-out infinite;
+  }
+  @keyframes modalScrollHint {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.8; }
+    50%      { transform: translate(-50%, 3px); opacity: 1; }
+  }
+  /* Hide the hint when the modal isn't actually scrollable */
+  .modal-box.no-scroll::after,
+  .mm-box.no-scroll::after,
+  .pm-box.no-scroll::after,
+  .av-box.no-scroll::after { display: none !important; }
+
+  /* Close button always sticky in top-right of scrolling content */
+  .modal-box .modal-close,
+  .modal-box .dlfi-close,
+  .mm-box .mm-close,
+  .av-box .av-close,
+  .pm-box .pm-close,
+  .dc-box .dc-close {
+    position: sticky !important;
+    top: 8px !important;
+    margin-left: auto !important;
+    z-index: 5;
+    background: rgba(5, 2, 4, 0.94) !important;
+  }
+}
+
+/* ---- 7. Status bar gets one tap line on phone instead of 5 ---- */
+@media (max-width: 480px) {
+  .status-bar {
+    padding: 4px 8px !important;
+    font-size: 0.45rem !important;
+    letter-spacing: 1px !important;
+  }
+  .status-bar .sb-group:nth-child(2) > span:not(#utcClock):not(:last-child) { display: none; }
+}
+
+
+/* ============================================================
+   PHASE 5 — TARGETED PHONE FIXES
+   ============================================================ */
+
+/* ---- 1. Divisions grid: 4 cols collapses to 2 on phone ---- */
+@media (max-width: 720px) {
+  /* The grid is inline-styled with grid-template-columns: repeat(4, 1fr).
+     We override at !important via a high-specificity selector. */
+  #page-home div[style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1px !important;
+  }
+  #page-home div[style*="grid-template-columns: repeat(4, 1fr)"] > div {
+    padding: 1.1rem 0.8rem !important;
+  }
+  #page-home div[style*="grid-template-columns: repeat(4, 1fr)"] > div > div:nth-child(2) {
+    font-size: 0.9rem !important; /* Division name */
+    line-height: 1.25 !important;
+  }
+}
+@media (max-width: 420px) {
+  #page-home div[style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---- 2. RECRUIT stamp fully visible (no clipping) ---- */
+@media (max-width: 720px) {
+  /* Give the recruit-card breathing room so the stamp poking off the
+     corner stays inside the viewport */
+  #page-resources .recruit-hero-wrap {
+    padding-top: 16px;
+  }
+  #page-resources .recruit-card {
+    margin-top: 14px;
+    overflow: visible !important;
+  }
+  #page-resources .recruit-card .rc-stamp {
+    top: -10px !important;
+    right: 8px !important;     /* keep on-screen */
+    font-size: 0.5rem !important;
+    letter-spacing: 2.5px !important;
+    padding: 3px 8px !important;
+    z-index: 5;
+  }
+  /* Also give the parent a tad of right padding so the stamp doesn't
+     overflow the viewport edge */
+  #page-resources .page-hero {
+    padding-right: 18px !important;
+    padding-left: 18px !important;
+  }
+}
+
+/* ---- 3. Scissors panel — properly aligned on phone ---- */
+@media (max-width: 720px) {
+  /* The single scissor at the end of "deploy the ✂️." reads as a stray
+     period on small screens — drop the period on phone view. */
+  .sc-title .sc-title-dot { display: none; }
+  .scissors-panel {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    text-align: center !important;
+    padding: 1.4rem 1rem !important;
+    overflow: hidden;
+  }
+  .scissors-glyph {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    gap: 0.6rem !important;
+    transform: none !important;
+    width: 100%;
+  }
+  .scissors-glyph .sc-emoji {
+    position: static !important;
+    display: inline-block !important;
+    font-size: clamp(2.4rem, 12vw, 3.2rem) !important;
+    transform-origin: center !important;
+  }
+  .scissors-body {
+    text-align: center;
+  }
+  .scissors-body .sc-quote {
+    border-left: none !important;
+    padding-left: 0 !important;
+    border-top: 2px solid var(--pink) !important;
+    border-bottom: 2px solid var(--pink) !important;
+    padding: 0.7rem 0 !important;
+    margin: 1rem 0 !important;
+  }
+  .scissors-body .sc-rules {
+    text-align: left !important;
+    max-width: 320px;
+    margin: 0.8rem auto !important;
+  }
+}
+
+/* ---- 4. Report-page silhouette no longer covered by neon frame ---- */
+@media (max-width: 720px) {
+  /* The cinematic visual is the first child of .hero-grid-3.
+     Stack it cleanly above the form, and reposition the neon frame
+     to a corner rather than dead-center. */
+  #page-report .hero-grid-3 > :nth-child(1) {
+    min-height: 320px !important;
+  }
+  /* The aspect-ratio container holding the surveillance silhouette */
+  #page-report div[style*="aspect-ratio: 3/4"],
+  #page-report div[style*="aspect-ratio: 16/9"] {
+    aspect-ratio: 16/10 !important;
+    min-height: 320px !important;
+    padding: 0 !important;
+    position: relative;
+  }
+  /* The sv-subject (face shape) — let it dominate the frame */
+  #page-report .ev-surveillance {
+    position: absolute !important;
+    inset: 0 !important;
+  }
+  #page-report .ev-surveillance .sv-subject {
+    width: 70% !important;
+    height: 95% !important;
+  }
+  /* Move the "EVIDENCE IS STUNNING / LIES ARE UGLY" plate OUT of the
+     center — pin to top-left so the face is visible. */
+  #page-report .hero-grid-3 > :nth-child(1) > div[style*="position: absolute"]:has(.neon-frame) {
+    bottom: auto !important;
+    top: 12px !important;
+    left: 12px !important;
+    right: auto !important;
+    width: auto !important;
+    transform: none !important;
+    text-align: left !important;
+  }
+  #page-report .neon-frame.flicker {
+    padding: 0.5rem 0.7rem !important;
+    background: rgba(0,0,0,0.78) !important;
+  }
+  #page-report .neon-frame.flicker > div {
+    font-size: 0.62rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: 1.5px !important;
+  }
+  /* The Anonymous Reporting / 100% chip relocates to bottom-right */
+  #page-report .hero-grid-3 > :nth-child(1) > div[style*="100%"][style*="ANONYMOUS"] {
+    bottom: 12px !important;
+    right: 12px !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
+}
+
+
+/* ============================================================
+   PHASE 6 — TARGETED PHONE FIXES
+   ============================================================ */
+
+/* ---- 1. Hero "Department of Lace Front Investigations" moves up ---- */
+@media (max-width: 720px) {
+  #page-home .page-hero { padding-top: 0.6rem !important; padding-bottom: 1rem !important; }
+  #page-home .hero-wrap { padding: 0.2rem 1rem !important; }
+  #page-home .hero-grid { grid-template-columns: 1fr !important; gap: 1.2rem !important; }
+  #page-home .hero-grid > div:first-child .eyebrow { font-size: 0.55rem !important; margin-bottom: 0.5rem !important; }
+  #page-home .hero-grid > div:first-child .display-xl {
+    font-size: clamp(2.4rem, 10vw, 3.6rem) !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+  }
+  #page-home .hero-grid > div:first-child .script { margin: 0.6rem 0 0.9rem !important; font-size: 1.1rem !important; }
+  #page-home .hero-grid > div:first-child p { font-size: 0.68rem !important; line-height: 1.7 !important; margin-bottom: 0.7rem !important; }
+}
+
+/* ---- 2. "Guilty of nothing" panel — no right-side cutoff on phone ---- */
+@media (max-width: 720px) {
+  #page-report .hero-grid-3 > :nth-child(1) > div:first-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 1rem !important;
+  }
+  /* The neon-frame "EVIDENCE IS STUNNING" plate + "Guilty of nothing" tag */
+  #page-report .neon-frame.flicker {
+    max-width: calc(100% - 8px) !important;
+    box-sizing: border-box !important;
+  }
+  #page-report .neon-frame.flicker > div {
+    font-size: 0.7rem !important;
+    line-height: 1.3 !important;
+  }
+  #page-report .hero-grid-3 > :nth-child(1) .script {
+    max-width: calc(100% - 8px) !important;
+    box-sizing: border-box !important;
+    word-break: break-word;
+    font-size: 0.82rem !important;
+  }
+  /* Make sure the column itself doesn't push wider than viewport */
+  #page-report .hero-grid-3 > :nth-child(1) {
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+}
+
+/* ---- 3. On-brand Install pin card (replaces generic gray box) ---- */
+#dlfi-install {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: calc(124px + env(safe-area-inset-bottom, 0px));
+  margin: 0 auto;
+  max-width: 360px;
+  z-index: 9991;
+  display: grid;
+  gap: 8px;
+  padding: 1rem 1.1rem 0.9rem;
+  background:
+    radial-gradient(120% 100% at 0% 0%, rgba(255,27,107,0.18), transparent 70%),
+    linear-gradient(180deg, rgba(20,8,14,0.96), rgba(5,2,4,0.98));
+  border: 1px solid #ff1b6b;
+  border-radius: 16px;
+  color: var(--text);
+  font-family: var(--f-mono);
+  text-align: left;
+  box-shadow:
+    0 18px 44px rgba(0,0,0,0.6),
+    0 0 36px rgba(255, 27, 107, 0.35),
+    inset 0 0 14px rgba(255, 27, 107, 0.08);
+  animation: pinSlide 0.55s cubic-bezier(.4,1.5,.5,1) both;
+  overflow: hidden;
+}
+#dlfi-install::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed rgba(255, 27, 107, 0.3);
+  border-radius: 12px;
+  pointer-events: none;
+}
+#dlfi-install::after {
+  /* Diagonal scan sweep — same animation language as recruit card */
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: linear-gradient(115deg, transparent 35%, rgba(255,27,107,0.18) 50%, transparent 65%);
+  background-size: 250% 250%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: pinSweep 4.5s linear infinite;
+  border-radius: 16px;
+}
+@keyframes pinSweep {
+  0%   { background-position: -150% -150%; }
+  100% { background-position: 250% 250%; }
+}
+@keyframes pinSlide {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+#dlfi-install.is-out {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  transition: all 0.35s ease;
+  pointer-events: none;
+}
+#dlfi-install .ins-stamp {
+  font-size: 0.5rem;
+  letter-spacing: 3px;
+  color: #ff1b6b;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+#dlfi-install .ins-title {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: var(--text);
+  line-height: 1;
+}
+#dlfi-install .ins-title em {
+  font-style: italic;
+  color: #ff1b6b;
+  text-shadow: 0 0 14px var(--pink-glow);
+}
+#dlfi-install .ins-body {
+  font-size: 0.6rem;
+  letter-spacing: 1.5px;
+  color: var(--silver-dim);
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+#dlfi-install .ins-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 6px;
+  padding: 12px 16px;
+  background: #ff1b6b;
+  color: #050204;
+  font-family: var(--f-federal, var(--f-mono));
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 0 22px rgba(255,27,107,0.55), inset 0 0 14px rgba(255,255,255,0.08);
+}
+#dlfi-install .ins-cta span { font-family: var(--f-display); font-style: italic; }
+#dlfi-install .ins-close {
+  position: absolute;
+  top: 8px; right: 10px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 27, 107, 0.12);
+  border: 1px solid rgba(255, 27, 107, 0.5);
+  color: #ff1b6b;
+  font-family: var(--f-mono);
+  font-size: 1.1rem;
+  line-height: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+#dlfi-install .ins-close:hover { background: #ff1b6b; color: #050204; }
+
+@media (min-width: 720px) {
+  #dlfi-install { left: auto; right: 18px; bottom: 18px; max-width: 320px; }
+}
+
+/* ============================================================
+   PIN-TO-HOME-SCREEN  ▸  IN-PAGE ASSIGNMENT CARD (phone only)
+   ============================================================
+   A full-width on-brand card living inside the Recruit page
+   between the hero and the metrics. Phone-only by design —
+   on desktop the card is hidden because the gesture doesn't
+   exist there. Clicking it opens the on-brand pin modal.
+   ============================================================ */
+.pin-section {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  display: none; /* Hidden by default; revealed on phone widths below */
+}
+@media (max-width: 900px), (pointer: coarse) {
+  .pin-section { display: block; }
+}
+
+.pin-card {
+  position: relative;
+  background: linear-gradient(160deg, var(--noir-2) 0%, var(--noir-1) 50%, #170610 100%);
+  border: 1px solid var(--pink);
+  padding: 2.6rem 1.4rem 1.4rem; /* extra top padding so the stamp sits inside */
+  /* overflow:visible — clipping moves to .pn-card-bg below so the stamp
+     and CTA shine remain visible while the bg sweep stays contained */
+  overflow: visible;
+  box-shadow:
+    0 0 0 1px rgba(255,27,107,0.18) inset,
+    0 18px 48px rgba(0,0,0,0.55),
+    0 0 60px rgba(255,27,107,0.18);
+  cursor: pointer;
+  isolation: isolate;
+  transform: translateZ(0);
+  margin-top: 18px; /* room above for stamp */
+  transition: transform 0.35s var(--ease-out-soft, cubic-bezier(.2,.7,.2,1)),
+              box-shadow 0.35s var(--ease-out-soft, cubic-bezier(.2,.7,.2,1));
+}
+.pin-card:active { transform: scale(0.992); }
+.pin-card::before {
+  /* Dashed pink inner stamp border — same vocabulary as recruit-card / dc-box */
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed rgba(255,27,107,0.32);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Decorative animated background — clip the scan sweep here so the parent
+   card can keep overflow:visible for the rotated stamp */
+.pn-card-bg {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.pn-card-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,27,107,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,27,107,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(circle at 75% 35%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 75% 35%, #000 0%, transparent 75%);
+  opacity: 0.7;
+}
+.pn-card-scan {
+  /* Diagonal scan-line sweep across the whole card */
+  position: absolute;
+  top: -120%; left: -40%;
+  width: 60%; height: 320%;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255,27,107,0.0) 45%,
+    rgba(255,27,107,0.16) 50%,
+    rgba(255,27,107,0.0) 55%,
+    transparent 62%
+  );
+  filter: blur(1px);
+  animation: pnCardScan 6.5s linear infinite;
+}
+@keyframes pnCardScan {
+  0%   { transform: translateX(-30%); }
+  100% { transform: translateX(280%); }
+}
+.pn-card-rings {
+  position: absolute;
+  top: 8%; right: -30%;
+  width: 70vw; max-width: 380px; aspect-ratio: 1;
+  opacity: 0.32;
+  pointer-events: none;
+}
+.pn-card-rings span {
+  position: absolute; inset: 0;
+  border: 1px solid var(--pink);
+  border-radius: 50%;
+  animation: pnRingsExpand 3.6s ease-out infinite;
+}
+.pn-card-rings span:nth-child(2) { animation-delay: 1.8s; }
+@keyframes pnRingsExpand {
+  0%   { transform: scale(0.6); opacity: 0; }
+  10%  { opacity: 0.9; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* Corner brackets */
+.pn-card-corner {
+  position: absolute;
+  width: 22px; height: 22px;
+  border: 2px solid var(--pink);
+  pointer-events: none;
+  z-index: 2;
+}
+.pn-card-corner.pn-tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+.pn-card-corner.pn-tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; }
+.pn-card-corner.pn-bl { bottom: 14px; left: 14px; border-right: 0; border-top: 0; }
+.pn-card-corner.pn-br { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+
+/* Stamp — rotated like all DLFI brand stamps. Sits ABOVE the card so it
+   reads as a tag stuck onto the dossier, like the .rc-stamp on the recruit
+   card. Parent .pin-card uses overflow:visible so the stamp isn't clipped. */
+.pn-card-stamp {
+  position: absolute;
+  top: -16px;
+  right: 22px;
+  z-index: 4;
+  display: inline-block;
+  background: var(--noir-0);
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 0.78rem;
+  letter-spacing: 4px;
+  color: var(--pink);
+  border: 2px solid var(--pink);
+  padding: 0.35rem 0.9rem;
+  transform: rotate(-3deg);
+  box-shadow: 0 0 18px var(--pink-glow);
+  text-shadow: 0 0 8px var(--pink-glow);
+  animation: pnStampFlicker 4s steps(1) infinite;
+  white-space: nowrap;
+}
+/* On very narrow phones, anchor the stamp to the left so it doesn't run
+   off the right edge with the card's smaller width. */
+@media (max-width: 380px) {
+  .pn-card-stamp { right: auto; left: 20px; transform: rotate(-3deg); }
+}
+@keyframes pnStampFlicker {
+  0%, 92%, 100% { opacity: 1; }
+  93%, 95% { opacity: 0.4; }
+  94%, 96% { opacity: 1; }
+}
+
+.pn-card-head {
+  position: relative; z-index: 3;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--f-mono);
+  font-size: 0.58rem; letter-spacing: 2.5px;
+  color: var(--silver-dim);
+  text-transform: uppercase;
+  padding: 4px 6px 14px;
+  border-bottom: 1px dashed rgba(255,27,107,0.18);
+  margin-bottom: 14px;
+}
+.pn-card-head .pn-card-id { color: var(--pink); }
+
+/* Main row: phone illo + copy */
+.pn-card-main {
+  position: relative; z-index: 3;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 0 6px;
+  min-width: 0; /* let the right column shrink instead of overflowing */
+}
+.pn-card-main .pn-card-copy {
+  min-width: 0; /* required so child grid items can shrink below content width */
+}
+.pn-card-main .pn-card-copy .eyebrow {
+  /* The "Field Briefing CHANNEL 304" line was overflowing the card edge
+     on narrow phones because the .code chip's heavy letter-spacing pushed
+     it past the available width. Allow it to wrap cleanly. */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  white-space: normal;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+.pn-card-main .pn-card-copy .eyebrow .code {
+  letter-spacing: 2px; /* tighter than default so it fits */
+  display: inline-block;
+  max-width: 100%;
+}
+@media (max-width: 380px) {
+  .pn-card-main { grid-template-columns: 88px 1fr; gap: 12px; }
+  .pn-card-main .pn-card-copy .eyebrow {
+    font-size: 0.5rem;
+    letter-spacing: 1.5px;
+  }
+  .pn-card-main .pn-card-copy .eyebrow .code { font-size: 0.5rem; letter-spacing: 1.5px; }
+}
+@media (max-width: 340px) {
+  /* Last-ditch: hide the CHANNEL chip on the tiniest phones so the
+     "Field Briefing" prefix never gets pushed out of the card. */
+  .pn-card-main .pn-card-copy .eyebrow .code { display: none; }
+}
+
+/* Phone illustration with descending pin */
+.pn-card-icon {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 110/170;
+}
+.pn-card-icon svg { width: 100%; height: 100%; display: block; }
+.pn-card-icon .pnc-body {
+  fill: var(--noir-1);
+  stroke: var(--pink);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 10px rgba(255,27,107,0.4));
+}
+.pn-card-icon .pnc-screen {
+  fill: #08020a;
+  stroke: rgba(255,27,107,0.25);
+  stroke-width: 0.6;
+}
+.pn-card-icon .pnc-speaker {
+  stroke: var(--pink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+.pn-card-icon .pnc-home {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 1.4;
+  opacity: 0.7;
+}
+.pn-card-icon .pnc-tile {
+  fill: var(--pink);
+  animation: pncTileGlow 2.4s ease-in-out infinite;
+}
+@keyframes pncTileGlow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255,27,107,0.55)); }
+  50%      { filter: drop-shadow(0 0 14px rgba(255,27,107,0.95)); }
+}
+.pn-card-icon .pnc-letter {
+  fill: #0a0306;
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: 28px;
+  font-style: italic;
+}
+.pn-card-icon .pnc-label {
+  fill: var(--silver);
+  font-family: var(--f-mono);
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+/* The descending pin */
+.pn-card-pin {
+  position: absolute;
+  top: -6%;
+  left: 50%;
+  width: 24%;
+  transform: translateX(-50%);
+  animation: pnCardPinDrop 3.2s cubic-bezier(.45, 0, .55, 1) infinite;
+  z-index: 2;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+}
+.pn-card-pin svg { width: 100%; height: 100%; display: block; }
+.pn-card-pin svg path {
+  fill: var(--pink);
+  stroke: #ffd5e3;
+  stroke-width: 0.8;
+}
+@keyframes pnCardPinDrop {
+  0%   { transform: translate(-50%, -30%) rotate(-6deg); opacity: 0; }
+  20%  { transform: translate(-50%, -30%) rotate(-6deg); opacity: 1; }
+  55%  { transform: translate(-50%, 36%) rotate(-3deg); opacity: 1; }
+  60%  { transform: translate(-50%, 32%) rotate(-3deg); }
+  100% { transform: translate(-50%, 36%) rotate(-3deg); opacity: 1; }
+}
+
+/* Copy column */
+.pn-card-copy { min-width: 0; }
+.pn-card-title {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: clamp(1.45rem, 6.5vw, 2rem);
+  line-height: 0.98;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5rem;
+  text-wrap: balance;
+}
+.pn-card-title em { font-style: italic; }
+.pn-card-title .ink-pink {
+  color: var(--pink);
+  text-shadow: 0 0 18px var(--pink-glow);
+}
+.pn-card-sub {
+  font-family: var(--f-mono);
+  font-size: 0.62rem; letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--silver-dim);
+  line-height: 1.7;
+}
+
+/* CTA */
+.pn-card-cta {
+  position: relative; z-index: 3;
+  margin-top: 1.2rem;
+  width: 100%;
+  display: inline-flex; align-items: center; justify-content: space-between;
+  background: var(--pink);
+  color: #0a0306;
+  border: none;
+  padding: 14px 18px;
+  font-family: var(--f-federal);
+  font-weight: 700;
+  font-size: 0.86rem;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 0 24px var(--pink-glow), 0 4px 18px rgba(0,0,0,0.45);
+  transition: transform 0.18s, box-shadow 0.25s;
+}
+.pn-card-cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.45) 50%, transparent 65%);
+  transform: translateX(-130%);
+  animation: pnCtaShine 3.4s ease-in-out infinite;
+}
+@keyframes pnCtaShine {
+  0%   { transform: translateX(-130%); }
+  60%  { transform: translateX(130%); }
+  100% { transform: translateX(130%); }
+}
+.pn-card-cta:active { transform: scale(0.97); }
+.pn-card-cta .pnc-cta-glyph,
+.pn-card-cta .pnc-cta-arrow {
+  font-style: normal;
+  position: relative; z-index: 1;
+}
+.pn-card-cta .pnc-cta-label {
+  flex: 1; text-align: left; padding-left: 10px;
+  position: relative; z-index: 1;
+  font-family: var(--f-federal);
+}
+.pn-card-cta .pnc-cta-arrow {
+  font-family: var(--f-display); font-style: italic;
+  font-size: 1.15rem;
+}
+
+/* Foot row */
+.pn-card-foot {
+  position: relative; z-index: 3;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 14px;
+  font-family: var(--f-mono);
+  font-size: 0.5rem; letter-spacing: 2.5px;
+  color: var(--silver-dim);
+  text-transform: uppercase;
+  padding: 8px 6px 0;
+  border-top: 1px dashed rgba(255,27,107,0.16);
+}
+
+/* When installed (running as PWA), card collapses into a small confirmation */
+.pin-card.is-installed {
+  cursor: default;
+}
+.pin-card.is-installed .pn-card-stamp { content: 'CLEARED'; }
+.pin-card.is-installed .pn-card-pin { display: none; }
+.pin-card.is-installed .pn-card-title::after {
+  content: ' ✓';
+  color: var(--pink);
+}
+
+/* ============================================================
+   PIN-TO-HOME-SCREEN  ▸  MODAL POPUP
+   ============================================================
+   Brand confirm-modal cousin, scaled up with motion graphics.
+   Animated phone-with-pin, scanning ring, platform-specific
+   step list. Triggered by clicking the in-page card.
+   ============================================================ */
+#dlfi-pin-modal {
+  position: fixed; inset: 0;
+  z-index: 999999;
+  background:
+    radial-gradient(ellipse at 70% 20%, rgba(255,27,107,0.18), transparent 55%),
+    radial-gradient(ellipse at center, rgba(20,4,12,0.94), rgba(5,2,4,0.98));
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 1.2rem;
+  overflow-y: auto;
+  animation: pnFadeIn 0.35s ease both;
+}
+#dlfi-pin-modal.is-on { display: flex; }
+@keyframes pnFadeIn { from { opacity: 0; } to { opacity: 1; } }
+#dlfi-pin-modal, #dlfi-pin-modal * { cursor: default !important; }
+#dlfi-pin-modal button { cursor: pointer !important; }
+
+#dlfi-pin-modal .pn-box {
+  position: relative;
+  width: 100%; max-width: 480px;
+  margin: auto;
+  background:
+    linear-gradient(160deg, var(--noir-2) 0%, var(--noir-1) 55%, #190612 100%);
+  border: 1px solid var(--pink);
+  padding: 3.2rem 1.5rem 1.6rem;
+  text-align: center;
+  box-shadow:
+    0 0 60px rgba(255,27,107,0.32),
+    0 22px 60px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(255,27,107,0.18) inset;
+  overflow: hidden;
+  animation: pnPop 0.45s cubic-bezier(.45,1.7,.4,1) both;
+  max-height: calc(100vh - 1rem);
+  overflow-y: auto;
+}
+@keyframes pnPop {
+  from { transform: scale(0.86) translateY(20px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+#dlfi-pin-modal .pn-box::before {
+  content: '';
+  position: absolute; inset: 8px;
+  border: 1px dashed rgba(255,27,107,0.28);
+  pointer-events: none;
+  z-index: 1;
+}
+#dlfi-pin-modal .pn-box::after {
+  /* Subtle grid pattern in background */
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,27,107,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,27,107,0.06) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 75%);
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+}
+#dlfi-pin-modal .pn-box > * { position: relative; z-index: 2; }
+
+#dlfi-pin-modal .pn-scanline {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--pink), transparent);
+  box-shadow: 0 0 12px var(--pink-glow);
+  animation: pnScanline 3s linear infinite;
+  z-index: 3;
+}
+@keyframes pnScanline {
+  0%   { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(calc(min(70vh, 600px) - 2px)); opacity: 0.4; }
+}
+
+#dlfi-pin-modal .pn-close {
+  position: absolute !important;
+  top: 10px !important; right: 12px !important;
+  background: var(--noir-0);
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  padding: 6px 10px;
+  display: inline-flex; align-items: center; gap: 4px;
+  z-index: 5;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+#dlfi-pin-modal .pn-close:hover { background: var(--pink); color: #0a0306; }
+#dlfi-pin-modal .pn-close .dc-x { font-size: 1.1rem; line-height: 1; }
+/* On narrow phones, drop the "CLOSE" word so the icon-only button doesn't
+   crowd the eyebrow header. */
+@media (max-width: 480px) {
+  #dlfi-pin-modal .pn-close { padding: 6px 8px; gap: 0; }
+  #dlfi-pin-modal .pn-close .dc-lbl { display: none; }
+  #dlfi-pin-modal .pn-close .dc-x { font-size: 1.25rem; }
+}
+
+#dlfi-pin-modal .pn-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  color: var(--pink);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  /* Keep the eyebrow clear of the absolute-positioned close button */
+  max-width: calc(100% - 64px);
+  margin-right: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  line-height: 1.5;
+}
+#dlfi-pin-modal .pn-eb-line {
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: var(--pink); box-shadow: 0 0 8px var(--pink-glow);
+}
+
+#dlfi-pin-modal .pn-stamp {
+  display: inline-block;
+  font-family: var(--f-display);
+  font-style: italic; font-weight: 900;
+  font-size: 0.95rem; letter-spacing: 5px;
+  color: var(--pink);
+  border: 2px solid var(--pink);
+  padding: 0.4rem 1.2rem;
+  transform: rotate(-2.5deg);
+  margin-bottom: 1rem;
+  box-shadow: 0 0 22px var(--pink-glow);
+  text-shadow: 0 0 8px var(--pink-glow);
+  animation: pnStampIn 0.7s cubic-bezier(.4,1.7,.5,1) both;
+  animation-delay: 0.15s;
+}
+@keyframes pnStampIn {
+  from { transform: rotate(20deg) scale(0.5); opacity: 0; }
+  to   { transform: rotate(-2.5deg) scale(1); opacity: 1; }
+}
+
+#dlfi-pin-modal .pn-title {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  color: var(--text);
+  margin: 0 0 0.4rem;
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+#dlfi-pin-modal .pn-title em {
+  font-style: italic;
+  color: var(--pink);
+  text-shadow: 0 0 18px var(--pink-glow);
+}
+
+#dlfi-pin-modal .pn-script {
+  font-family: var(--f-script);
+  font-size: 1.2rem;
+  color: var(--pink-soft);
+  font-style: italic;
+  margin: 0 0 1.4rem;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+/* Animated phone illustration with pin descending */
+#dlfi-pin-modal .pn-stage {
+  position: relative;
+  width: 140px;
+  aspect-ratio: 110/180;
+  margin: 0 auto 1.2rem;
+}
+#dlfi-pin-modal .pn-rings {
+  position: absolute;
+  inset: -36%;
+  pointer-events: none;
+}
+#dlfi-pin-modal .pn-rings span {
+  position: absolute; inset: 0;
+  border: 1px solid var(--pink);
+  border-radius: 50%;
+  opacity: 0;
+  animation: pnRingsExpand 3.4s ease-out infinite;
+}
+#dlfi-pin-modal .pn-rings span:nth-child(2) { animation-delay: 1.13s; }
+#dlfi-pin-modal .pn-rings span:nth-child(3) { animation-delay: 2.27s; }
+#dlfi-pin-modal .pn-grid {
+  position: absolute; inset: -20%;
+  background-image:
+    linear-gradient(rgba(255,27,107,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,27,107,0.1) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+}
+#dlfi-pin-modal .pn-phone {
+  position: relative;
+  width: 100%; height: 100%;
+  display: block;
+  z-index: 2;
+}
+#dlfi-pin-modal .pn-phone .pn-phone-body {
+  fill: var(--noir-1);
+  stroke: var(--pink);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 12px rgba(255,27,107,0.5));
+}
+#dlfi-pin-modal .pn-phone .pn-phone-screen {
+  fill: #07020a;
+  stroke: rgba(255,27,107,0.28);
+  stroke-width: 0.6;
+}
+#dlfi-pin-modal .pn-phone .pn-phone-speaker {
+  stroke: var(--pink);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.65;
+}
+#dlfi-pin-modal .pn-phone .pn-phone-home {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 1.4;
+  opacity: 0.7;
+}
+#dlfi-pin-modal .pn-phone .pn-app-tile {
+  fill: var(--pink);
+  animation: pncTileGlow 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+#dlfi-pin-modal .pn-phone .pn-app-tile-stroke {
+  fill: none;
+  stroke: #ffd5e3;
+  stroke-width: 0.6;
+  opacity: 0.45;
+}
+#dlfi-pin-modal .pn-phone .pn-app-letter {
+  fill: #0a0306;
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: 28px;
+  font-style: italic;
+}
+#dlfi-pin-modal .pn-phone .pn-app-label {
+  fill: var(--silver);
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+#dlfi-pin-modal .pn-pin {
+  position: absolute;
+  top: -12%; left: 50%;
+  width: 28%;
+  transform: translateX(-50%);
+  z-index: 3;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.7));
+  animation: pnModalPinDrop 3.2s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+.pn-pin svg path { fill: var(--pink); stroke: #ffd5e3; stroke-width: 0.8; }
+@keyframes pnModalPinDrop {
+  0%   { transform: translate(-50%, -50%) rotate(-8deg); opacity: 0; }
+  10%  { opacity: 1; }
+  55%  { transform: translate(-50%, 32%) rotate(-2deg); opacity: 1; }
+  60%  { transform: translate(-50%, 28%) rotate(-2deg); }
+  100% { transform: translate(-50%, 32%) rotate(-2deg); opacity: 1; }
+}
+#dlfi-pin-modal .pn-drop-shadow {
+  position: absolute;
+  bottom: -6%;
+  left: 50%;
+  width: 70%; height: 12px;
+  background: radial-gradient(ellipse, rgba(255,27,107,0.45), transparent 70%);
+  transform: translateX(-50%);
+  filter: blur(4px);
+  animation: pnDropShadow 3.2s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+@keyframes pnDropShadow {
+  0%   { transform: translateX(-50%) scaleX(0.6); opacity: 0.2; }
+  55%  { transform: translateX(-50%) scaleX(1);   opacity: 0.7; }
+  100% { transform: translateX(-50%) scaleX(1);   opacity: 0.7; }
+}
+
+#dlfi-pin-modal .pn-body {
+  font-family: var(--f-mono);
+  font-size: 0.66rem; letter-spacing: 1.5px;
+  line-height: 1.8;
+  color: var(--silver);
+  text-transform: uppercase;
+  margin: 0 auto 1.3rem;
+  max-width: 380px;
+  text-wrap: balance;
+}
+#dlfi-pin-modal .pn-body .pink { color: var(--pink); }
+
+/* Step list */
+#dlfi-pin-modal .pn-steps-label {
+  font-family: var(--f-mono);
+  font-size: 0.55rem; letter-spacing: 3px;
+  color: var(--pink);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  text-align: left;
+  padding-left: 6px;
+}
+#dlfi-pin-modal .pn-step-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+#dlfi-pin-modal .pn-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px 36px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 12px;
+  background: rgba(255,27,107,0.05);
+  border: 1px solid rgba(255,27,107,0.22);
+  animation: pnStepIn 0.5s cubic-bezier(.3,1.1,.4,1) both;
+  animation-delay: calc(0.25s + var(--i) * 0.12s);
+  overflow: hidden;
+}
+@keyframes pnStepIn {
+  from { transform: translateX(-12px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+#dlfi-pin-modal .pn-step::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -30%;
+  width: 30%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,27,107,0.18), transparent);
+  animation: pnStepSweep 4.5s ease-in-out infinite;
+  animation-delay: calc(0.6s + var(--i) * 0.4s);
+}
+@keyframes pnStepSweep {
+  0%   { transform: translateX(0); }
+  60%  { transform: translateX(440%); }
+  100% { transform: translateX(440%); }
+}
+#dlfi-pin-modal .pn-num {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: var(--pink);
+  line-height: 1;
+  text-shadow: 0 0 10px var(--pink-glow);
+}
+#dlfi-pin-modal .pn-glyph {
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--noir-0);
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  border-radius: 4px;
+  box-shadow: 0 0 14px var(--pink-glow);
+}
+#dlfi-pin-modal .pn-glyph svg {
+  width: 22px; height: 22px;
+}
+#dlfi-pin-modal .pn-text {
+  font-family: var(--f-mono);
+  font-size: 0.65rem; letter-spacing: 1px;
+  line-height: 1.55;
+  color: var(--silver);
+  text-transform: uppercase;
+}
+#dlfi-pin-modal .pn-text strong {
+  color: var(--text);
+  font-weight: 700;
+  background: rgba(255,27,107,0.15);
+  padding: 1px 5px;
+  border-bottom: 1px solid var(--pink);
+}
+#dlfi-pin-modal .pn-text em {
+  color: var(--pink);
+  font-style: italic;
+}
+
+/* Already installed */
+#dlfi-pin-modal .pn-installed {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px;
+  background: rgba(255,27,107,0.08);
+  border: 1px solid var(--pink);
+  margin-bottom: 1.4rem;
+  text-align: left;
+  font-family: var(--f-mono);
+  font-size: 0.7rem; letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--silver);
+  line-height: 1.6;
+}
+#dlfi-pin-modal .pn-inst-glyph {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  background: var(--pink); color: #0a0306;
+  border-radius: 50%;
+  box-shadow: 0 0 18px var(--pink-glow);
+  flex-shrink: 0;
+}
+#dlfi-pin-modal .pn-inst-glyph svg { width: 22px; height: 22px; }
+
+/* Actions */
+#dlfi-pin-modal .pn-actions {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 1rem;
+}
+#dlfi-pin-modal .pn-actions .btn-primary,
+#dlfi-pin-modal .pn-actions .btn-outline {
+  width: 100%;
+  font-family: var(--f-federal);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 13px 14px;
+  border: 1px solid var(--pink);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 12px;
+  font-size: 0.78rem;
+  transition: all 0.22s;
+  position: relative;
+  overflow: hidden;
+}
+#dlfi-pin-modal .pn-actions .btn-primary {
+  background: var(--pink);
+  color: #0a0306;
+  box-shadow: 0 0 24px var(--pink-glow), 0 4px 14px rgba(0,0,0,0.45);
+}
+#dlfi-pin-modal .pn-actions .btn-primary::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.5) 50%, transparent 65%);
+  transform: translateX(-130%);
+  animation: pnCtaShine 3s ease-in-out infinite;
+}
+#dlfi-pin-modal .pn-actions .btn-primary > * { position: relative; z-index: 1; }
+#dlfi-pin-modal .pn-actions .btn-primary:active { transform: scale(0.98); }
+#dlfi-pin-modal .pn-actions .btn-outline {
+  background: transparent;
+  color: var(--pink);
+}
+#dlfi-pin-modal .pn-actions .btn-outline:hover { background: rgba(255,27,107,0.1); }
+
+#dlfi-pin-modal .pn-foot {
+  font-family: var(--f-mono);
+  font-size: 0.55rem; letter-spacing: 2.5px;
+  color: var(--silver-dim);
+  text-transform: uppercase;
+  border-top: 1px dashed rgba(255,27,107,0.2);
+  padding-top: 12px;
+  line-height: 1.6;
+}
+#dlfi-pin-modal .pn-foot .pink { color: var(--pink); }
+
+/* Keep above bottom tab bar, hide bottom tab while open */
+body.modal-open #dlfi-tabbar { opacity: 0; pointer-events: none; }
+
+/* Tablet/desktop sizing — slightly bigger phone illustration */
+@media (min-width: 540px) {
+  #dlfi-pin-modal .pn-box { padding: 3.6rem 2rem 1.8rem; }
+  #dlfi-pin-modal .pn-stage { width: 160px; }
+  #dlfi-pin-modal .pn-actions { flex-direction: row; }
+  #dlfi-pin-modal .pn-actions .btn-primary,
+  #dlfi-pin-modal .pn-actions .btn-outline { flex: 1; }
+}
+
+/* ============================================================
+   PHONE SCROLLING — make the page feel responsive to the first
+   touch instead of feeling "stuck" until you swipe twice. The
+   custom cursor system and scroll-snap can both contribute to a
+   sluggish first-touch on phones; lock vertical pan everywhere
+   and disable smooth-scroll so the page tracks the finger live.
+   ============================================================ */
+@media (pointer: coarse), (max-width: 900px) {
+  html, body {
+    /* Allow native vertical panning AND pinch-zoom; block only
+       horizontal pans that we don't use anywhere on the site. */
+    touch-action: pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
+  }
+  html { scroll-behavior: auto; } /* native momentum; smooth was eating frames */
+  body { overflow-x: hidden; }
+  /* Cancel touch-action overrides on big interactive surfaces so
+     vertical pan still works while finger is over them. */
+  .case-card, .resource-card, .training-card, .quiz-card,
+  .scissors-panel, .pin-card, .recruit-card, section, .section,
+  .page, .page-content, .hero-grid, .hero-wrap {
+    touch-action: pan-y pinch-zoom;
+  }
+}
+
+/* Defensive: nuke any stray legacy view-toggle UI */
+.view-toggle { display: none !important; }
+
+/* ============================================================
+   SCROLL HINT — one-time on-brand nudge after the splash clears
+   ============================================================
+   Floats at bottom-center on desktop and bottom-stretched on
+   phone with a pulsing chevron stack, mono "FIELD NOTICE" stamp,
+   and a dossier-style title. Auto-dismisses on any scroll, click,
+   or after 9 seconds. Designed for non-tech-savvy viewers who
+   may not realize the page continues below the fold.
+   ============================================================ */
+#dlfi-scroll-hint {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 30px);
+  z-index: 999990;
+  width: min(420px, calc(100vw - 28px));
+  padding: 14px 16px 16px;
+  background: linear-gradient(160deg, var(--noir-2, #1a0e14) 0%, var(--noir-1, #110a0d) 100%);
+  border: 1px solid var(--pink, #ff1b6b);
+  text-align: center;
+  pointer-events: auto;
+  cursor: pointer;
+  opacity: 0;
+  box-shadow:
+    0 0 0 1px rgba(255,27,107,0.2) inset,
+    0 18px 48px rgba(0,0,0,0.65),
+    0 0 50px rgba(255,27,107,0.32);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.25,1.4,.45,1);
+  overflow: hidden;
+}
+#dlfi-scroll-hint.is-in {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  animation: dshFloat 3.6s ease-in-out 0.6s infinite;
+}
+#dlfi-scroll-hint.is-out {
+  opacity: 0;
+  transform: translate(-50%, 20px) scale(0.96);
+  pointer-events: none;
+}
+@keyframes dshFloat {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, -6px); }
+}
+#dlfi-scroll-hint::before {
+  /* Dashed inner border matching brand confirm modals */
+  content: '';
+  position: absolute; inset: 5px;
+  border: 1px dashed rgba(255,27,107,0.28);
+  pointer-events: none;
+}
+#dlfi-scroll-hint::after {
+  /* Scanning sweep */
+  content: '';
+  position: absolute;
+  top: 0; left: -40%;
+  width: 30%; height: 100%;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,27,107,0.22) 50%, transparent 65%);
+  animation: dshSweep 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes dshSweep {
+  0%   { transform: translateX(0); }
+  60%  { transform: translateX(560%); }
+  100% { transform: translateX(560%); }
+}
+#dlfi-scroll-hint .dsh-bar {
+  /* Pink top scanline */
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--pink, #ff1b6b), transparent);
+  box-shadow: 0 0 12px rgba(255,27,107,0.7);
+}
+#dlfi-scroll-hint .dsh-stamp {
+  display: inline-block;
+  font-family: var(--f-mono, 'JetBrains Mono', monospace);
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  color: var(--pink, #ff1b6b);
+  border: 1px solid var(--pink, #ff1b6b);
+  padding: 3px 9px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  background: rgba(255,27,107,0.08);
+  box-shadow: 0 0 10px rgba(255,27,107,0.35);
+}
+#dlfi-scroll-hint .dsh-title {
+  font-family: var(--f-display, 'Playfair Display', serif);
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: var(--text, #f0dde5);
+  line-height: 1.1;
+  margin-bottom: 4px;
+  letter-spacing: -0.005em;
+}
+#dlfi-scroll-hint .dsh-title em {
+  font-style: italic;
+  color: var(--pink, #ff1b6b);
+  text-shadow: 0 0 14px rgba(255,27,107,0.55);
+}
+#dlfi-scroll-hint .dsh-sub {
+  font-family: var(--f-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 1.5px;
+  color: var(--silver-dim, #8e919a);
+  text-transform: uppercase;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+#dlfi-scroll-hint .dsh-chev {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 4px 0 8px;
+  height: 26px;
+}
+#dlfi-scroll-hint .dsh-chev span {
+  display: block;
+  width: 18px; height: 8px;
+  border-right: 2px solid var(--pink, #ff1b6b);
+  border-bottom: 2px solid var(--pink, #ff1b6b);
+  transform: rotate(45deg);
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgba(255,27,107,0.7));
+  animation: dshChev 1.4s ease-in-out infinite;
+}
+#dlfi-scroll-hint .dsh-chev span:nth-child(1) { animation-delay: 0s; }
+#dlfi-scroll-hint .dsh-chev span:nth-child(2) { animation-delay: 0.18s; }
+#dlfi-scroll-hint .dsh-chev span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes dshChev {
+  0%   { opacity: 0; transform: rotate(45deg) translate(-3px, -3px); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: rotate(45deg) translate(3px, 3px); }
+}
+#dlfi-scroll-hint .dsh-close {
+  position: absolute;
+  top: 6px; right: 8px;
+  background: transparent;
+  border: 1px solid rgba(255,27,107,0.4);
+  color: var(--silver-dim, #8e919a);
+  font-family: var(--f-mono, monospace);
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  padding: 3px 7px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  z-index: 2;
+}
+#dlfi-scroll-hint .dsh-close:hover {
+  background: var(--pink, #ff1b6b);
+  color: #0a0306;
+  border-color: var(--pink, #ff1b6b);
+}
+
+/* Don't fight the bottom tab bar on phone — sit above it */
+@media (max-width: 720px) {
+  #dlfi-scroll-hint {
+    bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+    width: calc(100vw - 24px);
+  }
+  #dlfi-scroll-hint .dsh-title { font-size: 1.1rem; }
+}
+
+/* Hide the hint when any modal is open */
+body.modal-open #dlfi-scroll-hint { display: none !important; }
+
+/* ============================================================
+   PHONE NAV ↔ HEADING GAP
+   ============================================================
+   On desktop, nav is position:fixed and `.page-content` reserves 88px of
+   top padding to clear it. On phone (≤900px), nav becomes position:relative
+   (already in the flow), so that 88px becomes dead space that pushes the
+   page heading visibly below the menu. Zero it out on phone — the relative
+   nav already takes up its own height.
+   ============================================================ */
+@media (max-width: 900px) {
+  .page-content { padding-top: 0 !important; }
+  /* Home page specifically: trim the alert banner + hero so the title
+     "Department of Lace Front Investigations" sits closer to the menu */
+  #page-home .alert-banner { margin-top: 0 !important; }
+  #page-home .page-hero,
+  #page-home .hero-wrap[data-reveal] {
+    padding-top: 0.4rem !important;
+  }
+  /* Other pages with .page-hero — trim the top padding too so headings
+     don't float in empty space under the menu */
+  #page-cases .page-hero,
+  #page-hotline .page-hero,
+  #page-evidence .page-hero,
+  #page-resources .page-hero,
+  #page-about .page-hero,
+  #page-report .page-hero { padding-top: 0.8rem !important; }
+}
+

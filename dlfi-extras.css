@@ -1,0 +1,1936 @@
+/* dlfi-extras.css
+   Styles for: view-toggle, admin Submissions Vault, branded confirm modal,
+   no-tel link override, mobile polish, force-desktop override. */
+
+/* ============================================================
+   SCISSORS DOCTRINE PANEL — Recruitment page
+   ============================================================ */
+.scissors-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(255,27,107,0.10), rgba(20,8,14,0.7));
+  border: 1px solid var(--pink);
+  padding: 2rem 2rem 1.8rem;
+  overflow: hidden;
+  box-shadow: 0 0 28px rgba(255,27,107,0.18);
+}
+@media (max-width: 720px) {
+  .scissors-panel { grid-template-columns: 1fr; gap: 1.2rem; text-align: center; padding: 1.6rem 1.2rem; }
+  .scissors-panel .scissors-glyph { justify-content: center; }
+}
+.scissors-panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(255,27,107,0.03) 2px 3px);
+  pointer-events: none;
+}
+.scissors-glyph {
+  display: flex; gap: 0.4rem;
+  align-items: center;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.scissors-glyph .sc-emoji {
+  filter: drop-shadow(0 0 14px rgba(255,27,107,0.55));
+  animation: scSnip 2.6s ease-in-out infinite;
+}
+.scissors-glyph .sc-emoji:nth-child(2) { animation-delay: 0.25s; }
+.scissors-glyph .sc-emoji:nth-child(3) { animation-delay: 0.5s; }
+@keyframes scSnip {
+  0%, 100% { transform: rotate(-6deg); }
+  35%      { transform: rotate(8deg); }
+  60%      { transform: rotate(-4deg); }
+}
+.scissors-body { position: relative; }
+.scissors-body .sc-eyebrow {
+  font-family: var(--f-mono);
+  font-size: 0.55rem; letter-spacing: 3px;
+  color: var(--pink); text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.scissors-body .sc-title {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  color: var(--text);
+  line-height: 1.15;
+  margin: 0 0 0.6rem;
+}
+.scissors-body .sc-title .italic { color: var(--pink); font-style: italic; }
+.scissors-body .sc-quote {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--pink);
+  text-shadow: 0 0 14px var(--pink-glow);
+  margin: 0 0 0.9rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--pink);
+}
+.scissors-body .sc-rules {
+  list-style: none; padding: 0; margin: 0 0 0.8rem;
+  display: grid; gap: 0.4rem;
+}
+.scissors-body .sc-rules li {
+  font-family: var(--f-mono);
+  font-size: 0.66rem; letter-spacing: 1.2px;
+  color: var(--silver); text-transform: uppercase;
+  padding-left: 1.1rem;
+  position: relative;
+  line-height: 1.6;
+}
+.scissors-body .sc-rules li::before {
+  content: '✂️';
+  position: absolute; left: 0; top: 0;
+  font-size: 0.85em;
+}
+.scissors-body .sc-rules li strong { color: var(--pink); font-weight: 700; }
+.scissors-body .sc-foot {
+  font-family: var(--f-mono);
+  font-size: 0.55rem; letter-spacing: 2px;
+  color: var(--silver-dim); text-transform: uppercase;
+}
+
+/* ============================================================
+   "KEEP A COPY" footer inside RECEIVED modal
+   ============================================================ */
+.received-vault {
+  margin-top: 1.2rem;
+  padding: 0.9rem 1rem;
+  border: 1px dashed rgba(255,27,107,0.4);
+  background: rgba(255,27,107,0.04);
+  display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+  justify-content: center;
+}
+.received-vault .rv-tag {
+  font-family: var(--f-mono);
+  font-size: 0.58rem; letter-spacing: 3px;
+  color: var(--pink); text-transform: uppercase;
+}
+.received-vault .rv-text {
+  font-family: var(--f-mono);
+  font-size: 0.6rem; letter-spacing: 1.5px;
+  color: var(--silver-dim); text-transform: uppercase;
+  line-height: 1.6;
+  flex: 1; min-width: 200px;
+  text-align: left;
+}
+.received-vault .rv-btn { flex-shrink: 0; }
+@media (max-width: 540px) {
+  .received-vault { flex-direction: column; text-align: center; }
+  .received-vault .rv-text { text-align: center; }
+  .received-vault .rv-btn { width: 100%; }
+}
+
+/* ============================================================
+   DIARY MODAL — Evidence Room
+   ============================================================ */
+.modal-box.diary-box {
+  max-width: 640px;
+  text-align: left;
+}
+.diary-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--f-mono);
+  font-size: 0.6rem; letter-spacing: 3px;
+  color: var(--silver-dim); text-transform: uppercase;
+  border-bottom: 1px dotted rgba(255,27,107,0.18);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1rem;
+}
+.diary-head .pink { color: var(--pink); }
+.diary-title {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  color: var(--text);
+  margin: 0 0 0.8rem;
+  line-height: 1.1;
+}
+.diary-title .italic { color: var(--pink); font-style: italic; }
+.diary-meta {
+  display: flex; flex-wrap: wrap; gap: 1.2rem;
+  font-family: var(--f-mono);
+  font-size: 0.6rem; letter-spacing: 2px;
+  color: var(--silver-dim); text-transform: uppercase;
+  padding: 0.7rem 0.9rem;
+  background: rgba(255,27,107,0.04);
+  border: 1px solid var(--line);
+  margin-bottom: 1.2rem;
+}
+.diary-meta strong {
+  color: var(--text);
+  font-family: var(--f-mono);
+  font-weight: 500;
+  margin-right: 4px;
+}
+.diary-meta .pink { color: var(--pink); }
+.diary-body {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  line-height: 1.75;
+  color: var(--text);
+  letter-spacing: 0.005em;
+}
+.diary-body p {
+  margin: 0 0 1rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid rgba(255,27,107,0.3);
+}
+.diary-body p:first-of-type::first-letter {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-style: italic;
+  font-size: 2.4em;
+  float: left;
+  color: var(--pink);
+  text-shadow: 0 0 14px var(--pink-glow);
+  line-height: 0.9;
+  margin: 0.05em 0.12em 0 0;
+}
+.diary-lesson {
+  margin: 1.4rem 0 1.2rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--pink);
+  background: rgba(255,27,107,0.06);
+  font-family: var(--f-mono);
+  font-size: 0.66rem; letter-spacing: 1.5px;
+  line-height: 1.6;
+  color: var(--text); text-transform: uppercase;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.diary-lesson .dl-label {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--pink);
+}
+
+/* Make story-cards visibly clickable */
+.story-card[onclick] { cursor: pointer; }
+.story-card[onclick]::after {
+  content: '↗  Open Diary';
+  position: absolute;
+  bottom: 12px; right: 14px;
+  font-family: var(--f-mono);
+  font-size: 0.5rem; letter-spacing: 2px;
+  color: var(--pink); text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.story-card[onclick]:hover::after { opacity: 1; }
+.story-card { position: relative; }
+/* ============================================================
+   tel:-link override — kill iOS auto-blue on phone numbers
+   ============================================================ */
+
+/* ============================================================
+   WITNESS BADGE on Sideburn Desertion case
+   ============================================================ */
+.witness-badge {
+  position: absolute;
+  top: 10px; left: 10px;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(5, 2, 4, 0.85);
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  z-index: 5;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  box-shadow: 0 0 14px rgba(255, 27, 107, 0.35);
+}
+.witness-badge .wb-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 8px var(--pink);
+  animation: livePulse 1.4s ease-in-out infinite;
+}
+.witness-tape {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  /* Leave room on the right for the EV-10 charge badge */
+  right: 78px;
+  background: rgba(255, 27, 107, 0.88);
+  color: #050204;
+  font-family: var(--f-federal);
+  font-weight: 700;
+  font-size: 0.5rem;
+  letter-spacing: 3px;
+  padding: 3px 8px;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 5;
+  transform: skew(-3deg);
+}
+
+/* ============================================================
+   UNIVERSAL CLOSE BUTTON — explicit "× CLOSE" label so non-tech
+   users instantly know how to dismiss any popup.
+   ============================================================ */
+.dlfi-close, .modal-close, .mm-close, .pm-close, .av-close {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 6px 12px !important;
+  background: rgba(5, 2, 4, 0.92) !important;
+  border: 1px solid var(--pink) !important;
+  color: var(--pink) !important;
+  font-family: var(--f-federal) !important;
+  font-weight: 700 !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 2.5px !important;
+  text-transform: uppercase;
+  cursor: pointer !important;
+  z-index: 10;
+  transition: all 0.25s;
+  height: auto !important;
+  box-shadow: 0 0 12px rgba(255,27,107,0.25);
+}
+.dlfi-close:hover, .modal-close:hover, .mm-close:hover, .pm-close:hover, .av-close:hover {
+  background: var(--pink) !important;
+  color: #050204 !important;
+}
+.dlfi-close .dc-x {
+  font-family: var(--f-mono);
+  font-size: 1rem;
+  line-height: 0.8;
+  font-weight: 700;
+}
+.dlfi-close .dc-lbl {
+  font-family: var(--f-federal);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+}
+
+/* ============================================================
+   MODAL SCROLL HINT — shows "↓ scroll for more" when overflow
+   ============================================================ */
+.modal-box.has-scroll::after,
+.mm-box.has-scroll::after,
+.av-box.has-scroll::after,
+.pm-box.has-scroll::after,
+.dc-box.has-scroll::after {
+  content: '↓  Scroll for more';
+  position: sticky;
+  bottom: 0;
+  display: block;
+  margin: 0 -1.4rem -1.4rem;
+  padding: 8px 1rem;
+  background: linear-gradient(180deg, transparent, rgba(5,2,4,0.96) 40%);
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  letter-spacing: 2.5px;
+  color: var(--pink);
+  text-transform: uppercase;
+  text-align: center;
+  pointer-events: none;
+  animation: scrollBounce 1.6s ease-in-out infinite;
+  z-index: 8;
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(3px); opacity: 1; }
+}
+
+/* ============================================================
+   VAULT count row — count NOT behind close button
+   ============================================================ */
+#admin-vault .av-count-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: 0.6rem; letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+  padding: 0.5rem 0.8rem;
+  background: rgba(255,27,107,0.05);
+  border: 1px solid rgba(255,27,107,0.18);
+}
+#admin-vault .av-count-row #av-count { color: var(--pink); }
+#admin-vault .av-count-row .av-scroll-hint {
+  color: var(--silver-dim);
+  font-size: 0.55rem;
+}
+
+/* Position close buttons inside modals with safe top-right offset */
+#admin-vault .av-close,
+#promotion-modal .pm-btn-close,
+#module-modal .mm-close,
+.modal-overlay .modal-close,
+#dlfi-confirm .dc-close {
+  position: absolute !important;
+  top: 12px !important;
+  right: 14px !important;
+}
+
+a[href^="tel:"], .no-tel, .no-tel a, span.no-tel {
+  color: inherit !important;
+  text-decoration: none !important;
+  -webkit-text-fill-color: inherit !important;
+  pointer-events: none;
+  font: inherit;
+  text-shadow: inherit;
+}
+
+/* ============================================================
+   PHONE / DESKTOP VIEW TOGGLE
+   (Shown only on touch / small screens — created by JS)
+   ============================================================ */
+.view-toggle {
+  position: fixed;
+  bottom: 8px; left: 8px;
+  z-index: 9990;
+  display: inline-flex;
+  background: rgba(8, 4, 6, 0.85);
+  border: 1px solid var(--pink);
+  border-radius: 999px;
+  padding: 3px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 0 18px rgba(255,27,107,0.25);
+  font-family: var(--f-mono);
+  pointer-events: auto;
+}
+.view-toggle .vt-opt {
+  display: inline-flex; align-items: center; gap: 5px;
+  border: none; background: transparent;
+  color: var(--silver-dim);
+  font-family: inherit;
+  font-size: 0.55rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer !important;
+  transition: all 0.2s;
+}
+.view-toggle .vt-opt:hover { color: var(--pink); }
+.view-toggle .vt-opt.is-on {
+  background: var(--pink);
+  color: #050204;
+  box-shadow: 0 0 12px rgba(255,27,107,0.45);
+}
+.view-toggle .vt-glyph { font-size: 0.9em; }
+
+/* When forced to desktop view we want all desktop layouts to stick around even
+   though the device is narrow. The viewport meta is set to width=1280 so the
+   browser will scale; we just need to ensure no mobile-only CSS kicks in. */
+body.force-desktop {
+  min-width: 1280px;
+}
+body.force-desktop .view-toggle {
+  /* Toggle position stays sensible after scaling */
+  bottom: 12px; left: 12px;
+}
+
+/* ============================================================
+   BRANDED CONFIRM MODAL (replaces window.confirm)
+   ============================================================ */
+#dlfi-confirm {
+  position: fixed; inset: 0;
+  z-index: 999999;
+  background: radial-gradient(ellipse at center, rgba(20,4,12,0.92), rgba(5,2,4,0.98));
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 1.5rem;
+  animation: dcFadeIn 0.3s ease both;
+}
+#dlfi-confirm.is-on { display: flex; }
+@keyframes dcFadeIn { from { opacity: 0; } to { opacity: 1; } }
+#dlfi-confirm, #dlfi-confirm * { cursor: default !important; }
+#dlfi-confirm button { cursor: pointer !important; }
+#dlfi-confirm .dc-box {
+  position: relative;
+  max-width: 460px; width: 100%;
+  background: var(--noir-1);
+  border: 1px solid var(--pink);
+  padding: 2rem 1.8rem 1.6rem;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255,27,107,0.3);
+  animation: dcPop 0.35s cubic-bezier(.5,1.6,.4,1) both;
+}
+@keyframes dcPop {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+#dlfi-confirm .dc-box::before {
+  content: '';
+  position: absolute; inset: 6px;
+  border: 1px dashed rgba(255,27,107,0.25);
+  pointer-events: none;
+}
+#dlfi-confirm .dc-stamp {
+  display: inline-block;
+  font-family: var(--f-display);
+  font-style: italic; font-weight: 900;
+  font-size: 0.9rem; letter-spacing: 4px;
+  color: var(--pink);
+  border: 2px solid var(--pink);
+  padding: 0.35rem 1.1rem;
+  transform: rotate(-2deg);
+  margin-bottom: 1rem;
+  box-shadow: 0 0 18px var(--pink-glow);
+}
+#dlfi-confirm .dc-title {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--text);
+  margin: 0 0 0.7rem;
+  line-height: 1.15;
+}
+#dlfi-confirm .dc-body {
+  font-family: var(--f-mono);
+  font-size: 0.7rem; letter-spacing: 1.5px;
+  line-height: 1.8;
+  color: var(--silver-dim);
+  text-transform: uppercase;
+  margin: 0 0 1.3rem;
+}
+#dlfi-confirm .dc-body .pink { color: var(--pink); }
+#dlfi-confirm .dc-actions {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+}
+#dlfi-confirm .dc-actions .btn-outline,
+#dlfi-confirm .dc-actions .btn-primary {
+  flex: 1; min-width: 140px;
+}
+
+/* ============================================================
+   ADMIN SUBMISSIONS VAULT
+   ============================================================ */
+#admin-vault {
+  position: fixed; inset: 0;
+  z-index: 999998;
+  background: radial-gradient(ellipse at center, rgba(20,4,12,0.94), rgba(5,2,4,0.98));
+  display: none;
+  align-items: flex-start; justify-content: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  animation: dcFadeIn 0.4s ease both;
+}
+#admin-vault.is-on { display: flex; }
+#admin-vault, #admin-vault * { cursor: default !important; }
+#admin-vault button, #admin-vault code { cursor: pointer !important; }
+#admin-vault input, #admin-vault textarea { cursor: text !important; }
+#admin-vault .av-box {
+  position: relative;
+  width: 100%; max-width: 880px;
+  background: var(--noir-1);
+  border: 1px solid var(--pink);
+  padding: 2rem 1.8rem 1.6rem;
+  box-shadow: 0 0 60px rgba(255,27,107,0.25);
+  font-family: var(--f-mono);
+}
+#admin-vault .av-box::before {
+  content: ''; position: absolute; inset: 8px;
+  border: 1px dashed rgba(255,27,107,0.2);
+  pointer-events: none;
+}
+#admin-vault .av-close {
+  position: absolute; top: 14px; right: 16px;
+  background: transparent;
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font-family: var(--f-mono); font-size: 0.8rem;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+  transition: all 0.25s;
+}
+#admin-vault .av-close:hover { background: var(--pink); color: #000; }
+#admin-vault .av-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.55rem; letter-spacing: 3px;
+  color: var(--silver-dim); text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,27,107,0.18);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+#admin-vault .av-head .pink { color: var(--pink); }
+#admin-vault .av-title {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--text);
+  line-height: 1;
+  margin: 0 0 0.3rem;
+}
+#admin-vault .av-title .italic { color: var(--pink); font-style: italic; }
+#admin-vault .av-sub {
+  font-size: 0.6rem; letter-spacing: 2.5px;
+  color: var(--silver-dim); text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+#admin-vault .av-toolbar {
+  display: flex; gap: 0.6rem; flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+#admin-vault .av-list {
+  display: grid; gap: 0.8rem;
+  max-height: 65vh; overflow-y: auto;
+  padding-right: 4px;
+}
+#admin-vault .av-empty {
+  font-family: var(--f-mono);
+  font-size: 0.65rem; letter-spacing: 2px;
+  color: var(--silver-dim); text-transform: uppercase;
+  text-align: center; padding: 2rem 1rem;
+  border: 1px dashed var(--line);
+}
+#admin-vault .av-card {
+  background: rgba(255,27,107,0.04);
+  border: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+}
+#admin-vault .av-card-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 0.5rem; flex-wrap: wrap;
+  font-size: 0.55rem; letter-spacing: 2px;
+  color: var(--silver-dim); text-transform: uppercase;
+  border-bottom: 1px dotted rgba(255,27,107,0.18);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+#admin-vault .av-id { color: var(--pink); font-weight: 600; }
+#admin-vault .av-type { color: var(--text); }
+#admin-vault .av-row {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) 2fr;
+  gap: 12px;
+  padding: 5px 0;
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+#admin-vault .av-k {
+  color: var(--silver-dim);
+  font-family: var(--f-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 0.55rem;
+}
+#admin-vault .av-v {
+  color: var(--text);
+  font-family: var(--f-body);
+  word-break: break-word;
+}
+#admin-vault .av-foot {
+  margin-top: 1.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255,27,107,0.18);
+  font-size: 0.55rem; letter-spacing: 2px;
+  color: var(--silver-dim); line-height: 1.7;
+  text-transform: uppercase;
+}
+#admin-vault .av-foot code {
+  font-family: var(--f-tech);
+  color: var(--pink);
+  background: rgba(255,27,107,0.08);
+  padding: 1px 5px;
+}
+#admin-vault .av-foot strong { color: var(--text); }
+
+/* ============================================================
+   MOBILE POLISH PASS
+   Tightens layout density on Case Files / Hotline / Report and
+   makes the top status bar / hero / nav read cleanly on phones.
+   ============================================================ */
+@media (max-width: 720px) {
+  /* Status bar — compress, ensure nothing clips */
+  .status-bar {
+    font-size: 0.5rem !important;
+    padding: 5px 10px !important;
+    letter-spacing: 1.5px !important;
+    gap: 8px !important;
+  }
+  .status-bar .sb-group { gap: 8px !important; }
+  .status-bar .sb-hide-sm { display: none; }
+  .status-bar #utcClock { font-family: var(--f-tech); }
+
+  /* Nav — leaner */
+  nav { padding: 0 12px !important; height: 56px !important; }
+  .nav-seal { width: 36px !important; height: 36px !important; }
+  .nav-brand-text .brand-name { font-size: 0.95rem !important; }
+  .nav-brand-text .brand-sub { display: none; }
+  .hamburger { padding: 10px; }
+
+  /* Hero buttons stack and grow */
+  .page-hero .btn-primary,
+  .page-hero .btn-outline {
+    width: 100%; justify-content: center;
+    padding: 14px 18px;
+    font-size: 0.72rem;
+  }
+  .page-hero > div[style*="display: flex"][style*="gap: 1rem"] {
+    flex-direction: column;
+  }
+
+  /* Case files filter bar — wraps cleanly */
+  #cases-grid .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 1rem;
+  }
+  #cases-grid .filter-bar > div[style*="margin-left: auto"] {
+    margin-left: 0 !important;
+    width: 100%;
+    justify-content: space-between;
+  }
+  #cases-grid .filter-bar .filter-label { font-size: 0.55rem; }
+  #cases-grid .filter-bar .filter-btn {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+    font-size: 0.58rem;
+    padding: 9px 8px;
+    text-align: center;
+  }
+  /* Wrap row of filter buttons */
+  #cases-grid .filter-bar { flex-wrap: wrap; }
+  #cases-grid .filter-bar > .filter-label { flex-basis: 100%; }
+  #cases-grid .filter-bar > .filter-btn { flex: 1 1 calc(50% - 4px); }
+
+  /* Cases grid — one per row with big tap targets */
+  #cases-grid .grid-4 { grid-template-columns: 1fr !important; gap: 1rem; }
+  .case-card .case-title { font-size: 1rem; }
+  .case-card .case-num { font-size: 0.55rem; }
+  .case-card .ev-photo,
+  .case-card .ev-dossier,
+  .case-card .ev-surveillance,
+  .case-card .ev-polaroid {
+    aspect-ratio: 16/10;
+  }
+  .archive-sealed {
+    flex-direction: column;
+    padding: 1.6rem 1rem !important;
+    text-align: center;
+    gap: 0.8rem;
+  }
+  .archive-sealed .seal-divider { display: none; }
+  .archive-sealed .seal-meta { text-align: center; font-size: 0.55rem; }
+  .archive-sealed .seal-stamp {
+    font-size: 1.1rem !important;
+    letter-spacing: 3px !important;
+    padding: 0.45rem 1rem !important;
+  }
+
+  /* Hotline page — phone display + dispatch panel */
+  #page-hotline .grid-2 { grid-template-columns: 1fr !important; gap: 1.4rem; }
+  #page-hotline .neon-text { font-size: clamp(1.1rem, 5.5vw, 1.5rem) !important; letter-spacing: 1.5px !important; }
+  #page-hotline .neon-frame { padding: 1rem !important; }
+  #page-hotline .hf-quote { font-size: 0.85rem; }
+  #page-hotline .hf-bracket { width: 24px; height: 24px; }
+  #page-hotline .call-card { padding: 1.2rem 1rem; }
+
+  /* Report page — tighter form */
+  #page-report .grid-2 { grid-template-columns: 1fr !important; gap: 0.8rem; }
+  #page-report .hero-wrap,
+  #page-report .hero-grid,
+  #page-report .hero-grid > * {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  #page-report .hero-grid { grid-template-columns: 1fr !important; }
+  #page-report form {
+    padding: 1.2rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  #page-report .form-label { font-size: 0.6rem; }
+  #page-report .form-input,
+  #page-report .form-textarea,
+  #page-report .form-select {
+    font-size: 16px !important;
+    padding: 11px 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  #page-report .btn-primary { font-size: 0.72rem !important; padding: 16px !important; }
+  #page-report .check-list li { font-size: 0.7rem; }
+  /* Side panel under form on phone */
+  #page-report .hero-grid,
+  #page-report .grid-2[data-reveal] { grid-template-columns: 1fr !important; }
+
+  /* Make sure the report-page hero is fully visible (was right-cut on iOS) */
+  #page-report .page-hero { padding: 1.5rem 1rem 2.5rem !important; }
+  #page-report .display-xl { font-size: clamp(2rem, 8vw, 3rem) !important; }
+
+  /* "Report A Disturbance" CTA should be reachable on phone via the
+     mobile menu (we already have it). Also expose it as a floating
+     bottom-of-screen button when not on the report page itself. */
+  .nav-cta { display: none; }
+
+  /* Modals — make them feel native */
+  .modal-overlay { padding: 0.6rem !important; align-items: flex-start; }
+  .modal-box { max-height: 92vh; overflow-y: auto; padding: 1.4rem 1rem !important; }
+  .modal-box .display-md, .modal-box h2 { font-size: 1.4rem !important; }
+  .dossier-meta-grid { grid-template-columns: 1fr !important; gap: 0.5rem; }
+  /* Close button must stay a pill with "× CLOSE" label even on phones — DO NOT shrink to a square */
+  .modal-close, .mm-close, .av-close, .pm-close, .dlfi-close {
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    padding: 7px 12px !important;
+    font-size: 0.6rem !important;
+  }
+
+  /* YouTube panel */
+  .yt-panel { padding: 1.2rem !important; }
+
+  /* Quiz on phone */
+  .quiz-head .qh-q { font-size: 0.9rem !important; line-height: 1.35 !important; }
+  .quiz-head .qh-num { font-size: 1.2rem !important; }
+
+  /* View toggle position so it doesn't fight audio toggle */
+  .audio-toggle { bottom: 48px !important; right: 8px !important; }
+  .view-toggle { bottom: 48px !important; left: 8px !important; }
+  /* Slimmer ticker on phone — keep visible but compact */
+  .ticker-wrap { height: 30px !important; }
+  .ticker-label {
+    font-size: 0.5rem !important; letter-spacing: 1.5px !important;
+    padding: 5px 9px !important;
+  }
+  .ticker-track span { font-size: 0.55rem !important; letter-spacing: 1.5px !important; }
+  /* Push page content above the ticker on phones */
+  .page-content > footer { margin-bottom: 30px; }
+  body { padding-bottom: 30px; }
+
+  /* Big-quote alignment */
+  .big-quote { font-size: clamp(1.1rem, 4.5vw, 1.5rem); padding: 0 0.5rem; }
+  .footer-marquee { font-size: 0.52rem !important; letter-spacing: 2px !important; }
+}
+
+/* Even tighter for very small phones */
+@media (max-width: 380px) {
+  .status-bar { font-size: 0.45rem !important; letter-spacing: 1px !important; padding: 4px 8px !important; }
+  nav { height: 52px !important; padding: 0 10px !important; }
+  .nav-seal { width: 32px !important; height: 32px !important; }
+  .nav-brand-text .brand-name { font-size: 0.85rem !important; }
+  #cases-grid .filter-bar .filter-btn { font-size: 0.55rem; padding: 8px 6px; }
+  .display-xl { font-size: clamp(2rem, 9vw, 3rem) !important; }
+}
+
+/* Force-desktop overrides any mobile-specific styling */
+body.force-desktop .status-bar .sb-hide-sm,
+body.force-desktop .nav-brand-text .brand-sub { display: inline !important; }
+body.force-desktop .nav-links, body.force-desktop .nav-cta { display: flex !important; }
+body.force-desktop .hamburger { display: none !important; }
+body.force-desktop .mobile-menu { display: none !important; }
+body.force-desktop .filter-bar { flex-direction: row !important; }
+body.force-desktop .grid-4 { grid-template-columns: repeat(4, 1fr) !important; }
+body.force-desktop .grid-3 { grid-template-columns: repeat(3, 1fr) !important; }
+body.force-desktop .grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
+body.force-desktop .hero-grid,
+body.force-desktop .hero-grid-3 { grid-template-columns: 1fr 1fr !important; }
+/* When forced desktop, the nav has 7 links + CTA + audio — let it scroll horizontally
+   if the viewport is still narrower than nav can fit cleanly */
+body.force-desktop nav {
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+}
+body.force-desktop nav::-webkit-scrollbar { display: none; }
+body.force-desktop .nav-links { flex-wrap: nowrap; }
+body.force-desktop .nav-links li a { white-space: nowrap; }
+
+/* Desktop nav scroll-on-overflow even when not forced */
+nav { overflow-x: auto; overflow-y: visible; scrollbar-width: none; }
+nav::-webkit-scrollbar { display: none; }
+.nav-links { flex-wrap: nowrap; }
+.nav-links li a { white-space: nowrap; }
+
+
+/* ============================================================
+   Phone nav swipe affordance — make scrollable nav obviously scrollable
+   ============================================================ */
+@media (max-width: 900px) {
+  nav {
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  .nav-swipe-hint {
+    position: fixed;
+    top: 60px;
+    right: 8px;
+    z-index: 990;
+    background: rgba(5, 2, 4, 0.9);
+    border: 1px solid var(--pink);
+    color: var(--pink);
+    font-family: var(--f-mono);
+    font-size: 0.5rem;
+    letter-spacing: 1.5px;
+    padding: 5px 8px;
+    text-transform: uppercase;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255,27,107,0.3);
+    animation: navHintFade 6s ease-out 1.5s forwards;
+  }
+  @keyframes navHintFade {
+    0%, 70% { opacity: 1; transform: translateX(0); }
+    100%    { opacity: 0; transform: translateX(12px); pointer-events: none; visibility: hidden; }
+  }
+}
+body.force-desktop nav { mask-image: none !important; -webkit-mask-image: none !important; }
+
+/* Floating bottom-bar "Report A Disturbance" so the CTA is visible on phone */
+@media (max-width: 720px) {
+  .mobile-cta-floating {
+    position: fixed;
+    bottom: 88px;
+    right: 8px;
+    z-index: 985;
+    display: inline-flex;
+    align-items: center; gap: 8px;
+    background: var(--pink);
+    color: #050204;
+    font-family: var(--f-federal);
+    font-weight: 700;
+    font-size: 0.62rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 12px 14px;
+    border: 1px solid var(--pink);
+    box-shadow: 0 0 20px rgba(255,27,107,0.45);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .mobile-cta-floating::before {
+    content: '⚡';
+    font-size: 1em;
+  }
+}
+.mobile-cta-floating { display: none; }
+@media (max-width: 720px) { .mobile-cta-floating { display: inline-flex; } }
+
+
+/* ============================================================
+   REPORT PAGE — robust mobile layout (overrides inline styles)
+   ============================================================ */
+@media (max-width: 720px) {
+  #page-report .page-hero {
+    padding: 1.5rem 12px 2.5rem !important;
+  }
+  #page-report .hero-wrap {
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  #page-report .hero-grid-3 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.4rem !important;
+    width: 100% !important;
+  }
+  #page-report .hero-grid-3 > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+  /* Reorder: form first on phone */
+  #page-report .hero-grid-3 > :nth-child(1) { order: 2; }
+  #page-report .hero-grid-3 > :nth-child(2) { order: 1; }
+  #page-report .hero-grid-3 > :nth-child(3) { order: 3; }
+  /* Form internals */
+  #page-report form {
+    padding: 1.2rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  #page-report form .grid-2 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.8rem !important;
+  }
+  #page-report .form-input,
+  #page-report .form-textarea,
+  #page-report .form-select {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 16px !important;
+    padding: 11px 12px !important;
+    box-sizing: border-box;
+  }
+  /* Anonymous badge — bring inside viewport on small screens */
+  #page-report [style*="top: -16px"][style*="left: -16px"] {
+    top: -6px !important;
+    left: 0 !important;
+    width: 64px !important; height: 64px !important;
+  }
+  /* Shrink the cinematic left visual */
+  #page-report [style*="aspect-ratio: 3/4"] {
+    aspect-ratio: 16/9 !important;
+    min-height: 200px;
+    padding: 1rem !important;
+  }
+}
+
+/* ============================================================
+   CLOSE BUTTON SPACING — ensure no text under it
+   ============================================================ */
+.modal-box, .mm-box, .av-box, .pm-box, .dc-box {
+  padding-top: 3.4rem !important;
+}
+.modal-box .stamp:first-of-type,
+.mm-box .mm-head,
+.av-box .av-head,
+.pm-box .pm-eyebrow,
+.dc-box .dc-stamp {
+  margin-top: 0.4rem;
+}
+
+/* Position close buttons so they never overlap content */
+.dlfi-close, .modal-close, .mm-close, .pm-close, .av-close {
+  top: 10px !important;
+  right: 10px !important;
+}
+
+/* ============================================================
+   HIDE floating toggles whenever a modal is open
+   (Class added/removed by JS — see dlfi-extras.js modal observer)
+   ============================================================ */
+body.modal-open .audio-toggle,
+body.modal-open .view-toggle,
+body.modal-open .mobile-cta-floating,
+body.modal-open .nav-swipe-hint {
+  display: none !important;
+}
+
+/* Scroll hint moved INSIDE the modal box, above any other UI */
+.modal-box.has-scroll::after,
+.mm-box.has-scroll::after,
+.av-box.has-scroll::after,
+.pm-box.has-scroll::after,
+.dc-box.has-scroll::after {
+  bottom: 0 !important;
+  z-index: 50 !important;
+}
+
+
+/* ============================================================
+   DEPARTMENT — make every profile card OBVIOUSLY clickable
+   ============================================================ */
+.profile-card.is-clickable,
+.chief-clickable {
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.profile-card.is-clickable:hover,
+.chief-clickable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(255,27,107,0.35);
+}
+.profile-card.is-clickable::after {
+  content: '↗  Tap to read bio';
+  position: absolute;
+  bottom: 10px; right: 12px;
+  font-family: var(--f-mono);
+  font-size: 0.55rem; letter-spacing: 2px;
+  color: var(--pink);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  background: rgba(5,2,4,0.85);
+  padding: 4px 8px;
+  border: 1px solid var(--pink);
+}
+.profile-card.is-clickable:hover::after,
+.profile-card.is-clickable:focus-visible::after {
+  opacity: 1;
+}
+/* Always-visible tap hint on touch devices */
+@media (pointer: coarse) {
+  .profile-card.is-clickable::after,
+  .chief-clickable .chief-tap-hint { opacity: 1 !important; }
+}
+.profile-card.is-clickable::before {
+  /* subtle border-glow pulse to draw eye */
+  content: '';
+  position: absolute; inset: 0;
+  border: 1px solid transparent;
+  pointer-events: none;
+  animation: clickablePulse 3.6s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes clickablePulse {
+  0%, 100% { border-color: transparent; box-shadow: none; }
+  50%      { border-color: rgba(255, 27, 107, 0.45); box-shadow: 0 0 14px rgba(255,27,107,0.25); }
+}
+
+/* Universal "click me" affordance helpers — applied via JS to make
+   clickable items obviously clickable for non-technical users. */
+.click-affordance {
+  position: absolute;
+  bottom: 10px; right: 12px;
+  background: var(--pink);
+  color: #050204;
+  font-family: var(--f-federal);
+  font-weight: 700;
+  font-size: 0.5rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(255,27,107,0.45);
+  z-index: 4;
+}
+
+/* ============================================================
+   BIO MODAL — personnel file dossier
+   ============================================================ */
+.modal-box.bio-box {
+  max-width: 560px;
+  text-align: left;
+}
+.bio-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--f-mono);
+  font-size: 0.58rem; letter-spacing: 3px;
+  color: var(--silver-dim); text-transform: uppercase;
+  border-bottom: 1px dotted rgba(255,27,107,0.22);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+.bio-head .pink { color: var(--pink); }
+.bio-portrait {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 3/4;
+  margin: 0 auto 1rem;
+  border: 1px solid var(--pink);
+  background: var(--noir-2);
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(255,27,107,0.25);
+}
+.bio-portrait img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+  filter: contrast(1.05) saturate(0.95);
+}
+.bio-portrait-scan {
+  position: absolute; left: 0; right: 0; height: 30%;
+  background: linear-gradient(180deg, transparent, rgba(255,27,107,0.16), transparent);
+  pointer-events: none;
+  animation: scanlineMove 4s linear infinite;
+}
+.bio-portrait .bio-badge-id,
+.bio-portrait .bio-badge-clear {
+  position: absolute;
+  font-family: var(--f-mono);
+  font-size: 0.5rem; letter-spacing: 2px;
+  color: #050204;
+  background: var(--pink);
+  padding: 3px 7px;
+  text-transform: uppercase;
+}
+.bio-portrait .bio-badge-id { top: 8px; left: 8px; }
+.bio-portrait .bio-badge-clear { top: 8px; right: 8px; }
+
+.bio-title-row {
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+.bio-rank {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 0.55rem; letter-spacing: 3px;
+  color: var(--pink); text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.bio-name {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  color: var(--text);
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 0 14px var(--pink-glow);
+}
+.bio-meta {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 1rem;
+  font-family: var(--f-mono);
+  font-size: 0.58rem; letter-spacing: 2px;
+  color: var(--silver-dim); text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255,27,107,0.04);
+  border: 1px solid var(--line);
+  margin-bottom: 1rem;
+}
+.bio-meta strong { color: var(--text); font-weight: 500; margin-right: 4px; }
+.bio-meta .pink { color: var(--pink); }
+
+.bio-section {
+  margin-bottom: 1.2rem;
+  padding: 0.9rem 1rem;
+  border-left: 2px solid var(--pink);
+  background: rgba(255,27,107,0.04);
+}
+.bio-section-h {
+  font-family: var(--f-mono);
+  font-size: 0.58rem; letter-spacing: 3px;
+  color: var(--pink); text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.bio-body {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: clamp(0.88rem, 1.6vw, 1rem);
+  line-height: 1.7;
+  color: var(--text);
+}
+.bio-body p {
+  margin: 0 0 0.7rem;
+}
+.bio-body p:last-child { margin-bottom: 0; }
+.bio-quote {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--pink);
+  text-shadow: 0 0 12px var(--pink-glow);
+  line-height: 1.4;
+}
+
+/* ============================================================
+   CLOSE BUTTONS — make sure they sit INSIDE every modal box
+   ============================================================ */
+.modal-box, .mm-box, .av-box, .pm-box, .dc-box {
+  position: relative !important;
+  padding-top: 3.4rem !important;
+}
+.modal-overlay .modal-close,
+#admin-vault .av-close,
+#module-modal .mm-close,
+#dlfi-confirm .dc-close,
+.modal-box .dlfi-close,
+.dlfi-close {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+}
+
+
+/* ============================================================
+   MODAL-PREVIEW VARIANT for classified dossiers
+   Larger container = stamp can be calmer and easier to read.
+   No glitch in the modal — the home card has the motion; the
+   modal preview is the "evidence photo" version.
+   ============================================================ */
+.ev-dossier.is-classified.in-modal { aspect-ratio: 16/10; }
+.ev-dossier.is-classified.in-modal::before {
+  animation: none !important;
+  font-size: clamp(1.6rem, 6vw, 2.6rem) !important;
+  letter-spacing: 5px !important;
+  padding: 8px 22px !important;
+  text-shadow: 0 0 12px var(--pink), 0 0 30px var(--pink-glow) !important;
+  opacity: 1 !important;
+  border-width: 3px !important;
+  max-width: calc(100% - 32px) !important;
+}
+
+/* ============================================================
+   "TAP TO OPEN" affordance — show on case cards, training cards,
+   featured cases on home page, and the Chief Investigator card.
+   Make it OBVIOUS to non-technical users they can click.
+   ============================================================ */
+.case-card { cursor: pointer; position: relative; }
+.case-card::after {
+  content: '↗ Tap to open file';
+  position: absolute;
+  bottom: 10px; right: 12px;
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  color: var(--pink);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+  background: rgba(5, 2, 4, 0.85);
+  padding: 4px 8px;
+  border: 1px solid var(--pink);
+  z-index: 6;
+}
+.case-card:hover::after { opacity: 1; }
+@media (pointer: coarse) {
+  /* Always show on touch devices (no hover state) */
+  .case-card::after { opacity: 1; }
+}
+
+/* Training cards on Standard Issue Curriculum */
+.training-card { cursor: pointer; position: relative; }
+.training-card::after {
+  content: '↗ Tap to read';
+  position: absolute;
+  bottom: 10px; right: 12px;
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  color: var(--pink);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+  background: rgba(5, 2, 4, 0.85);
+  padding: 4px 8px;
+  border: 1px solid var(--pink);
+  z-index: 6;
+}
+.training-card:hover::after { opacity: 1; }
+@media (pointer: coarse) {
+  .training-card::after { opacity: 1; }
+}
+
+/* Chief Investigator card explicit affordance */
+.chief-clickable {
+  cursor: pointer !important;
+  position: relative;
+}
+.chief-clickable::after {
+  content: '↗ Tap to read bio';
+  position: absolute;
+  bottom: 10px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--f-mono);
+  font-size: 0.55rem;
+  letter-spacing: 2.5px;
+  color: var(--pink);
+  text-transform: uppercase;
+  background: rgba(5, 2, 4, 0.85);
+  padding: 5px 10px;
+  border: 1px solid var(--pink);
+  z-index: 8;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.chief-clickable:hover::after,
+.chief-clickable:focus-visible::after { opacity: 1; }
+
+/* ============================================================
+   STRONGER mobile close-button override — ensure it sits INSIDE
+   the modal box with its full "× CLOSE" label readable.
+   ============================================================ */
+@media (max-width: 720px) {
+  .modal-close, .mm-close, .av-close, .pm-close, .dlfi-close {
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 7px 12px !important;
+    font-size: 0.62rem !important;
+    line-height: 1 !important;
+    gap: 5px !important;
+    border-radius: 0 !important;
+    box-sizing: content-box !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+  }
+  .modal-close .dc-x, .mm-close .dc-x, .av-close .dc-x, .pm-close .dc-x, .dlfi-close .dc-x {
+    font-size: 0.95rem !important;
+    line-height: 1 !important;
+  }
+  .modal-close .dc-lbl, .mm-close .dc-lbl, .av-close .dc-lbl, .pm-close .dc-lbl, .dlfi-close .dc-lbl {
+    font-size: 0.55rem !important;
+  }
+}
+
+
+/* ============================================================
+   EVIDENCE BOARD — Case Files hero centerpiece
+   Pinned polaroids, manila folder, sticky note, magnifying glass.
+   Animated and crowded on purpose — feels like a detective desk.
+   ============================================================ */
+.evidence-board {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1/1;
+  margin: 0 auto;
+  background: linear-gradient(160deg, rgba(15,8,11,0.6), rgba(5,2,4,0.9));
+  border: 1px solid var(--line);
+  box-shadow:
+    inset 0 0 60px rgba(0,0,0,0.6),
+    0 0 30px rgba(255,27,107,0.18);
+  overflow: hidden;
+}
+/* Subtle corkboard texture */
+.evidence-board::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(255,27,107,0.06), transparent 60%),
+    radial-gradient(circle at 75% 70%, rgba(120, 50, 80, 0.05), transparent 60%),
+    repeating-linear-gradient(45deg, transparent 0 2px, rgba(255,255,255,0.012) 2px 3px);
+  pointer-events: none;
+}
+.eb-string {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 6px rgba(255,27,107,0.4));
+  animation: ebStringPulse 4s ease-in-out infinite;
+}
+@keyframes ebStringPulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.9; }
+}
+.eb-card {
+  position: absolute;
+  z-index: 3;
+  background: #1a0e14;
+  border: 1px solid var(--line);
+  padding: 6px;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.55),
+    0 0 18px rgba(255,27,107,0.08);
+  transition: transform 0.5s var(--ease-out-soft);
+  animation: ebFloat 5s ease-in-out infinite;
+}
+@keyframes ebFloat {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-3px) rotate(calc(var(--rot, 0deg) + 0.4deg)); }
+}
+.eb-card:hover {
+  z-index: 10;
+  transform: rotate(0deg) scale(1.08) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.7), 0 0 30px rgba(255,27,107,0.4) !important;
+  animation-play-state: paused;
+}
+.eb-pin {
+  position: absolute;
+  top: -6px; left: 50%;
+  transform: translateX(-50%);
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff6da0, #c00858 70%, #6a042e);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 10px rgba(255,27,107,0.55);
+  z-index: 4;
+}
+.eb-pin--pink {
+  background: radial-gradient(circle at 35% 35%, #ffe26b, #f4a900 70%, #806000);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 10px rgba(255, 196, 0, 0.5);
+}
+
+/* Polaroid variants */
+.eb-polaroid {
+  width: 38%;
+  padding: 6px 6px 26px;
+}
+.eb-polaroid .eb-img {
+  width: 100%; aspect-ratio: 4/5;
+  background: #050204;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,27,107,0.18);
+}
+.eb-img--surveillance {
+  background:
+    radial-gradient(ellipse at 50% 80%, rgba(120,255,160,0.15), transparent 60%),
+    linear-gradient(180deg, #0c1a14, #050b08);
+}
+.eb-img--surveillance .eb-crosshair {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(120,255,160,0.5);
+  font-size: 1.5rem;
+  text-shadow: 0 0 8px rgba(120,255,160,0.6);
+}
+.eb-img--surveillance .eb-rec {
+  position: absolute; top: 6px; right: 6px;
+  width: 6px; height: 6px;
+  background: #ff2a2a;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff2a2a;
+  animation: livePulse 1s ease-in-out infinite;
+}
+.eb-img--surveillance .eb-scan {
+  position: absolute; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(120,255,160,0.18), transparent);
+  animation: scanlineMove 3s linear infinite;
+  pointer-events: none;
+}
+.eb-img--silhouette {
+  background: linear-gradient(180deg, #2a0d1a, #050204);
+}
+.eb-img--silhouette .eb-silhouette {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 38% 50% at 50% 35%, rgba(50,20,32,1), transparent 70%),
+    radial-gradient(ellipse 28% 28% at 50% 30%, rgba(30,10,18,1), transparent 70%);
+}
+.eb-img--silhouette .eb-flash {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255,27,107,0.35), transparent 50%);
+  animation: ebFlash 4.5s ease-in-out infinite;
+}
+@keyframes ebFlash {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+  10%, 12% { opacity: 1.2; }
+  14% { opacity: 0.3; }
+}
+.eb-caption {
+  margin-top: 4px;
+  font-family: var(--f-mono);
+  font-size: 0.45rem;
+  letter-spacing: 1.2px;
+  color: var(--silver-dim);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Folder */
+.eb-folder {
+  width: 42%;
+  background: linear-gradient(180deg, #2d1a22, #1a0e14);
+  border: 1px solid rgba(255,27,107,0.25);
+  padding: 22px 8px 8px;
+}
+.eb-folder .eb-tab {
+  position: absolute;
+  top: -10px; left: 14px;
+  background: var(--pink);
+  color: #050204;
+  font-family: var(--f-mono);
+  font-size: 0.45rem;
+  letter-spacing: 1.5px;
+  padding: 2px 6px;
+  text-transform: uppercase;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.eb-folder-body {
+  position: relative;
+  background: #0e0508;
+  padding: 8px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.eb-folder .eb-bar {
+  height: 4px;
+  width: 90%;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: 5px;
+}
+.eb-folder .eb-stamp {
+  position: absolute;
+  bottom: 6px; right: 6px;
+  font-family: var(--f-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--pink);
+  border: 1.5px solid var(--pink);
+  padding: 2px 6px;
+  transform: rotate(-6deg);
+  box-shadow: 0 0 10px rgba(255,27,107,0.4);
+  animation: ebStampPulse 2.4s ease-in-out infinite;
+}
+@keyframes ebStampPulse {
+  0%, 100% { transform: rotate(-6deg) scale(1); }
+  50%      { transform: rotate(-6deg) scale(1.06); }
+}
+
+/* Sticky note */
+.eb-note {
+  width: 40%;
+  background: linear-gradient(180deg, rgba(255,27,107,0.18), rgba(255,27,107,0.05));
+  border: 1px solid rgba(255,27,107,0.4);
+  padding: 8px 10px;
+  font-family: var(--f-display);
+  font-style: italic;
+  color: var(--text);
+}
+.eb-note-tag {
+  font-family: var(--f-mono);
+  font-style: normal;
+  font-size: 0.45rem;
+  letter-spacing: 2px;
+  color: var(--pink);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.eb-note-body {
+  font-size: 0.55rem;
+  line-height: 1.5;
+}
+
+/* Position each card */
+.eb-1 { top: 14%;  left: 8%;   --rot: -7deg;  transform: rotate(-7deg); animation-delay: 0s; }
+.eb-2 { top: 18%;  left: 50%;  --rot: 5deg;   transform: rotate(5deg);  animation-delay: 0.7s; }
+.eb-3 { top: 52%;  left: 12%;  --rot: 4deg;   transform: rotate(4deg);  animation-delay: 1.4s; }
+.eb-4 { top: 56%;  left: 52%;  --rot: -4deg;  transform: rotate(-4deg); animation-delay: 2.1s; }
+
+/* Magnifier — orbits over the board */
+.eb-magnifier {
+  position: absolute;
+  width: 64px; height: 64px;
+  pointer-events: none;
+  z-index: 5;
+  animation: ebMagnifierOrbit 14s linear infinite;
+}
+.eb-magnifier-glass {
+  width: 48px; height: 48px;
+  border: 3px solid var(--pink);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 50%),
+    radial-gradient(circle, rgba(255,27,107,0.18) 0%, rgba(255,27,107,0.04) 60%, transparent 100%);
+  box-shadow:
+    0 0 18px var(--pink-glow),
+    inset 0 0 18px rgba(255,27,107,0.25);
+  backdrop-filter: blur(0.5px);
+}
+.eb-magnifier-handle {
+  position: absolute;
+  bottom: -4px; right: -2px;
+  width: 22px; height: 5px;
+  background: linear-gradient(90deg, var(--pink), #6a042e);
+  transform: rotate(45deg);
+  transform-origin: left center;
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--pink-glow);
+}
+@keyframes ebMagnifierOrbit {
+  0%   { top: 20%;  left: 10%; transform: rotate(0deg); }
+  25%  { top: 18%;  left: 65%; transform: rotate(8deg); }
+  50%  { top: 55%;  left: 64%; transform: rotate(-4deg); }
+  75%  { top: 60%;  left: 16%; transform: rotate(5deg); }
+  100% { top: 20%;  left: 10%; transform: rotate(0deg); }
+}
+
+/* Corner stamps */
+.eb-corner {
+  position: absolute;
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+  color: var(--silver-dim);
+  text-transform: uppercase;
+  line-height: 1.5;
+  pointer-events: none;
+  z-index: 2;
+}
+.eb-corner-tl { top: 8px; left: 10px; }
+.eb-corner-br { bottom: 8px; right: 10px; text-align: right; }
+
+@media (max-width: 720px) {
+  .evidence-board { max-width: 100%; aspect-ratio: 4/3; }
+  .eb-polaroid { width: 32%; }
+  .eb-folder { width: 36%; }
+  .eb-note { width: 36%; }
+  .eb-caption { font-size: 0.42rem; }
+  .eb-magnifier { width: 50px; height: 50px; }
+  .eb-magnifier-glass { width: 36px; height: 36px; }
+}
+
+
+/* ============================================================
+   EVIDENCE BOARD — real photo backgrounds for polaroids
+   ============================================================ */
+.eb-img--surveillance,
+.eb-img--silhouette {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+/* When a photo is loaded, soften the green/pink gradient overlays */
+.eb-img--surveillance[style*="background-image"]::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(120,255,160,0.12), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.45));
+  pointer-events: none;
+}
+.eb-img--silhouette[style*="background-image"]::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(255,27,107,0.18), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.5));
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.eb-img--silhouette[style*="background-image"] .eb-silhouette { display: none; }
+
+/* Small timestamp tag inside each polaroid frame */
+.eb-img .eb-ts {
+  position: absolute;
+  bottom: 4px; left: 5px;
+  font-family: var(--f-tech, var(--f-mono));
+  font-size: 0.42rem;
+  letter-spacing: 1.2px;
+  color: rgba(255, 196, 220, 0.9);
+  text-shadow: 0 0 6px rgba(255, 27, 107, 0.7);
+  pointer-events: none;
+  z-index: 3;
+}
+
+
+/* ============================================================
+   AUDIO HINT — pulsing pill near the audio toggle, hides after gesture
+   ============================================================ */
+.audio-hint {
+  position: fixed;
+  bottom: 92px; right: 12px;
+  z-index: 989;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(8, 4, 6, 0.92);
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 0 24px rgba(255, 27, 107, 0.45);
+  pointer-events: none;
+  animation: audioHintPulse 1.6s ease-in-out infinite;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.audio-hint .ah-icon { font-size: 0.85rem; }
+.audio-hint::after {
+  /* small arrow nudge pointing toward the audio toggle */
+  content: '↘';
+  margin-left: 4px;
+  color: var(--pink);
+}
+.audio-hint.is-dismissed {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: none;
+  pointer-events: none;
+}
+@keyframes audioHintPulse {
+  0%, 100% { transform: translateY(0); box-shadow: 0 0 16px rgba(255,27,107,0.4); }
+  50%      { transform: translateY(-3px); box-shadow: 0 0 28px rgba(255,27,107,0.7); }
+}
+/* Hide entirely once a modal is open or on mobile force-desktop crowding */
+body.modal-open .audio-hint { display: none !important; }
+@media (max-width: 720px) {
+  .audio-hint { bottom: 96px; right: 8px; font-size: 0.52rem; padding: 6px 11px; letter-spacing: 1.5px; }
+}
+
+
+/* ============================================================
+   RECRUIT CARD — extra cinematic animation
+   ============================================================ */
+.recruit-card {
+  position: relative;
+  /* overflow stays visible so the RECRUIT corner stamp isn't clipped;
+     the sweep + scanline overlays still get clipped by .rc-anim-clip below */
+  overflow: visible;
+}
+/* Inner wrapper that clips the diagonal scan + grain to the card body */
+.recruit-card .rc-anim-clip {
+  position: absolute; inset: 1px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+/* Pulsing pink border halo */
+.recruit-card {
+  animation: recruitCardHalo 3.2s ease-in-out infinite;
+}
+@keyframes recruitCardHalo {
+  0%, 100% {
+    box-shadow:
+      0 0 22px rgba(255,27,107,0.20),
+      inset 0 0 14px rgba(255,27,107,0.08),
+      0 0 0 0 rgba(255,27,107,0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 38px rgba(255,27,107,0.45),
+      inset 0 0 22px rgba(255,27,107,0.18),
+      0 0 0 6px rgba(255,27,107,0.0);
+  }
+}
+
+/* Diagonal scan sweep across the card (clipped to body via inset) */
+.recruit-card::after {
+  content: '';
+  position: absolute; inset: 1px;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 27, 107, 0.18) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 250% 250%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: recruitCardSweep 5s linear infinite;
+  z-index: 2;
+  overflow: hidden;
+  clip-path: inset(0);
+}
+@keyframes recruitCardSweep {
+  0%   { background-position: -150% -150%; }
+  100% { background-position: 250% 250%; }
+}
+
+/* Faint scanline grain over the card */
+.recruit-card::before {
+  background:
+    repeating-linear-gradient(0deg,
+      transparent 0 2px,
+      rgba(255, 27, 107, 0.04) 2px 3px),
+    inherit;
+  animation: recruitCardJitter 4s steps(8) infinite;
+}
+@keyframes recruitCardJitter {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-0.5px, 0.5px); }
+  50%  { transform: translate(0.5px, -0.5px); }
+  75%  { transform: translate(-0.5px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+/* RECRUIT stamp — bouncy tilt animation, glow throb */
+.recruit-card .rc-stamp {
+  animation: recruitStampSway 2.8s ease-in-out infinite;
+  transform-origin: center;
+  z-index: 5;
+}
+@keyframes recruitStampSway {
+  0%, 100% {
+    transform: rotate(6deg) scale(1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  35% {
+    transform: rotate(10deg) scale(1.08);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5), 0 0 18px rgba(255,27,107,0.55);
+  }
+  70% {
+    transform: rotate(4deg) scale(0.98);
+  }
+}
+
+/* Live status pulse on the ID number */
+.recruit-card .rc-id {
+  animation: recruitIdGlow 2.2s ease-in-out infinite;
+}
+@keyframes recruitIdGlow {
+  0%, 100% { text-shadow: 0 0 6px rgba(255,27,107,0.4); }
+  50%      { text-shadow: 0 0 18px rgba(255,27,107,0.9); }
+}
+
+/* CLASSIFIED codename glitches every few seconds */
+.recruit-card .rc-row .v {
+  position: relative;
+}
+.recruit-card .rc-row:nth-child(3) .v { /* Codename row */
+  animation: recruitClassifiedGlitch 5s steps(1) infinite;
+}
+@keyframes recruitClassifiedGlitch {
+  0%, 80%, 100% {
+    color: var(--text);
+    text-shadow: none;
+    transform: translateX(0);
+  }
+  82% {
+    color: var(--pink);
+    text-shadow: 1.5px 0 0 #00f6ff, -1.5px 0 0 #ff0050;
+    transform: translateX(0.8px);
+  }
+  84% {
+    color: var(--text);
+    text-shadow: -1.5px 0 0 #00f6ff, 1.5px 0 0 #ff0050;
+    transform: translateX(-0.8px);
+  }
+  86% {
+    color: var(--text);
+    text-shadow: none;
+    transform: translateX(0);
+  }
+}
+
+/* Status ACTIVE blinks like a live LED */
+.recruit-card .rc-row:nth-child(4) .v {
+  animation: recruitActiveBlink 1.6s ease-in-out infinite;
+}
+@keyframes recruitActiveBlink {
+  0%, 100% { color: var(--pink); text-shadow: 0 0 8px rgba(255,27,107,0.5); }
+  50%      { color: #ff6ba8; text-shadow: 0 0 18px rgba(255,27,107,0.95); }
+}
+
+/* Current rank block — slow breathing glow */
+.recruit-card .rc-current-rank {
+  position: relative;
+  overflow: hidden;
+  animation: recruitRankPulse 3.6s ease-in-out infinite;
+}
+@keyframes recruitRankPulse {
+  0%, 100% {
+    background: rgba(255,27,107,0.05);
+    border-color: rgba(255,27,107,0.25);
+  }
+  50% {
+    background: rgba(255,27,107,0.12);
+    border-color: rgba(255,27,107,0.55);
+  }
+}
+.recruit-card .rc-current-rank::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,27,107,0.18), transparent);
+  animation: recruitRankSweep 3.2s linear infinite;
+  pointer-events: none;
+}
+@keyframes recruitRankSweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.recruit-card .rc-current-rank .nm {
+  animation: recruitRankNameGlow 3.2s ease-in-out infinite;
+}
+@keyframes recruitRankNameGlow {
+  0%, 100% { text-shadow: 0 0 12px var(--pink-glow); }
+  50%      { text-shadow: 0 0 22px var(--pink-glow), 0 0 38px rgba(255,27,107,0.45); }
+}
+
+/* Subtle hover lift */
+.recruit-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.4s ease;
+}

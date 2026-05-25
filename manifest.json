@@ -1,0 +1,18 @@
+{
+  "name": "DLFI — Department of Lace Front Investigations",
+  "short_name": "DLFI",
+  "description": "An elite training program in emotional intelligence, observation tactics, receipt collection, and verbal self-defense.",
+  "start_url": "DLFI.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050204",
+  "theme_color": "#050204",
+  "lang": "en",
+  "icons": [
+    { "src": "img/pwa-icon-192.svg", "type": "image/svg+xml", "sizes": "192x192", "purpose": "any" },
+    { "src": "img/pwa-icon-512.svg", "type": "image/svg+xml", "sizes": "512x512", "purpose": "any" },
+    { "src": "img/pwa-icon-512.svg", "type": "image/svg+xml", "sizes": "512x512", "purpose": "maskable" }
+  ],
+  "categories": ["lifestyle", "entertainment"]
+}

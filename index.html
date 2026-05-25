@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DLFI">
+<meta name="theme-color" content="#050204">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="img/pwa-icon-512.svg">
+<link rel="icon" type="image/svg+xml" href="img/pwa-icon-512.svg">
+<!-- Privacy: discourage referrer leakage when users click out -->
+<meta name="referrer" content="no-referrer-when-downgrade">
+<!-- Privacy: no search-engine snapshot of submissions -->
+<meta name="robots" content="index, follow, noarchive">
+<title>DLFI — Department of Lace Front Investigations</title>
+<meta name="description" content="The official cinematic dossier of the Department of Lace Front Investigations. Active beauty investigation in progress.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Oswald:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&family=Share+Tech+Mono&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Oswald:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Dancing+Script:wght@600;700&family=Share+Tech+Mono&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="dlfi-styles.css">
+<link rel="stylesheet" href="dlfi-recruitment.css">
+<link rel="stylesheet" href="dlfi-extras.css">
+<link rel="stylesheet" href="dlfi-mobile.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23050204' stroke='%23FF1B6B' stroke-width='2'/%3E%3Ctext x='16' y='21' font-family='serif' font-size='14' font-weight='900' fill='%23FF1B6B' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- CHROME: cursor + grain + status bar + audio + nav             -->
+<!-- ============================================================ -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="film-grain"></div>
+<div class="scan-shimmer"></div>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="sb-group">
+    <span><span class="sb-dot"></span>SECURE CHANNEL</span>
+    <span class="sb-hide-sm">CLEARANCE: LEVEL 304
+</span>
+    <span class="sb-hide-sm">FIELD OFFICE: <span class="sb-gold" style="color: #8e919a">6-13 // BEADCRYPT</span></span>
+  </div>
+  <div class="sb-group">
+    <span class="sb-hide-sm">SIG: <span class="sb-pink">SAFE</span></span>
+    <span id="utcClock">--:--:-- UTC</span>
+    <span class="sb-hide-sm">CASE LOAD: <span class="sb-pink">30</span></span>
+  </div>
+</div>
+
+<!-- Silent muted audio primer — kept inert; not autoplayed. -->
+<audio id="audioPrimer" muted playsinline preload="none" style="display:none" aria-hidden="true" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA="></audio>
+<!-- Pulsing "Tap to enable sound" hint — hidden by default. The Department
+     is secretive: audio stays off until the user clicks the audio toggle. -->
+<div id="audioHint" class="audio-hint is-dismissed" aria-hidden="true" style="display:none;">
+  <span class="ah-icon">🔊</span><span class="ah-text">Tap anywhere to enable sound</span>
+</div>
+<!-- AUDIO TOGGLE — starts OFF; click to enable -->
+<button class="audio-toggle" id="audioToggle" data-on="false" title="Toggle Investigation Audio">
+  <span class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+  <span class="lbl">Audio: Off</span>
+</button>
+
+<!-- NAVBAR -->
+<nav>
+  <a class="nav-logo" href="#home" onclick="event.preventDefault();showPage('home')">
+    <div class="nav-seal">
+      <svg viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r="20" fill="none" stroke="#FF1B6B" stroke-width="1.2"/>
+        <circle cx="22" cy="22" r="16" fill="none" stroke="#FF1B6B" stroke-width="0.5" opacity="0.6"/>
+        <text x="22" y="14" font-family="Oswald" font-size="3.2" fill="#FF1B6B" text-anchor="middle" letter-spacing="0.8" font-weight="700">DEPT</text>
+        <text x="22" y="27" font-family="Playfair Display" font-size="10" font-weight="900" fill="#FF1B6B" text-anchor="middle" font-style="italic">D</text>
+        <text x="22" y="35" font-family="Oswald" font-size="2.8" fill="#FF1B6B" text-anchor="middle" letter-spacing="0.6">EST. 2026</text>
+      </svg>
+    </div>
+    <div class="nav-brand-text">
+      <span class="brand-name">DLFI</span>
+      <span class="brand-sub">Dept. of Lace Front Investigations</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home" id="nav-home" onclick="event.preventDefault();showPage('home')">Home</a></li>
+    <li><a href="#cases" id="nav-cases" onclick="event.preventDefault();showPage('cases')">Case Files</a></li>
+    <li><a href="#hotline" id="nav-hotline" onclick="event.preventDefault();showPage('hotline')">Hotline</a></li>
+    <li><a href="#evidence" id="nav-evidence" onclick="event.preventDefault();showPage('evidence')">Evidence Room</a></li>
+    <li><a href="#resources" id="nav-resources" onclick="event.preventDefault();showPage('resources')">Recruitment</a></li>
+    <li><a href="#about" id="nav-about" onclick="event.preventDefault();showPage('about')">The Department</a></li>
+    <li><a href="#vault" id="nav-vault" onclick="event.preventDefault();openSubmissionsVault()">My Submissions</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('report')">
+    <span class="pulse-dot"></span>
+    <span>Report A Disturbance</span>
+  </button>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<!-- Mobile-only floating CTA so users on phone can always reach Report page -->
+<a class="mobile-cta-floating" id="mobileCtaFloating" href="#report" onclick="event.preventDefault();showPage('report')">Report</a>
+<!-- Phone nav swipe hint -->
+<div class="nav-swipe-hint" id="navSwipeHint" aria-hidden="true">Tap ☰ for all pages</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" id="mnav-home" onclick="event.preventDefault();showPage('home');toggleMenu()">Home</a>
+  <a href="#cases" id="mnav-cases" onclick="event.preventDefault();showPage('cases');toggleMenu()">Case Files</a>
+  <a href="#hotline" id="mnav-hotline" onclick="event.preventDefault();showPage('hotline');toggleMenu()">Hotline</a>
+  <a href="#evidence" id="mnav-evidence" onclick="event.preventDefault();showPage('evidence');toggleMenu()">Evidence Room</a>
+  <a href="#resources" id="mnav-resources" onclick="event.preventDefault();showPage('resources');toggleMenu()">Recruitment</a>
+  <a href="#about" id="mnav-about" onclick="event.preventDefault();showPage('about');toggleMenu()">The Department</a>
+  <a href="#vault" id="mnav-vault" onclick="event.preventDefault();openSubmissionsVault();toggleMenu()">My Submissions</a>
+  <div class="mob-cta" onclick="showPage('report');toggleMenu()">⚡ Report A Disturbance</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: HOME                                                    -->
+<!-- ============================================================ -->
+<div class="page active" id="page-home" data-screen-label="01 Home">
+  <div class="page-content">
+
+    <!-- ALERT BANNER -->
+    <div class="alert-banner">
+      <span class="pulse-strip"><span class="dot"></span>BEAD ALERT LEVEL: CRITICAL</span>
+      <span>•</span>
+      <span>HEIGHTENED LACE ACTIVITY DETECTED</span>
+      <span>•</span>
+      <span>SIDEBURNS IN DISTRESS</span>
+      <span>•</span>
+      <span class="pulse-strip">MOISTURE GONE
+<span class="dot"></span></span>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero-wrap" data-reveal>
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Active Bead Investigation <span class="code">FILE Nº FS1B-30 / IN PROGRESS</span></div>
+          <h1 class="display-xl">
+            <span class="italic">Department of</span><br>
+            <span class="ink-pink">Lace Front</span><br>
+            <span class="italic ink-pink">Investigations</span>
+          </h1>
+          <div class="script" style="margin: 1.2rem 0 1.8rem;">In fine tooth combs we trust.</div>
+
+          <p style="font-family: var(--f-mono); font-size: 0.75rem; line-height: 2; color: var(--silver-dim); letter-spacing: 1.5px; text-transform: uppercase; max-width: 480px;">A CERTIFIED MOISTURE PROTECTION BUREAU DOCUMENTING DISTURBANCES ACROSS ALL JURISDICTIONS. TWENTY-FOUR-SEVEN RESPONSE. RECEIPTS ALWAYS PULLED.</p>
+
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
+            <button class="btn-primary" onclick="showPage('cases')"><span>Review Case Files</span><span>→</span></button>
+            <button class="btn-outline" onclick="showPage('hotline')"><span>Hotline ⌁ <span class="no-tel">1-800-LACE-LIFT</span></span></button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line);">
+            <div class="live-dot">Field Office Online</div>
+            <div style="font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 2px; color: var(--silver-dim); text-transform: uppercase;">
+              Last Sweep: <span style="color: var(--pink);">04 min ago</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column: active files panel + cinematic seal -->
+        <div style="position: relative;" data-reveal>
+          <div class="ev-files">
+            <div class="ev-files-header">
+              <span class="pink"><span class="live-dot"></span></span>
+              <span class="dim">DLFI Secure Database — Access Granted</span>
+              <span class="pink">REAL-TIME</span>
+            </div>
+
+            <div class="ev-file-row" onclick="showPage('cases')">
+              <div>
+                <div class="label">Evidence File · #2401-LFV</div>
+                <div class="name">Hairline Fraud</div>
+              </div>
+              <div class="status status-active">ACTIVE</div>
+            </div>
+            <div class="ev-file-row" onclick="showPage('cases')">
+              <div>
+                <div class="label">Evidence File · #2402-BHC</div>
+                <div class="name">Unauthorized Baby Hairs</div>
+              </div>
+              <div class="status status-pending">PENDING</div>
+            </div>
+            <div class="ev-file-row" onclick="showPage('cases')">
+              <div>
+                <div class="label">Evidence File · #2403-HM</div>
+                <div class="name">BEAD MANIPULATION SEALED</div>
+              </div>
+              <div class="status status-classified">CLASSIFIED</div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 2px; text-transform: uppercase; color: var(--silver-dim); border-top: 1px solid var(--line); padding-top: 0.9rem; margin-top: 1rem;">
+              <span>SYS: dlfi-arc-v4.2</span>
+              <span style="color: var(--pink);">◆ ACCESS GRANTED</span>
+            </div>
+          </div>
+
+          <!-- Classified corner badge -->
+          <div class="stamp stamp-lg" style="position: absolute; top: -14px; right: -10px; background: var(--pink); color: #000; border-color: var(--pink); transform: rotate(6deg);">CLASSIFIED</div>
+        </div>
+      </div>
+
+      <!-- Divisions row -->
+      <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line);" data-reveal-stagger>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line);">
+          <div style="background: var(--noir-0); padding: 1.6rem; text-align: center;">
+            <div style="font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 0.5rem;">Division</div>
+            <div style="font-family: var(--f-display); font-style: italic; font-size: 1.1rem; color: var(--pink); margin-bottom: 0.3rem;">Edges Preservation Unit</div>
+            <div style="font-family: var(--f-mono); font-size: 0.5rem; letter-spacing: 2px; color: var(--silver-dim);">EPU-001</div>
+          </div>
+          <div style="background: var(--noir-0); padding: 1.6rem; text-align: center;">
+            <div style="font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 0.5rem;">Division</div>
+            <div style="font-family: var(--f-display); font-style: italic; font-size: 1.1rem; color: var(--pink); margin-bottom: 0.3rem;">Eyeball Violations Bureau</div>
+            <div style="font-family: var(--f-mono); font-size: 0.5rem; letter-spacing: 2px; color: var(--silver-dim);">EVB-002</div>
+          </div>
+          <div style="background: var(--noir-0); padding: 1.6rem; text-align: center;">
+            <div style="font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 0.5rem;">Division</div>
+            <div style="font-family: var(--f-display); font-style: italic; font-size: 1.1rem; color: var(--pink); margin-bottom: 0.3rem;">Federal Moisture Reserve</div>
+            <div style="font-family: var(--f-mono); font-size: 0.5rem; letter-spacing: 2px; color: var(--silver-dim);">FMR-003</div>
+          </div>
+          <div style="background: var(--noir-0); padding: 1.6rem; text-align: center;">
+            <div style="font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--silver-dim); margin-bottom: 0.5rem;">Division</div>
+            <div style="font-family: var(--f-display); font-style: italic; font-size: 1.1rem; color: var(--pink); margin-bottom: 0.3rem;">Hair Hat Crisis Division</div>
+            <div style="font-family: var(--f-mono); font-size: 0.5rem; letter-spacing: 2px; color: var(--silver-dim);">BHSTF-004</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE STATS -->
+    <div style="background: var(--noir-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="section-sm">
+        <div class="grid-4">
+          <div class="stat-tile">
+            <div class="stat-delta">+3 ↑</div>
+            <div class="stat-num"><span data-count="144">0</span></div>
+            <div class="stat-label">Active Cases</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-delta">+12 ↑</div>
+            <div class="stat-num"><span data-count="130">0</span></div>
+            <div class="stat-label">Violations Logged</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-delta">+47 ↑</div>
+            <div class="stat-num"><span data-count="613" data-suffix="+">0</span></div>
+            <div class="stat-label">Stories Documented</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-delta">∞</div>
+            <div class="stat-num" style="font-size: 40px;"><span data-count="10" data-suffix="K+">0</span></div>
+            <div class="stat-label">Women Empowered</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED CASES -->
+    <div class="section">
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Currently Active <span class="code">UPDATED 03:04 UTC</span></div>
+          <h2 class="section-title"><span class="italic">Featured</span> <span class="ink-pink">Case Files</span></h2>
+        </div>
+        <div class="right">
+          ◆ 33 ACTIVE FILES<br>
+          ◆ 99 SUSPECTS IDENTIFIED<br>
+          ◆ <span class="text-pink">SWEEP IN PROGRESS</span>
+        </div>
+      </div>
+
+      <div class="grid-3" data-reveal-stagger>
+        <!-- Surveillance case (matches case files: Operation Lift Off) -->
+        <div class="case-card" data-disturb="9.6" data-recent="40" data-petty="5" data-documented="9.8" data-evidence data-case='{"title":"Operation: Lift Off","num":"CASE Nº 27-001","narrative":"Subject was observed crossing the Target parking lot at 14:32 local time. Wind conditions: 6mph SW. Lace separation event occurred at the 2 o\\\\","charge":"Lace Separation in Public","location":"Target Parking Lot — Lot B","status":"Under Review","type":"Lace Front Violation","suspect":"Female · 5ft 7in · Burgundy Knotless","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--surveillance ev-noise" style="--photo: url('img/cases/lift-off.png');">
+            <div class="rec-pulse"></div>
+            <div class="scan-fx"></div>
+            <div class="charge-badge">LFV-01</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 27-001</div>
+            <div class="case-title">Operation: <span style="font-style: italic;">Lift Off</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Lace Separation in Public</span><br>
+              <span class="label">Loc:</span> <span class="val">Target — Parking Lot B</span><br>
+              <span class="label">Status:</span> <span class="val bright">Under Review</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo evidence (matches case files: 2,000 Yard Side-Eye) -->
+        <div class="case-card" data-disturb="6.8" data-recent="95" data-petty="9.9" data-documented="8.5" data-evidence data-case='{"title":"2,000 Yard Side-Eye","num":"CASE Nº 27-002","narrative":"Suspect deployed a side-eye of unprecedented range across three folding tables during the Saturday cookout. Documented impact zone: 2,000 yards. Multiple bystanders caught in the blast radius. The vibration alone allegedly rearranged the edges of two children sitting two tables down.","charge":"Excessive Side-Eye","location":"Cook Out — Pavilion 3","status":"Witnesses Confirmed","type":"Eyeball Violation","suspect":"Unknown · likely a Capricorn","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--polaroid ev-photo--pink ev-noise" style="--photo: url('img/cases/side-eye.png');">
+            <div class="scan-fx"></div>
+            <div class="charge-badge">EV-02</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 27-002</div>
+            <div class="case-title">2,000 Yard <span style="font-style: italic;">Side-Eye</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Excessive Side-Eye</span><br>
+              <span class="label">Loc:</span> <span class="val">Cook Out — Pavilion 3</span><br>
+              <span class="label">Status:</span> <span class="val bright">Witnesses Confirmed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Classified dossier (matches case files: Humidity Slipping) -->
+        <div class="case-card" data-disturb="7.5" data-recent="88" data-petty="4" data-documented="9" data-evidence data-case='{"title":"Humidity Slipping","num":"CASE Nº 27-003","narrative":"Suspect arrived at a hot weather event wearing inadequate adhesive. Ambient humidity at time of incident: 92%. Heat index: 104°F. DLFI forensics team recovered the lace from a nearby azalea bush at 19:22. Adhesive sample logged. It had clearly been trying to leave for some time.","charge":"Sweat-Activated Lifting","location":"Cook Out — Field 2","status":"Technically Insolent","type":"Humidity Offense","suspect":"Anonymous · 35-44 · Bonnet Refusal","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-dossier ev-noise is-classified">
+            <div class="charge-badge">HO-03</div>
+            <div class="ds-header"><span>FORM 14-B</span><span>● HUMIDITY</span></div>
+            <div class="ds-line"><span>RH:</span><span class="ds-bar" style="flex:1"></span><span style="color:var(--warning);">92%</span></div>
+            <div class="ds-line"><span>Adhesive:</span><span class="ds-bar" style="flex:0.7"></span><span style="color:var(--pink);">FAIL</span></div>
+            <div class="ds-line"><span>Loc:</span><span class="ds-bar" style="flex:0.8"></span></div>
+            <div class="doc-scan"></div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 27-003</div>
+            <div class="case-title">Humidity <span style="font-style: italic;">Slipping</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Sweat-Activated Lifting</span><br>
+              <span class="label">Loc:</span> <span class="val">Cook Out — Field 2</span><br>
+              <span class="label">Status:</span> <span class="val" style="color: var(--warning);">Technically Insolent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 3rem;" data-reveal>
+        <button class="btn-primary" onclick="showPage('cases')"><span>VIEW ALL 12 ACTIVE FILES</span><span>→</span></button>
+      </div>
+    </div>
+
+    <!-- MISSION QUOTE -->
+    <div style="background: var(--noir-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="section-sm" style="text-align: center;" data-reveal>
+        <div class="eyebrow" style="justify-content: center; margin-bottom: 1.5rem;">From the Desk of the Chief Investigator</div>
+        <div class="big-quote">
+          <span class="quote-body">They tried to bury me under receipts. I used them to build my empire.</span>
+          <span class="attr">— Unapologetic Exotical · Chief Investigator</span>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-marquee">
+          WE DON'T FOLLOW THE RULES <span class="pink">★</span> WE WRITE NEW ONES
+          <span class="script">Welcome to the Department.</span>
+        </div>
+        <div class="footer-marquee">
+          UNAPOLOGETIC <span class="pink">·</span> EXOTICAL <span class="pink">·</span> EFFECTIVE
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- OTHER PAGES INJECTED HERE                                    -->
+<!-- ============================================================ -->
+<!-- ============================================================ -->
+<!-- PAGE: CASE FILES                                              -->
+<!-- ============================================================ -->
+<div class="page" id="page-cases" data-screen-label="02 Case Files">
+  <div class="page-content">
+
+    <div class="page-hero">
+      <div class="hero-wrap" style="padding: 1rem 0 0;">
+        <div class="hero-grid-3">
+          <div data-reveal>
+            <div class="eyebrow">DLFI Active Files <span class="code">SECTOR 01-B</span></div>
+            <h1 class="display-xl" style="font-size: clamp(3rem, 7vw, 6rem);"><span class="italic">Case</span> <span class="ink-pink">Files</span></h1>
+            <p style="font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 1.8px; text-transform: uppercase; color: var(--silver-dim); line-height: 2; margin-top: 1.2rem; max-width: 460px;">
+              Open investigations into lace front offenses, community disturbances, and the <span style="color: var(--pink);">face card declined epidemic</span>.
+              All victims are innocent. The beads are not.
+            </p>
+          </div>
+          <div data-reveal style="text-align: center;">
+            <!-- Animated Evidence Board — pinned polaroids, dossiers, red string -->
+            <div class="evidence-board">
+              <!-- Red detective string (decorative SVG) -->
+              <svg class="eb-string" viewBox="0 0 360 360" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M40 60 L160 130 L280 80 L240 220 L120 200 L60 300" fill="none" stroke="#ff1b6b" stroke-width="1.4" stroke-dasharray="4 6" opacity="0.7"/>
+                <path d="M160 130 L240 220" fill="none" stroke="#ff1b6b" stroke-width="1" stroke-dasharray="3 5" opacity="0.4"/>
+              </svg>
+
+              <!-- Polaroid 1 — surveillance still (Humidity Slipping) -->
+              <div class="eb-card eb-polaroid eb-1">
+                <div class="eb-img eb-img--surveillance" style="background-image: url('img/evidence/humidity.png');">
+                  <span class="eb-rec"></span>
+                  <span class="eb-scan"></span>
+                  <span class="eb-ts">SUN 11:23</span>
+                </div>
+                <div class="eb-caption">SUBJ. 27-003<br>"Humidity Slipping"</div>
+                <span class="eb-pin"></span>
+              </div>
+
+              <!-- Dossier 2 — manila file -->
+              <div class="eb-card eb-folder eb-2">
+                <span class="eb-tab">CASE 24-006</span>
+                <div class="eb-folder-body">
+                  <div class="eb-bar"></div>
+                  <div class="eb-bar" style="width:70%"></div>
+                  <div class="eb-bar" style="width:55%"></div>
+                  <div class="eb-stamp">SEALED</div>
+                </div>
+                <span class="eb-pin"></span>
+              </div>
+
+              <!-- Polaroid 3 — Sneeze Incident still -->
+              <div class="eb-card eb-polaroid eb-3">
+                <div class="eb-img eb-img--silhouette" style="background-image: url('img/evidence/bald.png');">
+                  <span class="eb-flash"></span>
+                  <span class="eb-ts">05-18 · CAM 1</span>
+                </div>
+                <div class="eb-caption">SUBJ. 24-011<br>"Flew mid-sneeze"</div>
+                <span class="eb-pin"></span>
+              </div>
+
+              <!-- Note 4 — sticky note -->
+              <div class="eb-card eb-note eb-4">
+                <div class="eb-note-tag">◆ LEAD</div>
+                <div class="eb-note-body">
+                  Suspect last seen<br>
+                  at Cookout. <span style="color:var(--pink);">Bring receipts.</span>
+                </div>
+                <span class="eb-pin eb-pin--pink"></span>
+              </div>
+
+              <!-- Magnifier overlay (orbit) -->
+              <div class="eb-magnifier" aria-hidden="true">
+                <div class="eb-magnifier-glass"></div>
+                <div class="eb-magnifier-handle"></div>
+              </div>
+
+              <!-- Corner stamps -->
+              <div class="eb-corner eb-corner-tl">◆ EVIDENCE BOARD<br>SECTOR 01-B</div>
+              <div class="eb-corner eb-corner-br" style="color: var(--pink);">REC ●<br>LIVE</div>
+            </div>
+          </div>
+          <div class="inv-panel" data-reveal>
+            <div class="inv-panel-title"><span class="live-dot"></span> Live Caseload</div>
+            <div class="inv-row"><span class="label">Open Cases</span><span class="val">144</span></div>
+            <div class="inv-row"><span class="label">Suspects ID'd</span><span class="val">99</span></div>
+            <div class="inv-row"><span class="label">Lace Violations</span><span class="val">130</span></div>
+            <div class="inv-row"><span class="label">Eyeball Violations</span><span class="val">2,000</span></div>
+            <div class="inv-row"><span class="label">Baby Hair Cases</span><span class="val">64</span></div>
+            <div class="inv-row"><span class="label">Sealed Files</span><span class="val">∞</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="cases-grid">
+
+      <!-- Filter Bar -->
+      <div class="filter-bar" data-reveal>
+        <span class="filter-label">FILTER:</span>
+        <button class="filter-btn active" onclick="filterCases('all',this)">All</button>
+        <button class="filter-btn" onclick="filterCases('laceviolation',this)">Lace Violations</button>
+        <button class="filter-btn" onclick="filterCases('eyeball',this)">Eyeball Violations</button>
+        <button class="filter-btn" onclick="filterCases('humidity',this)">Humidity Offenses</button>
+        <button class="filter-btn" onclick="filterCases('babyhair',this)">Baby Hair Crimes</button>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 0.8rem;">
+          <span class="filter-label">SORT:</span>
+          <select class="sort-select" id="cases-sort" onchange="sortCases(this.value)">
+            <option value="disturbing">Most Disturbing</option>
+            <option value="recent">Most Recent</option>
+            <option value="petty">Most Petty</option>
+            <option value="documented">Most Documented</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Cases Grid -->
+      <div class="grid-4" data-reveal-stagger>
+
+        <div class="case-card" data-disturb="9.6" data-recent="40" data-petty="5" data-documented="9.8" data-type="laceviolation" data-evidence data-case='{"title":"Operation: Lift Off","num":"CASE Nº 27-001","narrative":"The lace lifted in broad daylight. Witnesses remain traumatized. Security footage confirms separation at an altitude of approximately 2.4 inches above the natural hairline.","charge":"Lace Separation in Public","location":"Target Parking Lot — Lot B","status":"Under Review","type":"Lace Front Violation","suspect":"Female · 5ft 7in · Burgundy Knotless","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--surveillance ev-noise" style="--photo: url('img/cases/lift-off.png');">
+            <div class="rec-pulse"></div>
+            <div class="scan-fx"></div>
+            <div class="charge-badge">LFV-01</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 27-001</div>
+            <div class="case-title">Operation: <span style="font-style: italic;">Lift Off</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Lace Separation</span><br>
+              <span class="label">Loc:</span> <span class="val">Target — Lot B</span><br>
+              <span class="label">Status:</span> <span class="val bright">Under Review</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="6.8" data-recent="95" data-petty="9.9" data-documented="8.5" data-type="eyeball" data-evidence data-case='{"title":"2,000 Yard Side-Eye","num":"CASE Nº 27-002","narrative":"The suspect deployed a side-eye of unprecedented range. Multiple bystanders caught in the blast radius. Documented from across three folding tables. The vibration alone rearranged several edges.","charge":"Excessive Side-Eye","location":"Cook Out — Pavilion 3","status":"Witnesses Confirmed","type":"Eyeball Violation","suspect":"Unknown · likely a Capricorn","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--polaroid ev-photo--pink ev-noise" style="--photo: url('img/cases/side-eye.png');">
+            <div class="scan-fx"></div>
+            <div class="charge-badge">EV-02</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 27-002</div>
+            <div class="case-title">2,000 Yard <span style="font-style: italic;">Side-Eye</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Excessive Side-Eye</span><br>
+              <span class="label">Loc:</span> <span class="val">Cook Out</span><br>
+              <span class="label">Status:</span> <span class="val bright">Witnesses Confirmed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="7.5" data-recent="88" data-petty="4" data-documented="9" data-type="humidity" data-evidence data-case='{"title":"Humidity Slipping","num":"CASE Nº 27-003","narrative":"Suspect arrived at a hot weather event wearing inadequate adhesive. The humidity was 92%. DLFI forensics team recovered the lace from a nearby bush. It had clearly been trying to escape for some time.","charge":"Sweat-Activated Lifting","location":"Cook Out — Field 2","status":"Technically Insolent","type":"Humidity Offense","suspect":"Anonymous · Bonnet Refusal","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-dossier ev-noise is-classified">
+            <div class="charge-badge">HO-03</div>
+            <div class="ds-header"><span>FORM 14-B</span><span>● HUMIDITY</span></div>
+            <div class="ds-line"><span>RH:</span><span class="ds-bar" style="flex:1"></span><span style="color:var(--warning);">92%</span></div>
+            <div class="ds-line"><span>Adhesive:</span><span class="ds-bar" style="flex:0.7"></span><span style="color:var(--pink);">FAIL</span></div>
+            <div class="ds-line"><span>Loc:</span><span class="ds-bar" style="flex:0.8"></span></div>
+            <div class="doc-scan"></div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 27-003</div>
+            <div class="case-title">Humidity <span style="font-style: italic;">Slipping</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Sweat-Activated</span><br>
+              <span class="label">Loc:</span> <span class="val">Cook Out</span><br>
+              <span class="label">Status:</span> <span class="val" style="color: var(--warning);">Technically Insolent</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="5.2" data-recent="70" data-petty="9.7" data-documented="7" data-type="babyhair" data-evidence data-case='{"title":"Illegal Baby Hair Distribution","num":"CASE Nº 24-004","narrative":"Suspect was distributing unsanctioned swoop patterns at a family function. The curls were chaotic. The edges were unauthorized. No styling license produced upon request.","charge":"Unauthorized Swoops","location":"Family Function — Unknown","status":"WANTED","type":"Baby Hair Crime","suspect":"At Large · Last seen with edge brush","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--contact ev-photo--pink ev-noise" style="--photo: url('img/cases/baby-hair.png');">
+            <div class="frame-cycle"></div>
+            <div class="scan-fx"></div>
+            <div class="charge-badge">BHC-04</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-004</div>
+            <div class="case-title">Illegal <span style="font-style: italic;">Baby Hair</span> Distribution</div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Unauthorized Swoops</span><br>
+              <span class="label">Loc:</span> <span class="val">Unknown</span><br>
+              <span class="label">Status:</span> <span class="val bright">WANTED</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="8.4" data-recent="55" data-petty="5.5" data-documented="6" data-type="laceviolation" data-evidence data-case='{"title":"The Glue Ghost Incident","num":"CASE Nº 24-005","narrative":"The glue was applied. The wig was installed. The wig left. The glue stayed. Evidence of the lace remains on the subject\\\\","charge":"Abandoned Adhesive","location":"Family Function","status":"Community Alert","type":"Lace Front Violation","suspect":"Wig Vendor · Untraceable","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--pink ev-noise" style="--photo: url('img/cases/glue-ghost.png');">
+            <div class="scan-fx"></div>
+            <div class="charge-badge">LFV-05</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-005</div>
+            <div class="case-title">The Glue Ghost <span style="font-style: italic;">Incident</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Abandoned Adhesive</span><br>
+              <span class="label">Loc:</span> <span class="val">Family Function</span><br>
+              <span class="label">Status:</span> <span class="val" style="color: var(--warning);">Community Alert</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="9.9" data-recent="60" data-petty="7" data-documented="8" data-type="eyeball" data-evidence data-case='{"title":"The Church Fan Incident","num":"CASE Nº 24-006","narrative":"A suspect intentionally deployed a decorative church fan at point-blank range during the third verse of a hymn. The resulting gust dislodged the victim\\\\","charge":"Weaponized Wind","location":"First Baptist Church","status":"Choir Witnessed It","type":"Eyeball Violation","suspect":"Member · pew 4 · row 3","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--surveillance ev-noise" style="--photo: url('img/cases/church-fan.png');">
+            <div class="rec-pulse"></div>
+            <div class="scan-fx"></div>
+            <div class="charge-badge">EV-06</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-006</div>
+            <div class="case-title">The Church <span style="font-style: italic;">Fan</span> Incident</div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Weaponized Wind</span><br>
+              <span class="label">Loc:</span> <span class="val">First Baptist</span><br>
+              <span class="label">Status:</span> <span class="val bright">Choir Witnessed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="5.8" data-recent="99" data-petty="6.5" data-documented="6.5" data-type="humidity" data-evidence data-case='{"title":"Windy Day Special","num":"CASE Nº 24-007","narrative":"Meteorological report indicated sustained winds of 18mph. The suspect chose 2 strips of tape and a prayer. The lace went airborne during the first dance. It was found in the bouquet.","charge":"Insufficient Anchoring","location":"Outdoor Wedding Reception","status":"Fully Documented","type":"Humidity Offense","suspect":"Wedding Guest · Table 7","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--polaroid ev-photo--pink ev-noise" style="--photo: url('img/cases/windy-day.png');">
+            <div class="scan-fx"></div>
+            <div class="charge-badge">HO-07</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-007</div>
+            <div class="case-title">Windy Day <span style="font-style: italic;">Special</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Insufficient Anchor</span><br>
+              <span class="label">Loc:</span> <span class="val">Outdoor Wedding</span><br>
+              <span class="label">Status:</span> <span class="val bright">Documented</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="9.2" data-recent="50" data-petty="3.5" data-documented="9.5" data-type="babyhair" data-evidence data-case='{"title":"The Edge Assassination","num":"CASE Nº 24-008","narrative":"Someone used the wrong brush. The edges were laid before bed. They were gone by morning. Forensics recovered a firm-hold gel applicator at the scene. DNA inconclusive. The edges, however, told the whole story.","charge":"Unlicensed Edge Manipulation","location":"Private Residence (Sleepover)","status":"Cold Case","type":"Baby Hair Crime","suspect":"Former Friend · Now Unfollowed","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-dossier ev-noise is-classified">
+            <div class="charge-badge">BHC-08</div>
+            <div class="ds-header"><span>EDGE FILE 08</span><span>● COLD</span></div>
+            <div class="ds-line"><span>Last Seen:</span><span class="ds-bar" style="flex:1"></span></div>
+            <div class="ds-line"><span>Brush:</span><span class="ds-bar" style="flex:0.6"></span><span style="color:var(--pink);">WRONG</span></div>
+            <div class="ds-line"><span>Gel:</span><span class="ds-bar" style="flex:0.7"></span><span style="color:var(--warning);">FIRM-HOLD</span></div>
+            <div class="doc-scan"></div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-008</div>
+            <div class="case-title">The Edge <span style="font-style: italic;">Assassination</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">EDGES STOLEN</span><br>
+              <span class="label">Loc:</span> <span class="val">Private Residence</span><br>
+              <span class="label">Status:</span> <span class="val" style="color: var(--warning);">Cold Case</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="8.8" data-recent="35" data-petty="8" data-documented="9.9" data-type="laceviolation" data-evidence data-case='{"title":"The Wig Snatch Protocol","num":"CASE Nº 24-009","narrative":"Contact was made on the dance floor. The wig did not survive the interaction. The suspect claims it was an accident. The victim\\\\","charge":"Theft of Identity (Hair)","location":"Night Establishment","status":"Actively Investigating","type":"Lace Front Violation","suspect":"Booth 3 · Champagne-Holder","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--contact ev-photo--pink ev-noise" style="--photo: url('img/cases/wig-snatch.png');">
+            <div class="frame-cycle"></div>
+            <div class="scan-fx"></div>
+            <div class="charge-badge">LFV-09</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-009</div>
+            <div class="case-title">The Wig Snatch <span style="font-style: italic;">Protocol</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Theft of Identity</span><br>
+              <span class="label">Loc:</span> <span class="val">Night Establishment</span><br>
+              <span class="label">Status:</span> <span class="val bright">Active</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="4.5" data-recent="80" data-petty="9.5" data-documented="5.5" data-type="eyeball" data-evidence data-case='{"title":"The Sideburn Desertion","num":"CASE Nº 24-010","narrative":"Both sideburns retreated to an undisclosed location during a high-stakes job interview. The interviewer noted the hairline shift in their notes. The victim did not get the job. DLFI considers this a workplace injustice.","charge":"AWOL Sideburns","location":"Corporate Office","status":"Recruiter Witnessed","type":"Eyeball Violation","suspect":"Internal · HR refusing to comment","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--portrait ev-photo--pink ev-noise" style="--photo: url('img/cases/witness-statement.png');">
+            <div class="lamp-swing"></div>
+            <div class="charge-badge">EV-10</div>
+            <div class="witness-badge"><span class="wb-dot"></span>WITNESS · ON RECORD</div>
+            <div class="witness-tape">◆ STATEMENT FILED · DLFI</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-010</div>
+            <div class="case-title">The Sideburn <span style="font-style: italic;">Desertion</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">AWOL Sideburns</span><br>
+              <span class="label">Loc:</span> <span class="val">Job Interview</span><br>
+              <span class="label">Status:</span> <span class="val bright">Confirmed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="8" data-recent="92" data-petty="8.5" data-documented="5.8" data-type="laceviolation" data-evidence data-case='{"title":"The Sneeze Incident","num":"CASE Nº 24-011","narrative":"Subject sneezed once. The hairline relocated. Witnesses include three congregants and one usher. Suspect failed to acknowledge the displacement and continued the offering as if nothing occurred.","charge":"Pressurized Lace Failure","location":"Sanctuary — Row 4","status":"Reviewed by Deacon","type":"Lace Front Violation","suspect":"Member · Pew C / Row 4","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--polaroid ev-photo--pink ev-noise" style="--photo: url('img/cases/sneeze.png');">
+            <div class="scan-fx"></div>
+            <div class="charge-badge">LFV-11</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-011</div>
+            <div class="case-title">The Sneeze <span style="font-style: italic;">Incident</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Pressurized Failure</span><br>
+              <span class="label">Loc:</span> <span class="val">Sanctuary</span><br>
+              <span class="label">Status:</span> <span class="val bright">Deacon Reviewed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-card" data-disturb="6.5" data-recent="45" data-petty="6" data-documented="7.5" data-type="humidity" data-evidence data-case='{"title":"Gas Station Glow-Up Gone Wrong","num":"CASE Nº 24-012","narrative":"Subject attempted a 30-second touch-up at the pump. Wind speed: 14mph. Result: lace migrated to the rear-view mirror of a 2018 Camry. Owner of the Camry has been notified and is unbothered.","charge":"Public Lace Touch-Up","location":"Shell Station — Pump 4","status":"Owner Unbothered","type":"Humidity Offense","suspect":"Subject · Hat Required","evidence":"<div class=\\\\"}' onclick="openCaseFromEl(this)">
+          <div class="ev-photo ev-photo--surveillance ev-photo--pink ev-photo--gas ev-noise" style="--photo: url('img/cases/gas-station.png');">
+            <div class="rec-pulse"></div>
+            <div class="scan-fx"></div>
+            <div class="charge-badge">HO-12</div>
+          </div>
+          <div class="case-body">
+            <div class="case-num"><span class="live-dot"></span>CASE Nº 24-012</div>
+            <div class="case-title">Gas Station <span style="font-style: italic;">Glow-Up</span></div>
+            <div class="case-meta">
+              <span class="label">Charge:</span> <span class="val">Public Touch-Up</span><br>
+              <span class="label">Loc:</span> <span class="val">Shell Pump 4</span><br>
+              <span class="label">Status:</span> <span class="val bright">Documented</span>
+            </div>
+          </div>
+        </div>
+
+            </div>
+
+      <!-- Archive sealed -->
+      <div class="archive-sealed" data-reveal>
+        <div class="seal-scan"></div>
+        <div class="seal-stamp">FILE ARCHIVE SEALED</div>
+        <div class="seal-divider"></div>
+        <div class="seal-meta">
+          DOSSIER COUNT: <strong>12 / 12</strong> · <span class="pink">ALL VISIBLE FILES DECLASSIFIED</span><br>
+          REMAINING EVIDENCE: <strong>∞ &nbsp;CLASSIFIED</strong> · Authority: Dept. of Lace Front Investigations<br>
+          ◆ FURTHER ACCESS REQUIRES <span class="pink">LEVEL 304 CLEARANCE</span>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-marquee">
+          HEIGHTENED LACE ACTIVITY <span class="pink">★</span> SIDE-EYE OUTBREAK <span class="pink">★</span> MOISTURE LEVELS CRITICAL
+        </div>
+        <div class="footer-marquee">◆ DLFI · ARCHIVE v4.2</div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: HOTLINE                                                 -->
+<!-- ============================================================ -->
+<div class="page" id="page-hotline" data-screen-label="03 Hotline">
+  <div class="page-content">
+
+    <div class="page-hero">
+      <div class="hero-wrap" style="padding: 1rem 0 0;">
+        <div class="hero-grid">
+          <div data-reveal>
+            <div class="eyebrow">24/7 Dispatch Line <span class="code">CHANNEL 304</span></div>
+            <h1 class="display-xl" style="font-size: clamp(2.5rem, 6vw, 5rem);">
+              <span class="italic">Lace Front</span><br>
+              <span class="ink-pink">Emergencies</span>
+            </h1>
+            <div class="script" style="margin: 1rem 0 1.5rem;">You call. We investigate. We expose.</div>
+
+            <!-- Big neon phone number -->
+            <div class="neon-frame flicker" style="display: inline-block; padding: 1.5rem 2rem; margin-bottom: 1.5rem;">
+              <div class="mono-label" style="margin-bottom: 6px;">DLFI EMERGENCY DISPATCH</div>
+              <div class="neon-text" style="font-family: var(--f-display); font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 900; letter-spacing: 2px;">
+                ⌁ <span class="no-tel">1-800-LACE-LIFT</span>
+              </div>
+              <div class="mono-label" style="margin-top: 6px; color: var(--silver);">24/7 · 365 DAYS OF DELUSION</div>
+            </div>
+
+            <p style="font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--silver-dim); margin-top: 1rem;">ALL CALLERS ARE. A HOT MESS.</p>
+          </div>
+
+          <!-- Right: Live hotline feed (chief investigator on the line) -->
+          <div data-reveal style="text-align: center;">
+            <div class="hotline-feed" data-evidence>
+              <!-- Top chrome -->
+              <div class="hf-chrome hf-top">
+                <span class="hf-rec"><span class="hf-rec-dot"></span>LIVE FEED · CAM 04</span>
+                <span class="hf-ch">HOTLINE DESK / CH 304</span>
+              </div>
+              <!-- The image -->
+              <img src="img/chief-investigator-hotline.png" alt="Chief Investigator on the DLFI Hotline" class="hf-img" loading="lazy">
+              <!-- Corner brackets -->
+              <span class="hf-bracket tl"></span>
+              <span class="hf-bracket tr"></span>
+              <span class="hf-bracket bl"></span>
+              <span class="hf-bracket br"></span>
+              <!-- Scan line sweep -->
+              <span class="hf-scan"></span>
+              <!-- Bottom chrome -->
+              <div class="hf-chrome hf-bottom">
+                <span class="hf-ts"><span class="hf-ts-label">REC</span><span id="hfTs">--:--:--</span></span>
+                <span class="hf-meta">SUBJECT: <span class="hf-pink">CHIEF INVESTIGATOR</span></span>
+              </div>
+              <!-- Caller transcript badge -->
+              <div class="hf-transcript">
+                <div class="mono-label" style="margin-bottom: 4px;">◆ TRANSCRIPT — CALLER 530</div>
+                <div class="hf-quote" data-typed='"THE EDGES ARE IN HIDING."' data-speed="80"></div>
+              </div>
+            </div>
+
+            <!-- Live caller counter -->
+            <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+              <div class="stat-tile" style="min-width: 130px;">
+                <div class="stat-num"><span data-count="14">144</span></div>
+                <div class="stat-label">In Queue Now</div>
+              </div>
+              <div class="stat-tile" style="min-width: 130px;">
+                <div class="stat-num"><span data-count="3">280
+</span></div>
+                <div class="stat-label">Crisis Calls</div>
+              </div>
+              <div class="stat-tile" style="min-width: 130px;">
+                <div class="stat-num"><span data-count="98" data-suffix="%">1%</span></div>
+                <div class="stat-label">Resolved</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Live Switchboard <span class="code">FEED 304</span></div>
+          <h2 class="section-title">Recent <span class="italic ink-pink">Calls</span></h2>
+        </div>
+        <div class="right">
+          ◆ ALL CALLERS ANONYMIZED<br>
+          ◆ LIVE FEED <span class="text-pink">REFRESHING</span>
+        </div>
+      </div>
+
+      <div class="grid-3" data-reveal-stagger>
+        <div class="call-card">
+          <div class="caller-info">
+            <div class="caller-name">CALLER · EDDNY C.</div>
+            <div class="call-time">14:32 UTC</div>
+          </div>
+          <div class="call-quote">I sneezed and my whole hairline said bye.</div>
+          <div class="call-waveform">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="call-meta">
+            Charge: <span class="v">Lace Separation</span><br>
+            Loc: <span class="v">Church</span><br>
+            Status: <span class="v">Under Investigation</span>
+          </div>
+        </div>
+
+        <div class="call-card">
+          <div class="caller-info">
+            <div class="caller-name">CALLER · BIG MAMA K.</div>
+            <div class="call-time">14:38 UTC</div>
+          </div>
+          <div class="call-quote">The wind came for me and my ancestors.</div>
+          <div class="call-waveform">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="call-meta">
+            Charge: <span class="v">Windy Day Special</span><br>
+            Loc: <span class="v">Gas Station</span><br>
+            Status: <span class="v">Prayers Up</span>
+          </div>
+        </div>
+
+        <div class="call-card">
+          <div class="caller-info">
+            <div class="caller-name">CALLER · CHOCOLATE G.</div>
+            <div class="call-time">14:41 UTC</div>
+          </div>
+          <div class="call-quote">My sideburns ran away. I don't know why.</div>
+          <div class="call-waveform">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="call-meta">
+            Charge: <span class="v">AWOL Sideburns</span><br>
+            Loc: <span class="v">Date Night</span><br>
+            Status: <span class="v">Search Party Active</span>
+          </div>
+        </div>
+
+        <div class="call-card">
+          <div class="caller-info">
+            <div class="caller-name">CALLER · MS. ROUGIE D.</div>
+            <div class="call-time">14:47 UTC</div>
+          </div>
+          <div class="call-quote">The glue turned into white flakes. I'm sick.</div>
+          <div class="call-waveform">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="call-meta">
+            Charge: <span class="v">Glue Ghosting</span><br>
+            Loc: <span class="v">Job Interview</span><br>
+            Status: <span class="v">Weak. Stressed. Balding.</span>
+          </div>
+        </div>
+
+        <div class="call-card">
+          <div class="caller-info">
+            <div class="caller-name">CALLER · PRETTY P.</div>
+            <div class="call-time">14:52 UTC</div>
+          </div>
+          <div class="call-quote">I spent $600 on this wig and it still looks busted.</div>
+          <div class="call-waveform">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="call-meta">
+            Charge: <span class="v">Hair Investment Fraud</span><br>
+            Loc: <span class="v">Online Vendor</span><br>
+            Status: <span class="v">Refund Denied</span>
+          </div>
+        </div>
+
+        <div class="call-card">
+          <div class="caller-info">
+            <div class="caller-name">CALLER · ANONYMOUS</div>
+            <div class="call-time">14:58 UTC</div>
+          </div>
+          <div class="call-quote">She got out the pool with the same wig. How?</div>
+          <div class="call-waveform">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="call-meta">
+            Charge: <span class="v">Suspicious Adhesion</span><br>
+            Loc: <span class="v">Hotel Pool</span><br>
+            Status: <span class="v">Forensics Notified</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"><span>What to expect when you call</span></div>
+
+      <div class="grid-3" data-reveal-stagger>
+        <!-- Process steps -->
+        <div>
+          <div class="eyebrow">The Protocol</div>
+          <ol class="step-list">
+            <li>
+              <div class="step-num">01</div>
+              <div class="step-content">
+                <div class="step-title">You Vent. We Listen.</div>
+                <div class="step-desc">Cry if you need to. We have tissues. We have time.</div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">02</div>
+              <div class="step-content">
+                <div class="step-title">We Investigate the Crime</div>
+                <div class="step-desc">Every detail matters. Especially the receipts.</div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">03</div>
+              <div class="step-content">
+                <div class="step-title">We Put the Lace on Trial</div>
+                <div class="step-desc">Guilty until proven glued.</div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">04</div>
+              <div class="step-content">
+                <div class="step-title">We Expose & Educate</div>
+                <div class="step-desc">The people deserve to know.</div>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">05</div>
+              <div class="step-content">
+                <div class="step-title">You Stay Innocent</div>
+                <div class="step-desc">Justice served. With class.</div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Center: big quote / mission -->
+        <div style="text-align: center; padding: 2rem 1rem;">
+          <div class="big-quote"><span class="quote-body">We don't do Apologies. We do investigations.</span></div>
+          <div class="mono-label" style="color: var(--pink); margin-top: 1.5rem;">— THE DLFI</div>
+        </div>
+
+        <!-- Emergency call categories -->
+        <div>
+          <div class="eyebrow">Call If You're Experiencing</div>
+          <ul class="check-list" style="margin-bottom: 1.5rem;">
+            <li>Lace lifting in public</li>
+            <li>Unexplained bald spots</li>
+            <li>The "Windy Day Special"</li>
+            <li>Sideburns going M.I.A.</li>
+            <li>Glue ghosting you</li>
+            <li>The face-card-declined epidemic</li>
+            <li>Pressing emotional + structural issues</li>
+          </ul>
+          <button class="btn-primary btn-block" onclick="showPage('report')"><span>File a Report</span><span>→</span></button>
+          <div class="mono-label" style="text-align: center; margin-top: 0.8rem; color: var(--silver-dim);">YOUR EDGES DESERVE JUSTICE.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-marquee">
+          WE DON'T DO HAIRSTYLES <span class="pink">★</span> WE DO INVESTIGATIONS <span class="pink">★</span> <span class="no-tel">1-800-LACE-LIFT</span>
+        </div>
+        <div class="footer-marquee">◆ DISPATCH · CHANNEL 304</div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: EVIDENCE ROOM (stories)                                 -->
+<!-- ============================================================ -->
+<div class="page" id="page-evidence" data-screen-label="04 Evidence Room">
+  <div class="page-content">
+
+    <div class="page-hero">
+      <div class="hero-wrap" style="padding: 1rem 0 0;">
+        <div class="hero-grid">
+          <div data-reveal>
+            <div class="eyebrow">Evidence Room <span class="code">VAULT 2</span></div>
+            <h1 class="display-xl" style="font-size: clamp(2.5rem, 6vw, 5.5rem);">
+              <span class="italic">Real Women.</span><br>
+              <span class="ink-pink">Real Stories.</span>
+            </h1>
+            <div class="script" style="margin: 1rem 0 1.5rem;">All evidence. No filter.</div>
+            <p style="font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 1.5px; color: var(--silver-dim); line-height: 2; max-width: 460px; text-transform: uppercase;">
+              Unfiltered. Documented. Sealed.<br>
+              Every receipt. Every lesson. Every laugh.<br>
+              <span style="color: var(--pink);">Stories are evidence too.</span>
+            </p>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn-primary" onclick="openStoryModal()"><span>Submit Your Story</span><span>+</span></button>
+              <div class="script" style="font-size: 1.1rem; max-width: 200px; line-height: 1.4;">Your story could be the receipt someone else needs.</div>
+            </div>
+          </div>
+
+          <div data-reveal style="text-align: center;">
+            <div class="neon-frame flicker" style="display: inline-block; padding: 2rem 2.5rem;">
+              <div style="font-family: var(--f-display); font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 900; color: var(--pink); text-shadow: 0 0 24px var(--pink); line-height: 1; text-align: left;">
+                STORIES<br>
+                <span class="italic">ARE</span><br>
+                EVIDENCE<br>
+                <span class="italic">TOO.</span>
+              </div>
+            </div>
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+              <div class="stamp">DOCUMENTED.</div>
+              <div class="stamp" style="transform: rotate(3deg);">NOT DELETED.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+
+      <div class="section-divider"><span>↠ Displaying Situations as Evidence — Real Experiences. Real Impact.</span></div>
+
+      <div class="grid-3" data-reveal-stagger>
+
+        <div class="story-card" data-diary="bathroom-heist" data-evidence onclick="openDiary('bathroom-heist')">
+          <div class="story-header">
+            <span class="story-case-num">CASE Nº T-063</span>
+            <span class="stamp" style="font-size: 0.5rem; padding: 2px 8px;">CLOSED</span>
+          </div>
+          <div class="story-title">The Bathroom <span class="italic">Hair Heist</span></div>
+          <div class="story-body">She tried to snatch my hair out the shower and run. My deep conditioner stopped her cold.</div>
+          <div class="story-lesson">
+            <span class="label">Lesson</span>
+            Some people need moisturizer and therapy.
+          </div>
+        </div>
+
+        <div class="story-card" data-diary="transferable" data-evidence onclick="openDiary('transferable')">
+          <div class="story-header">
+            <span class="story-case-num">CASE Nº 1B-530</span>
+            <span class="stamp" style="font-size: 0.5rem; padding: 2px 8px;">SEALED</span>
+          </div>
+          <div class="story-title">She Thought My Hair Was <span class="italic">Transferable</span></div>
+          <div class="story-body">Dating him like my texture came with shared custody.</div>
+          <div class="story-lesson">
+            <span class="label">Lesson</span>
+            DNA Still Not Available For Download.
+          </div>
+        </div>
+
+        <div class="story-card" data-diary="remake" data-evidence onclick="openDiary('remake')">
+          <div class="story-header">
+            <span class="story-case-num">CASE Nº F-26/27</span>
+            <span class="stamp" style="font-size: 0.5rem; padding: 2px 8px;">ARCHIVED</span>
+          </div>
+          <div class="story-title">She Copied My <span class="italic">Whole Personality</span></div>
+          <div class="story-body">Same hair. Same captions. Started using my nickname. The remake never beats the original.</div>
+          <div class="story-lesson">
+            <span class="label">Lesson</span>
+            I'm the blueprint. You're just the remake.
+          </div>
+        </div>
+
+        <div class="story-card" data-diary="edge-assassination" data-evidence onclick="openDiary('edge-assassination')">
+          <div class="story-header">
+            <span class="story-case-num">CASE Nº 2005</span>
+            <span class="stamp" style="font-size: 0.5rem; padding: 2px 8px;">CLOSED</span>
+          </div>
+          <div class="story-title">The Edge <span class="italic">Assassination</span></div>
+          <div class="story-body">She tried to steal my edge control. I watched her edges disappear for three weeks.</div>
+          <div class="story-lesson">
+            <span class="label">Lesson</span>
+            Touch my products, lose your edges.
+          </div>
+        </div>
+
+        <div class="story-card" data-diary="group-chat" data-evidence onclick="openDiary('group-chat')">
+          <div class="story-header">
+            <span class="story-case-num">CASE Nº A-023</span>
+            <span class="stamp" style="font-size: 0.5rem; padding: 2px 8px;">EXPOSED</span>
+          </div>
+          <div class="story-title">My Man. Her Group Chat</div>
+          <div class="story-body">They tried to circle my man. He circled back to me.</div>
+          <div class="story-lesson">
+            <span class="label">Lesson</span>
+            Birds of a feather weep together.
+          </div>
+        </div>
+
+        <div class="story-card" data-diary="formula" data-evidence onclick="openDiary('formula')">
+          <div class="story-header">
+            <span class="story-case-num">CASE Nº T-106</span>
+            <span class="stamp" style="font-size: 0.5rem; padding: 2px 8px;">SEALED</span>
+          </div>
+          <div class="story-title">She Wanted My Exact Formula</div>
+          <div class="story-body">Missing ingredients caused technical difficulties.</div>
+          <div class="story-lesson">LESSON
+You can't copy realness.</div>
+        </div>
+
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Stats + manifesto strip -->
+      <div class="grid-4" data-reveal-stagger>
+        <div style="grid-column: span 2;">
+          <div class="eyebrow">Department Position</div>
+          <div class="big-quote" style="font-size: clamp(1.1rem, 2.2vw, 1.6rem); text-align: left;">
+            <span class="quote-body">Every story is evidence. Every experience is power. Your story today could be the key to someone else's freedom tomorrow.</span>
+          </div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num"><span data-count="613" data-suffix="+">0</span></div>
+          <div class="stat-label">Stories Filed</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num"><span data-count="18" data-suffix="K+">33K+</span></div>
+          <div class="stat-label">Lessons Logged</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 2.5rem; background: var(--noir-1); border: 1px solid var(--line); padding: 2.5rem 2rem; text-align: center;" data-reveal>
+        <div class="big-quote">
+          <span class="quote-body">They tried to bury me under receipts. I used them to build my empire.</span>
+          <span class="attr">— Unapologetic Exotical</span>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-marquee">
+          EVERY STORY IS EVIDENCE <span class="pink">★</span> JUSTICE REQUIRES RECEIPTS <span class="pink">★</span> DOCUMENTED. NOT DELETED.
+        </div>
+        <div class="footer-marquee">◆ VAULT 2 / CLEARED</div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: RESOURCES                                               -->
+<!-- ============================================================ -->
+<div class="page" id="page-resources" data-screen-label="05 Recruitment">
+  <div class="page-content">
+
+    <div class="page-hero">
+      <div class="hero-wrap" style="padding: 1rem 0 0;">
+        <div class="recruit-hero-wrap">
+          <div data-reveal>
+            <div class="eyebrow">DLFI Recruitment Division <span class="code">CHANNEL 304</span></div>
+            <h1 class="display-xl" style="font-size: clamp(2.4rem, 6vw, 5.3rem);">
+              <span class="italic">Join</span><br>
+              <span class="ink-pink">The Agency.</span>
+            </h1>
+            <div class="script" style="margin: 1rem 0 1.5rem;">Future Lace Tearers wanted.</div>
+            <p style="font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--silver-dim); line-height: 2; max-width: 480px;">
+              An elite training program in emotional intelligence, observation tactics, receipt collection, and verbal self-defense.
+              <span style="color: var(--pink);">By application. By instinct. By bloodline.</span>
+            </p>
+            <div class="neon-frame" style="display: inline-block; padding: 1rem 1.5rem; margin-top: 1.4rem;">
+              <div class="neon-text" style="font-family: var(--f-federal); font-size: 1.05rem; font-weight: 700; letter-spacing: 4px;">
+                COMPOSURE IS A WEAPON
+              </div>
+            </div>
+          </div>
+
+          <!-- Recruit dossier card -->
+          <div data-reveal>
+            <div class="recruit-card">
+              <div class="rc-stamp">RECRUIT</div>
+              <div class="rc-head">
+                <span>FORM R-304 <span class="pink">// PROVISIONAL</span></span>
+                <span class="rc-id">DLFI-R-0613</span>
+              </div>
+              <div class="rc-row"><span>Codename</span><span class="v">CLASSIFIED</span></div>
+              <div class="rc-row"><span>Recruit Status</span><span class="v pink">ACTIVE</span></div>
+              <div class="rc-row"><span>Cohort</span><span class="v">VAULT 2 / 24</span></div>
+              <div class="rc-row"><span>Clearance</span><span class="v">LV-304</span></div>
+              <div class="rc-row"><span>Issued</span><span class="v">2026 — TODAY</span></div>
+              <div class="rc-current-rank">
+                <div class="lbl">Current Rank</div>
+                <div class="nm">Trainee Observer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ASSIGNMENT 0: Pin to Home Screen (phone-only) ===== -->
+    <div class="section pin-section" id="pin-section">
+      <div class="pin-card" id="dlfi-pin-card" data-reveal role="button" tabindex="0" aria-label="Open instructions to pin DLFI to your home screen">
+        <div class="pn-card-bg" aria-hidden="true">
+          <div class="pn-card-grid"></div>
+          <div class="pn-card-scan"></div>
+          <div class="pn-card-rings"><span></span><span></span></div>
+        </div>
+        <span class="pn-card-corner pn-tl" aria-hidden="true"></span>
+        <span class="pn-card-corner pn-tr" aria-hidden="true"></span>
+        <span class="pn-card-corner pn-bl" aria-hidden="true"></span>
+        <span class="pn-card-corner pn-br" aria-hidden="true"></span>
+
+        <div class="pn-card-stamp">ASSIGNMENT 0</div>
+
+        <div class="pn-card-head">
+          <span>FIELD KIT <span class="pink">// PROVISIONAL</span></span>
+          <span class="pn-card-id">FORM P-304</span>
+        </div>
+
+        <div class="pn-card-main">
+          <div class="pn-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 110 160" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="4" width="98" height="152" rx="16" ry="16" class="pnc-body"/>
+              <rect x="12" y="22" width="86" height="118" class="pnc-screen"/>
+              <line x1="42" y1="12" x2="58" y2="12" class="pnc-speaker"/>
+              <circle cx="55" cy="148" r="4" class="pnc-home"/>
+              <rect x="36" y="58" width="38" height="38" rx="8" ry="8" class="pnc-tile"/>
+              <text x="55" y="86" text-anchor="middle" class="pnc-letter">D</text>
+              <text x="55" y="116" text-anchor="middle" class="pnc-label">DLFI</text>
+            </svg>
+            <div class="pn-card-pin" aria-hidden="true">
+              <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg"><path d="M16 2 L22 8 L22 18 L26 22 L20 22 L20 36 L18 38 L16 36 L16 22 L6 22 L10 18 L10 8 Z"/></svg>
+            </div>
+          </div>
+
+          <div class="pn-card-copy">
+            <div class="eyebrow" style="margin: 0 0 0.6rem;">Field Briefing <span class="code">CHANNEL 304</span></div>
+            <div class="pn-card-title"><em>Pin DLFI</em><br><span class="ink-pink">To Your Home Screen.</span></div>
+            <div class="pn-card-sub">First field exercise:<br>prove you can find the share button.</div>
+          </div>
+        </div>
+
+        <button class="pn-card-cta" type="button">
+          <span class="pnc-cta-glyph">⚡</span>
+          <span class="pnc-cta-label">Issue Me A Shortcut</span>
+          <span class="pnc-cta-arrow">↗</span>
+        </button>
+
+        <div class="pn-card-foot">
+          <span>RECRUIT LV-304</span>
+          <span class="pink">BOOKMARKS ARE FOR AMATEURS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Recruit metrics ===== -->
+    <div class="section">
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Recruit Telemetry <span class="code">UPDATED ON ANSWER</span></div>
+          <h2 class="section-title"><span class="italic">Your</span> <span class="ink-pink">Performance Metrics</span></h2>
+        </div>
+        <div class="right">
+          ◆ AUTO-UPDATED<br>
+          ◆ TIED TO ANSWERS<br>
+          ◆ <span style="color:var(--pink);">DEPARTMENT REVIEWED</span>
+        </div>
+      </div>
+
+      <div class="recruit-stats" data-reveal-stagger>
+        <div class="rs-tile" data-key="observation">
+          <div class="rs-delta">+ ↑</div>
+          <div class="rs-lab">Observation Score</div>
+          <div class="rs-val"><span class="rs-num-v">22</span><span class="rs-unit">/100</span></div>
+          <div class="rs-bar"><i></i></div>
+        </div>
+        <div class="rs-tile" data-key="receipt">
+          <div class="rs-delta">+ ↑</div>
+          <div class="rs-lab">Receipt Collection Rating</div>
+          <div class="rs-val"><span class="rs-num-v">18</span><span class="rs-unit">/100</span></div>
+          <div class="rs-bar"><i></i></div>
+        </div>
+        <div class="rs-tile" data-key="verbal">
+          <div class="rs-delta">+ ↑</div>
+          <div class="rs-lab">Verbal Response Readiness</div>
+          <div class="rs-val"><span class="rs-num-v">25</span><span class="rs-unit">/100</span></div>
+          <div class="rs-bar"><i></i></div>
+        </div>
+        <div class="rs-tile" data-key="psych">
+          <div class="rs-delta">+ ↑</div>
+          <div class="rs-lab">Psychological Awareness Index</div>
+          <div class="rs-val"><span class="rs-num-v">30</span><span class="rs-unit">/100</span></div>
+          <div class="rs-bar"><i></i></div>
+        </div>
+        <div class="rs-tile" data-key="emotional">
+          <div class="rs-delta">+ ↑</div>
+          <div class="rs-lab">Emotional Intelligence Quotient</div>
+          <div class="rs-val"><span class="rs-num-v">27</span><span class="rs-unit">/100</span></div>
+          <div class="rs-bar"><i></i></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Rank ladder ===== -->
+    <div class="section">
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Rank Ladder <span class="code">PROMOTIONS ON EARN</span></div>
+          <h2 class="section-title"><span class="italic">Six Steps</span> <span class="ink-pink">To Lace Tearer In Chief</span></h2>
+        </div>
+        <div class="right">
+          PROMOTIONS REQUIRE<br>CORRECT ANSWERS<br><span style="color:var(--pink);">NO SHORTCUTS</span>
+        </div>
+      </div>
+
+      <div class="rank-ladder" data-reveal>
+        <div class="rank-step is-current">
+          <div class="rs-num">RANK 01</div>
+          <div class="rs-name">Trainee Observer</div>
+          <div class="rs-clear">CLEARANCE LV-1</div>
+        </div>
+        <div class="rank-step is-locked">
+          <div class="rs-num">RANK 02</div>
+          <div class="rs-name">Receipt Collector</div>
+          <div class="rs-clear">CLEARANCE LV-2</div>
+        </div>
+        <div class="rank-step is-locked">
+          <div class="rs-num">RANK 03</div>
+          <div class="rs-name">Certified Lace Tearer Analyst</div>
+          <div class="rs-clear">CLEARANCE LV-3</div>
+        </div>
+        <div class="rank-step is-locked">
+          <div class="rs-num">RANK 04</div>
+          <div class="rs-name">Emotional Intelligence Specialist</div>
+          <div class="rs-clear">CLEARANCE LV-3+</div>
+        </div>
+        <div class="rank-step is-locked">
+          <div class="rs-num">RANK 05</div>
+          <div class="rs-name">Lace Tearer</div>
+          <div class="rs-clear">CLEARANCE LV-4</div>
+        </div>
+        <div class="rank-step is-locked">
+          <div class="rs-num">RANK 06</div>
+          <div class="rs-name">Lace Tearer In Chief</div>
+          <div class="rs-clear">CLEARANCE LV-304</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Training materials ===== -->
+    <div class="section">
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Training Materials <span class="code">EQUIPMENT LOCKER</span></div>
+          <h2 class="section-title"><span class="italic">Standard</span> <span class="ink-pink">Issue Curriculum</span></h2>
+        </div>
+        <div class="right">
+          ◆ 8 ACTIVE MODULES<br>
+          ◆ 0 OPTIONAL<br>
+          ◆ <span style="color:var(--pink);">ALL CLASSIFIED</span>
+        </div>
+      </div>
+
+      <div class="grid-4" data-reveal-stagger>
+
+        <div class="training-card" data-mod="MOD-01" data-mod-title="Observation <em>Field Manual</em>" data-mod-tag="CORE · FIELD MAN-01">
+          <div class="t-tag">CORE</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/></svg>
+          </div>
+          <div class="t-title">Observation <em>Field Manual</em></div>
+          <div class="t-desc">Detect tone shifts, micro-expressions, and the difference between curiosity and surveillance.</div>
+          <div class="t-meta"><span>FIELD MAN-01</span><span class="pink">UNLOCKED</span></div>
+        </div>
+
+        <div class="training-card" data-mod="MOD-02" data-mod-title="Receipt <em>Archival Protocol</em>" data-mod-tag="CORE · FIELD MAN-02">
+          <div class="t-tag">CORE</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4"/><path d="M8 13h8 M8 17h5"/></svg>
+          </div>
+          <div class="t-title">Receipt <em>Archival Protocol</em></div>
+          <div class="t-desc">Screenshot. Cross-reference. Catalogue. The art of evidence that holds in any court — formal or informal.</div>
+          <div class="t-meta"><span>FIELD MAN-02</span><span class="pink">UNLOCKED</span></div>
+        </div>
+
+        <div class="training-card" data-mod="MOD-03" data-mod-title="Verbal <em>Self-Defense</em>" data-mod-tag="CORE · FIELD MAN-03">
+          <div class="t-tag">CORE</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v10H4z"/><path d="M4 15l4 4v-4"/><path d="M9 9h6 M9 12h4"/></svg>
+          </div>
+          <div class="t-title">Verbal <em>Self-Defense</em></div>
+          <div class="t-desc">Clapbacks with restraint. Silence with intention. Knowing when not to engage is the highest move.</div>
+          <div class="t-meta"><span>FIELD MAN-03</span><span class="pink">UNLOCKED</span></div>
+        </div>
+
+        <div class="training-card" data-mod="MOD-04" data-mod-title="Composure <em>Under Disrespect</em>" data-mod-tag="ADVANCED · FIELD MAN-04">
+          <div class="t-tag">ADVANCED</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="4"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></svg>
+          </div>
+          <div class="t-title">Composure <em>Under Disrespect</em></div>
+          <div class="t-desc">A field study in not flinching. Posture training. Breath control. Receipts in your pocket.</div>
+          <div class="t-meta"><span>FIELD MAN-04</span><span class="pink">UNLOCKED</span></div>
+        </div>
+
+        <div class="training-card" data-mod="MOD-05" data-mod-title="Pattern <em>Recognition</em>" data-mod-tag="ADVANCED · FIELD MAN-05">
+          <div class="t-tag">ADVANCED</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="12"/><path d="M3 9h18 M7 13h2 M11 13h6"/></svg>
+          </div>
+          <div class="t-title">Pattern <em>Recognition</em></div>
+          <div class="t-desc">If she's done it twice, it's a pattern. Three times, a confession. Spot the loop before they finish drawing it.</div>
+          <div class="t-meta"><span>FIELD MAN-05</span><span class="pink">UNLOCKED</span></div>
+        </div>
+
+        <div class="training-card" data-mod="MOD-06" data-mod-title="Atmospheric <em>Reading</em>" data-mod-tag="SPECIAL · FIELD MAN-06">
+          <div class="t-tag">SPECIAL</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2 6h6l-5 4 2 7-5-4-5 4 2-7-5-4h6z"/></svg>
+          </div>
+          <div class="t-title">Atmospheric <em>Reading</em></div>
+          <div class="t-desc">Weird energy is information. Train your barometer to register it without performing for it.</div>
+          <div class="t-meta"><span>FIELD MAN-06</span><span class="pink">UNLOCKED</span></div>
+        </div>
+
+        <div class="training-card" data-mod="MOD-07" data-mod-title="The <em>Roast Doctrine</em>" data-mod-tag="POPULAR · FIELD MAN-07">
+          <div class="t-tag" style="border-color: var(--pink); background: var(--pink); color:#000;">POPULAR</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4 M9 14l2 2 4-4"/></svg>
+          </div>
+          <div class="t-title">The <em>Roast Doctrine</em></div>
+          <div class="t-desc">The art of the read — measured, surgical, never raised. Lace tearer fundamentals.</div>
+          <div class="t-meta"><span>FIELD MAN-07</span><span class="pink">UNLOCKED</span></div>
+        </div>
+
+        <div class="training-card" data-mod="MOD-08" data-mod-title="Senior <em>Operations Brief</em>" data-mod-tag="TOP SECRET · FIELD MAN-08">
+          <div class="t-tag" style="border-color: var(--pink); background: rgba(255,27,107,0.2); color: var(--pink);">TOP SECRET</div>
+          <div class="t-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+          </div>
+          <div class="t-title">Senior <em>Operations Brief</em></div>
+          <div class="t-desc">For those approaching Lace Tearer status. Requires Rank 4 clearance. Patience is a prerequisite.</div>
+          <div class="t-meta"><span>FIELD MAN-08</span><span class="pink">LOCKED</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== Scissors Doctrine ===== -->
+    <div class="section">
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Official DLFI Sigil <span class="code">COMMENT WEAPON · ISSUED</span></div>
+          <h2 class="section-title"><span class="italic">The</span> <span class="ink-pink">Scissors Doctrine</span></h2>
+        </div>
+        <div class="right">
+          ◆ DEPLOY IN COMMENTS<br>
+          ◆ ONE EMOJI · MAX IMPACT<br>
+          <span style="color:var(--pink);">◆ NO WORDS NEEDED</span>
+        </div>
+      </div>
+
+      <div class="scissors-panel" data-reveal>
+        <div class="scissors-glyph" aria-hidden="true">
+          <span class="sc-emoji">✂️</span>
+          <span class="sc-emoji">✂️</span>
+          <span class="sc-emoji">✂️</span>
+        </div>
+        <div class="scissors-body">
+          <div class="sc-eyebrow">◆ DEPARTMENTAL ISSUE</div>
+          <h3 class="sc-title">When a lace front lies, deploy the <span class="italic">✂️</span><span class="sc-title-dot">.</span></h3>
+          <p class="sc-quote">"We may not be the Bee Hive — but we surely tear lace."</p>
+          <ul class="sc-rules">
+            <li><strong>One scissors</strong> — formal warning. Composure is loud.</li>
+            <li><strong>Two scissors</strong> — receipts incoming. Stay ready.</li>
+            <li><strong>Three scissors</strong> — full archive opened. The room is hers.</li>
+          </ul>
+          <div class="sc-foot">Use under any post that requires the silent treatment. The Department recognizes every deployment.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== YouTube channel ===== -->
+    <div class="section">
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Department Broadcast <span class="code">CHANNEL // YOUTUBE</span></div>
+          <h2 class="section-title"><span class="italic">Subscribe.</span> <span class="ink-pink">Stay Briefed.</span></h2>
+        </div>
+        <div class="right">
+          ◆ NEW EVIDENCE WEEKLY<br>
+          ◆ LIVE DEPARTMENT BRIEFS<br>
+          <span style="color:var(--pink);">◆ DIRECT FROM HQ</span>
+        </div>
+      </div>
+
+      <a href="https://www.youtube.com/@UnapologeticExotical" target="_top" rel="noopener noreferrer" class="yt-panel" data-reveal onclick="openYouTubeChannel(event)">
+        <div class="yt-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.4 3.6 12 3.6 12 3.6s-7.4 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c2 .5 9.4.5 9.4.5s7.4 0 9.4-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-5.8 31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+        </div>
+        <div class="yt-text">
+          <div class="yt-eye">◆ OFFICIAL CHANNEL</div>
+          <div class="yt-h"><em>Unapologetic</em> Exotical</div>
+          <div class="yt-d">Subscribe · Join the channel · New cases weekly</div>
+        </div>
+        <span class="yt-cta"><span class="yt-cta-label">Subscribe</span><span class="yt-cta-arrow">↗</span></span>
+      </a>
+    </div>
+
+    <!-- ===== Interactive prep questions ===== -->
+    <div class="section">
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Field Preparation <span class="code">FORM Q-304</span></div>
+          <h2 class="section-title"><span class="italic">Recruit</span> <span class="ink-pink">Exam: Set A</span></h2>
+        </div>
+        <div class="right">
+          5 SCENARIOS<br>
+          1 CORRECT ANSWER EACH<br>
+          <span style="color:var(--pink);">PROMOTION-LINKED</span>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <div class="quiz-meter">
+          <div>
+            <div class="qm-label">CORRECT RESPONSES <span class="pink">— LIVE</span></div>
+            <div class="qm-bar"><i></i></div>
+          </div>
+          <div class="qm-num"><span class="qm-num-v">0</span><small>/<span class="qm-num-d">5</span></small></div>
+        </div>
+
+        <!-- Q1 -->
+        <div class="quiz-card" data-qid="q1" data-answer="C">
+          <button class="quiz-head" aria-expanded="false">
+            <div class="qh-left">
+              <span class="qh-num">01</span>
+              <span>
+                <span class="qh-tag">SCENARIO · OBSERVATION</span>
+                <div class="qh-q">A woman repeatedly studies your appearance while pretending not to. What is the correct response?</div>
+              </span>
+            </div>
+            <div class="qh-right">
+              <span class="qh-status">PENDING</span>
+              <span class="qh-chev">›</span>
+            </div>
+          </button>
+          <div class="quiz-body">
+            <div class="quiz-body-inner">
+              <div class="quiz-choices">
+                <button class="choice" data-letter="A"><span class="ch-letter">A</span><span class="ch-text">Overshare emotionally.</span></button>
+                <button class="choice" data-letter="B"><span class="ch-letter">B</span><span class="ch-text">Become insecure immediately.</span></button>
+                <button class="choice" data-letter="C"><span class="ch-letter">C</span><span class="ch-text">Observe quietly and archive behavior.</span></button>
+                <button class="choice" data-letter="D"><span class="ch-letter">D</span><span class="ch-text">Explain yourself unnecessarily.</span></button>
+              </div>
+              <div class="quiz-verdict">
+                <span class="vd-label">CORRECT — Answer C</span>
+                Departmental doctrine: quiet documentation outranks reaction. The behavior gets filed, not addressed in real time.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-card" data-qid="q2" data-answer="D">
+          <button class="quiz-head" aria-expanded="false">
+            <div class="qh-left">
+              <span class="qh-num">02</span>
+              <span>
+                <span class="qh-tag">SCENARIO · PATTERN ANALYSIS</span>
+                <div class="qh-q">Someone makes passive-aggressive comments disguised as jokes. What should be documented first?</div>
+              </span>
+            </div>
+            <div class="qh-right">
+              <span class="qh-status">PENDING</span>
+              <span class="qh-chev">›</span>
+            </div>
+          </button>
+          <div class="quiz-body">
+            <div class="quiz-body-inner">
+              <div class="quiz-choices">
+                <button class="choice" data-letter="A"><span class="ch-letter">A</span><span class="ch-text">Tone shifts.</span></button>
+                <button class="choice" data-letter="B"><span class="ch-letter">B</span><span class="ch-text">Repetition.</span></button>
+                <button class="choice" data-letter="C"><span class="ch-letter">C</span><span class="ch-text">Audience behavior.</span></button>
+                <button class="choice" data-letter="D"><span class="ch-letter">D</span><span class="ch-text">All of the above.</span></button>
+              </div>
+              <div class="quiz-verdict">
+                <span class="vd-label">CORRECT — Answer D</span>
+                The full triangulation. Tone, repetition, and audience are inseparable — together they reveal intent.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-card" data-qid="q3" data-answer="D">
+          <button class="quiz-head" aria-expanded="false">
+            <div class="qh-left">
+              <span class="qh-num">03</span>
+              <span>
+                <span class="qh-tag">SCENARIO · IMITATION CASE</span>
+                <div class="qh-q">A suspicious individual copies your entire aesthetic while criticizing you publicly. What category does this fall under?</div>
+              </span>
+            </div>
+            <div class="qh-right">
+              <span class="qh-status">PENDING</span>
+              <span class="qh-chev">›</span>
+            </div>
+          </button>
+          <div class="quiz-body">
+            <div class="quiz-body-inner">
+              <div class="quiz-choices">
+                <button class="choice" data-letter="A"><span class="ch-letter">A</span><span class="ch-text">Coincidence.</span></button>
+                <button class="choice" data-letter="B"><span class="ch-letter">B</span><span class="ch-text">Research behavior.</span></button>
+                <button class="choice" data-letter="C"><span class="ch-letter">C</span><span class="ch-text">Atmospheric admiration.</span></button>
+                <button class="choice" data-letter="D"><span class="ch-letter">D</span><span class="ch-text">Emergency imitation event.</span></button>
+              </div>
+              <div class="quiz-verdict">
+                <span class="vd-label">CORRECT — Answer D</span>
+                Department code EIE — Emergency Imitation Event. File immediately. Continue moving exactly as you were.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-card" data-qid="q4" data-answer="C">
+          <button class="quiz-head" aria-expanded="false">
+            <div class="qh-left">
+              <span class="qh-num">04</span>
+              <span>
+                <span class="qh-tag">SCENARIO · PROJECTION</span>
+                <div class="qh-q">What is the most effective response to obvious projection?</div>
+              </span>
+            </div>
+            <div class="qh-right">
+              <span class="qh-status">PENDING</span>
+              <span class="qh-chev">›</span>
+            </div>
+          </button>
+          <div class="quiz-body">
+            <div class="quiz-body-inner">
+              <div class="quiz-choices">
+                <button class="choice" data-letter="A"><span class="ch-letter">A</span><span class="ch-text">Scream.</span></button>
+                <button class="choice" data-letter="B"><span class="ch-letter">B</span><span class="ch-text">Overshare.</span></button>
+                <button class="choice" data-letter="C"><span class="ch-letter">C</span><span class="ch-text">Calm observation.</span></button>
+                <button class="choice" data-letter="D"><span class="ch-letter">D</span><span class="ch-text">Emotional collapse.</span></button>
+              </div>
+              <div class="quiz-verdict">
+                <span class="vd-label">CORRECT — Answer C</span>
+                Projection wants a reaction it can blame you for. Deny it the matching frequency.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="quiz-card" data-qid="q5" data-answer="C">
+          <button class="quiz-head" aria-expanded="false">
+            <div class="qh-left">
+              <span class="qh-num">05</span>
+              <span>
+                <span class="qh-tag">SCENARIO · DOCTRINE</span>
+                <div class="qh-q">What is the official DLFI policy on weird energy?</div>
+              </span>
+            </div>
+            <div class="qh-right">
+              <span class="qh-status">PENDING</span>
+              <span class="qh-chev">›</span>
+            </div>
+          </button>
+          <div class="quiz-body">
+            <div class="quiz-body-inner">
+              <div class="quiz-choices">
+                <button class="choice" data-letter="A"><span class="ch-letter">A</span><span class="ch-text">Ignore forever.</span></button>
+                <button class="choice" data-letter="B"><span class="ch-letter">B</span><span class="ch-text">Internalize it.</span></button>
+                <button class="choice" data-letter="C"><span class="ch-letter">C</span><span class="ch-text">Screenshot and archive.</span></button>
+                <button class="choice" data-letter="D"><span class="ch-letter">D</span><span class="ch-text">Ask for approval.</span></button>
+              </div>
+              <div class="quiz-verdict">
+                <span class="vd-label">CORRECT — Answer C</span>
+                Doctrine: Weird energy is data. Capture it cleanly. Trust the archive over the moment.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+          <div class="mono-label">EXAM SET A · MORE SETS PENDING CLEARANCE</div>
+          <button class="btn-outline btn-sm" id="recruit-reset" type="button"><span>Reset Training</span><span>↻</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Manifesto ===== -->
+    <div style="background: var(--noir-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="section-sm" data-reveal>
+        <div class="grid-5" data-reveal-stagger style="align-items: center;">
+          <div class="script" style="font-size: 1.5rem; color: var(--pink); line-height: 1.3;">Unapologetic.<br><span style="color: var(--pink-soft);">Exotical.</span></div>
+          <div>
+            <div class="mono-label" style="color: var(--pink); margin-bottom: 4px;">◆ DISCRETION</div>
+            <div style="font-size: 0.7rem; line-height: 1.7; color: var(--silver-dim);">No names. No faces. Only files.</div>
+          </div>
+          <div>
+            <div class="mono-label" style="color: var(--pink); margin-bottom: 4px;">◆ STANDARD</div>
+            <div style="font-size: 0.7rem; line-height: 1.7; color: var(--silver-dim);">Built for women who already know.</div>
+          </div>
+          <div>
+            <div class="mono-label" style="color: var(--pink); margin-bottom: 4px;">◆ ASCENT</div>
+            <div style="font-size: 0.7rem; line-height: 1.7; color: var(--silver-dim);">Rank earned. Rank kept. Receipts in hand.</div>
+          </div>
+          <div style="font-family: var(--f-mono); font-size: 0.65rem; letter-spacing: 2px; color: var(--pink); text-transform: uppercase; font-weight: 700; line-height: 1.6;">
+            COMPOSURE.<br>RECEIPTS.<br>ASCENT.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-marquee">
+          THE AGENCY DOES NOT RECRUIT — IT RECOGNIZES <span class="pink">★</span> COMPOSURE IS A WEAPON <span class="pink">★</span> RANK EARNED, NOT REQUESTED
+        </div>
+        <div class="footer-marquee">◆ RECRUITMENT DIVISION</div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- Training module modal -->
+<div id="module-modal" role="dialog" aria-labelledby="mm-title">
+  <div class="mm-box">
+    <button class="mm-close" type="button" aria-label="Close">×</button>
+    <div class="mm-head">
+      <span id="mm-tag">MOD-XX · FIELD MAN-XX</span>
+      <span><span class="pink">●</span> CLEARED</span>
+    </div>
+    <h2 class="mm-title" id="mm-title">Module Title</h2>
+    <div class="mm-sub" id="mm-sub">Recruit field briefing · expand your training</div>
+    <div id="mm-body"><!-- populated by JS --></div>
+    <div class="mm-foot">
+      <span>RECRUIT-LV-304</span>
+      <span class="pink">CLOSE WHEN COMMITTED TO MEMORY</span>
+    </div>
+  </div>
+</div>
+
+<!-- Promotion modal — fires when recruit climbs the ladder -->
+<div id="promotion-modal" role="dialog" aria-labelledby="pm-headline">
+  <div class="pm-box">
+    <div class="pm-eyebrow">◆ DEPARTMENTAL NOTICE</div>
+    <div class="pm-stamp">CLEARANCE LEVEL INCREASED</div>
+    <h2 class="pm-headline" id="pm-headline"><em>Promotion</em> Recorded</h2>
+    <p class="pm-sub">
+      Your recent observation has been reviewed and archived.<br>
+      The Department is pleased to issue a provisional rank advancement.
+    </p>
+    <div class="pm-rank">
+      <div class="lbl">New Rank</div>
+      <div class="nm">Receipt Collector</div>
+    </div>
+    <p class="pm-sub" style="margin-bottom: 0;">
+      Score: <span class="pm-score" style="color: var(--pink);">0/5</span> · Lace Tearer Status: <span style="color: var(--pink);">Pending Review</span>
+    </p>
+    <button class="pm-btn" type="button"><span>Continue Training</span></button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: ABOUT (The Department)                                  -->
+<!-- ============================================================ -->
+<div class="page" id="page-about" data-screen-label="06 About">
+  <div class="page-content">
+
+    <div class="page-hero">
+      <div class="hero-wrap" style="padding: 1rem 0 0;">
+        <div class="hero-grid">
+          <div data-reveal>
+            <div class="eyebrow">Official DLFI Charter <span class="code">EST. 2026</span></div>
+            <h1 class="display-xl" style="font-size: clamp(2.5rem, 6vw, 5.5rem);">
+              <span class="italic">The</span><br>
+              <span class="ink-pink">Department.</span>
+            </h1>
+            <div class="script" style="margin: 1rem 0 1.5rem;">Pretty smart. Pretty petty. Pretty serious.</div>
+            <p style="font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 1.5px; color: var(--silver-dim); line-height: 2; max-width: 460px; text-transform: uppercase;">
+              We're not the police. <span style="color: var(--pink);">We're worse.</span><br>
+              We don't chase. We catch.<br>
+              We don't beg. We build cases. We always get receipts.
+            </p>
+            <div class="neon-frame" style="margin-top: 1.5rem; display: inline-block;">
+              <div class="mono-label" style="margin-bottom: 4px;">Our Standard</div>
+              <div class="fed-title" style="font-size: 1rem; color: var(--pink); letter-spacing: 3px;">Excellence. Every. Time.</div>
+            </div>
+          </div>
+
+          <!-- Chief Investigator card -->
+          <div data-reveal class="chief-clickable" data-bio="chief" onclick="openBio('chief')" role="button" tabindex="0" style="text-align: center; cursor: pointer;">
+            <div style="display: inline-block; position: relative; max-width: 280px;">
+              <div style="background: var(--noir-1); border: 1px solid var(--line); padding: 1.2rem;">
+                <div class="profile-img profile-img-photo" style="aspect-ratio: 3/4;">
+                  <img src="img/chief-investigator-portrait.png" alt="Chief Investigator Unapologetic Exotical" class="profile-photo" loading="lazy">
+                  <div class="badge-id">DLFI / 001</div>
+                  <div class="badge-clear">A-1</div>
+                  <!-- subtle scan line + bottom gradient on the photo for that dossier look -->
+                  <span class="profile-scan"></span>
+                </div>
+                <div style="background: var(--noir-2); padding: 0.8rem; margin-top: 1rem; border-top: 1px solid var(--pink); text-align: center;">
+                  <div class="mono-label" style="color: var(--pink);">CHIEF INVESTIGATOR</div>
+                  <div class="script" style="font-size: 1.3rem; line-height: 1.1; margin-top: 4px;">Unapologetic Exotical</div>
+                </div>
+              </div>
+              <div class="stamp" style="position: absolute; top: 0; right: -20px; transform: rotate(8deg);">VERIFIED</div>
+            </div>
+
+            <div class="neon-frame flicker" style="display: inline-block; padding: 1rem 1.5rem; margin-top: 1.5rem;">
+              <div style="font-family: var(--f-display); font-weight: 900; color: var(--pink); text-shadow: 0 0 18px var(--pink); line-height: 1; text-align: left;">
+                NO SARCASM.<br>NO CLASS.<br><span class="italic">CASE CLOSED.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+
+      <div class="section-header" data-reveal>
+        <div class="left">
+          <div class="eyebrow">Personnel File <span class="code">OPERATIONS — LV 4</span></div>
+          <h2 class="section-title"><span class="italic">Meet</span> The Women <span class="ink-pink">Who Run The Chaos</span></h2>
+        </div>
+        <div class="right">
+          ◆ 6 SENIOR INVESTIGATORS<br>
+          ◆ 0 WEAK LINKS<br>
+          ◆ 613 RECEIPTS
+        </div>
+      </div>
+
+      <div class="grid-3" data-reveal-stagger>
+        <div class="profile-card is-clickable" data-bio="receipts" onclick="openBio('receipts')" role="button" tabindex="0">
+          <div class="profile-img profile-img-photo">
+            <img src="img/agent-01.png" alt="Head of Receipts" class="profile-photo" loading="lazy">
+            <div class="badge-id">AGT-002</div>
+            <div class="badge-clear">A-2</div>
+            <span class="profile-scan"></span>
+          </div>
+          <div class="profile-body">
+            <div class="profile-title">Head of Receipts</div>
+            <div class="profile-name">Evidence Collector</div>
+            <div class="profile-desc">Evidence collector. Story netter. Truth extractor.</div>
+            <div class="profile-quote">"If it happened, I got the proof."</div>
+          </div>
+        </div>
+
+        <div class="profile-card is-clickable" data-bio="surveillance" onclick="openBio('surveillance')" role="button" tabindex="0">
+          <div class="profile-img profile-img-photo">
+            <img src="img/agent-02.png" alt="Surveillance Queen" class="profile-photo" loading="lazy">
+            <div class="badge-id">AGT-003</div>
+            <div class="badge-clear">A-3</div>
+            <span class="profile-scan"></span>
+          </div>
+          <div class="profile-body">
+            <div class="profile-title">Surveillance Queen</div>
+            <div class="profile-name">Eyes On Everything</div>
+            <div class="profile-desc">We see everything. Miss us? You bad.</div>
+            <div class="profile-quote">"You breathe, I'm probably watching."</div>
+          </div>
+        </div>
+
+        <div class="profile-card is-clickable" data-bio="forensics" onclick="openBio('forensics')" role="button" tabindex="0">
+          <div class="profile-img profile-img-photo">
+            <img src="img/agent-04.png" alt="Digital Forensics" class="profile-photo" loading="lazy">
+            <div class="badge-id">AGT-004</div>
+            <div class="badge-clear">A-4</div>
+            <span class="profile-scan"></span>
+          </div>
+          <div class="profile-body">
+            <div class="profile-title">Digital Forensics</div>
+            <div class="profile-name">Data Doesn't Lie</div>
+            <div class="profile-desc">Deleted? Not for long. Data doesn't lie. People do.</div>
+            <div class="profile-quote">"I recover more than just files."</div>
+          </div>
+        </div>
+
+        <div class="profile-card is-clickable" data-bio="interrogation" onclick="openBio('interrogation')" role="button" tabindex="0">
+          <div class="profile-img profile-img-photo">
+            <img src="img/agent-05.png" alt="Interrogation Lead" class="profile-photo" loading="lazy">
+            <div class="badge-id">AGT-005</div>
+            <div class="badge-clear">L-5</div>
+            <span class="profile-scan"></span>
+          </div>
+          <div class="profile-body">
+            <div class="profile-title">Interrogation Lead</div>
+            <div class="profile-name">The Truth Teller</div>
+            <div class="profile-desc">The truth loves us. Lies don't.</div>
+            <div class="profile-quote">"I don't raise my voice. I raise receipts."</div>
+          </div>
+        </div>
+
+        <div class="profile-card is-clickable" data-bio="strategy" onclick="openBio('strategy')" role="button" tabindex="0">
+          <div class="profile-img profile-img-photo">
+            <img src="img/agent-06.png" alt="Strategy Architect" class="profile-photo" loading="lazy">
+            <div class="badge-id">AGT-006</div>
+            <div class="badge-clear">L-6</div>
+            <span class="profile-scan"></span>
+          </div>
+          <div class="profile-body">
+            <div class="profile-title">Strategy Architect</div>
+            <div class="profile-name">The Planner</div>
+            <div class="profile-desc">Three moves ahead. Still bothered.</div>
+            <div class="profile-quote">"We plan. You pause."</div>
+          </div>
+        </div>
+
+        <div class="profile-card is-clickable" data-bio="chaos" onclick="openBio('chaos')" role="button" tabindex="0">
+          <div class="profile-img profile-img-photo">
+            <img src="img/agent-03.png" alt="Chaos Coordinator" class="profile-photo" loading="lazy">
+            <div class="badge-id">AGT-007</div>
+            <div class="badge-clear">L-7</div>
+            <span class="profile-scan"></span>
+          </div>
+          <div class="profile-body">
+            <div class="profile-title">Chaos Coordinator</div>
+            <div class="profile-name">Disruption By Design</div>
+            <div class="profile-desc">If it's messy, you're doing it right.</div>
+            <div class="profile-quote">"Oh, You Thought I Was Playin'."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <!-- Three info panels -->
+      <div class="grid-3" data-reveal-stagger>
+        <div style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;">
+          <div class="eyebrow">Department Policies</div>
+          <ul class="check-list">
+            <li>We don't accept apologies, only change.</li>
+            <li>We don't chase. We replace.</li>
+            <li>We protect our peace like a top secret.</li>
+            <li>We wear designer and carry evidence.</li>
+            <li>We turn pain into power, power into legacy.</li>
+          </ul>
+          <div class="stamp" style="margin-top: 1.5rem;">NO WEAK LINKS ALLOWED</div>
+        </div>
+
+        <div style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;">
+          <div class="eyebrow">What We Do</div>
+          <ul class="check-list">
+            <li>Investigate the truth</li>
+            <li>Document everything</li>
+            <li>Expose the lies</li>
+            <li>Empower women</li>
+            <li>Elevate the standard</li>
+          </ul>
+          <div class="script" style="font-size: 1.1rem; margin-top: 1.5rem; color: var(--pink-soft);">
+            We don't just close cases. We close chapters.
+          </div>
+        </div>
+
+        <div style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;">
+          <div class="eyebrow">Current Vibes</div>
+          <ul class="check-list">
+            <li>Bothered</li>
+            <li>Highly paid</li>
+            <li>Well dressed</li>
+            <li>Emotionally defended</li>
+            <li>Money right</li>
+            <li>Edges intact</li>
+          </ul>
+          <div class="stamp" style="margin-top: 1.5rem; transform: rotate(3deg);">VERIFIED 24/7</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: var(--noir-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div class="section-sm" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div class="mono-label">WE DON'T FOLLOW THE RULES · WE WRITE NEW ONES</div>
+        <div class="script" style="font-size: 1.1rem; color: var(--pink-soft);">Welcome to the Department.</div>
+        <div class="mono-label" style="color: var(--pink);">UNAPOLOGETIC · EXOTICAL · EFFECTIVE</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-marquee">
+          PRETTY GIRLS. PRETTY SMART. PRETTY PETTY <span class="pink">★</span> AND DEFINITELY NOT HERE FOR YOUR NONSENSE
+        </div>
+        <div class="footer-marquee">◆ PERSONNEL / OPERATIONS</div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: REPORT                                                  -->
+<!-- ============================================================ -->
+<div class="page" id="page-report" data-screen-label="07 Report">
+  <div class="page-content">
+
+    <div class="page-hero" style="padding: 3rem 2rem 4rem;">
+      <div class="hero-wrap" style="padding: 1rem 0 0;">
+        <div class="hero-grid-3" style="grid-template-columns: 0.8fr 1.5fr 0.7fr;">
+
+          <!-- Left: cinematic visual -->
+          <div data-reveal style="position: relative;">
+            <div style="background: var(--noir-1); border: 1px solid var(--line); padding: 1.5rem; aspect-ratio: 3/4; display: flex; flex-direction: column; justify-content: flex-end; position: relative; overflow: hidden;">
+              <!-- Background imagery: surveillance-style -->
+              <div style="position: absolute; inset: 0;">
+                <div class="ev-surveillance" style="width: 100%; height: 100%; aspect-ratio: auto; border: none;">
+                  <div class="sv-subject"></div>
+                  <div class="sv-crosshair"></div>
+                  <div class="sv-scanline"></div>
+                </div>
+              </div>
+              <div style="position: relative; z-index: 2; display: flex; flex-direction: column; gap: 1rem;">
+                <div class="neon-frame flicker" style="display: inline-block; padding: 1rem; background: rgba(0,0,0,0.7);">
+                  <div style="font-family: var(--f-display); font-weight: 900; color: var(--pink); text-shadow: 0 0 12px var(--pink); font-size: 0.9rem; line-height: 1.3;">
+                    EVIDENCE IS STUNNING.<br>
+                    <span class="italic">LIES ARE UGLY.</span>
+                  </div>
+                </div>
+                <div class="script" style="background: rgba(255,27,107,0.15); border: 1px solid var(--pink); padding: 6px 12px; color: var(--pink-soft); font-size: 0.95rem; display: inline-block;">Guilty of nothing</div>
+              </div>
+            </div>
+            <!-- Anonymous badge -->
+            <div style="position: absolute; top: -16px; left: -16px; width: 90px; height: 90px; border: 2px solid var(--pink); border-radius: 50%; background: var(--noir-1); display: flex; align-items: center; justify-content: center; text-align: center; box-shadow: 0 0 20px var(--pink-glow);">
+              <div style="font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 1px; color: var(--pink); text-transform: uppercase; line-height: 1.4;">
+                100%<br>ANONYMOUS<br><span style="color: var(--silver-dim);">— ALWAYS —</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle: the form -->
+          <div data-reveal>
+            <div class="eyebrow">See Something. Say Something. <span class="code">CHANNEL 304</span></div>
+            <h1 class="display-xl" style="font-size: clamp(2.5rem, 6vw, 5rem);">
+              <span class="italic">Report a</span><br>
+              <span class="ink-pink">Disturbance.</span>
+            </h1>
+            <div class="script" style="margin: 0.5rem 0 1rem;">Spill what you know. We'll handle the rest.</div>
+            <p class="mono-label" style="margin-bottom: 2rem;">Help us keep the streets — and the secrets — clean.</p>
+
+            <form style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;" onsubmit="submitReport(event)">
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label">▸ Category of Disturbance</label>
+                  <select class="form-select" required>
+                    <option value="">Select category...</option>
+                    <option>Lace Front Violation</option>
+                    <option>Eyeball Violation</option>
+                    <option>Humidity Offense</option>
+                    <option>Baby Hair Crime</option>
+                    <option>Glue Ghosting</option>
+                    <option>Windy Day Special</option>
+                    <option>Face Card Declined</option>
+                    <option>Other Beauty Crime</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">▸ Who's Involved?</label>
+                  <input class="form-input" placeholder="Aliases or descriptions only">
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label class="form-label">▸ Where Did It Go Down?</label>
+                  <input class="form-input" placeholder="Location, address, or general area">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">▸ When?</label>
+                  <input class="form-input" placeholder="Date / Time (best guess fine)">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">▸ Tell Us Everything.</label>
+                <textarea class="form-textarea" placeholder="Details. Receipts. Screenshots. Chaos. Give us the whole story."></textarea>
+              </div>
+
+              <!-- Security info strip -->
+              <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,27,107,0.05); border: 1px solid var(--line); margin-bottom: 1.5rem;">
+                <div style="font-family: var(--f-display); font-size: 1.6rem; color: var(--pink);">⚿</div>
+                <div style="flex: 1;">
+                  <div class="mono-label" style="color: var(--pink); margin-bottom: 4px;">END-TO-END ENCRYPTED · NO LINKS WILL BE CLICKED</div>
+                  <div class="script" style="font-size: 0.9rem; color: var(--pink-soft);">Tell the truth. We'll handle the rest.</div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary btn-block" id="submitBtn" style="font-size: 0.85rem; padding: 18px;">
+                <span class="btn-label">Submit Report</span>
+                <span>→</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Right: side panels -->
+          <div data-reveal style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="background: rgba(201, 169, 110, 0.05); border: 1px solid rgba(201, 169, 110, 0.2); padding: 1.2rem;">
+              <div class="mono-label" style="color: var(--gold); margin-bottom: 0.8rem;">◆ BEFORE YOU SNITCH</div>
+              <ul class="check-list">
+                <li>Don't include your name.</li>
+                <li>Don't include your info.</li>
+                <li>Don't hold back.</li>
+                <li>Do distribute receipts.</li>
+              </ul>
+            </div>
+
+            <div style="background: var(--noir-1); border: 1px solid var(--pink); padding: 1.2rem; text-align: center;">
+              <div class="fed-title" style="color: var(--pink); font-size: 1rem; letter-spacing: 3px; margin-bottom: 0.4rem;">WE DON'T ATTACK.</div>
+              <div class="script" style="font-size: 1rem; color: var(--pink-soft);">But we do do justice.</div>
+            </div>
+
+            <div style="background: var(--noir-1); border: 1px solid var(--line); padding: 1rem; display: flex; gap: 1rem;">
+              <div style="font-family: var(--f-display); font-size: 1.4rem; color: var(--pink);">⚿</div>
+              <div>
+                <div class="mono-label" style="color: var(--pink);">YOUR ID IS OUR PRIDE</div>
+                <div style="font-size: 0.65rem; color: var(--silver-dim); line-height: 1.6; margin-top: 4px;">We protect our sources like we protect our secrets.</div>
+              </div>
+            </div>
+
+            <div style="background: var(--noir-1); border: 1px solid var(--line); padding: 1rem; display: flex; gap: 1rem;">
+              <div style="font-family: var(--f-display); font-size: 1.4rem; color: var(--pink);">⌁</div>
+              <div>
+                <div class="mono-label" style="color: var(--pink);">TIP LINE 24/7</div>
+                <div style="font-size: 0.65rem; color: var(--silver-dim); line-height: 1.6; margin-top: 4px;">Bad guys never rest. Neither do we.</div>
+              </div>
+            </div>
+
+            <!-- Live counter -->
+            <div class="inv-panel" style="padding: 1rem;">
+              <div class="inv-panel-title" style="padding-bottom: 0.5rem;"><span class="live-dot"></span> Live Intake</div>
+              <div class="inv-row" style="padding: 6px 0;"><span class="label">Filed Today</span><span class="val">613</span></div>
+              <div class="inv-row" style="padding: 6px 0;"><span class="label">Reviewed</span><span class="val">127</span></div>
+              <div class="inv-row" style="padding: 6px 0;"><span class="label">Active</span><span class="val">60</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div style="background: var(--noir-1); border-top: 1px solid var(--line);">
+      <div class="section-sm" style="text-align: center;">
+        <div class="mono-label" style="margin-bottom: 0.5rem;">YOU DON'T HAVE TO BE A DETECTIVE TO MAKE A DIFFERENCE.</div>
+        <div class="script" style="font-size: 1.3rem; color: var(--pink-soft);">Just nosey. Just brave. Just done with the bullshit.</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-marquee">
+          JUST NOSEY <span class="pink">★</span> JUST BRAVE <span class="pink">★</span> JUST DONE
+        </div>
+        <div class="footer-marquee">◆ INTAKE / DISPATCH</div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- PAGES_MOUNT -->
+
+<!-- ============================================================ -->
+<!-- MODALS                                                        -->
+<!-- ============================================================ -->
+
+<!-- CASE FILE DOSSIER MODAL -->
+<div class="modal-overlay" id="caseModal">
+  <div class="modal-box dossier">
+    <button class="modal-close" onclick="closeCaseModal()">✕</button>
+
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 0.8rem;">
+      <div class="stamp" style="transform: rotate(-3deg); padding: 3px 10px; font-size: 0.55rem;">CLASSIFIED</div>
+      <div class="live-dot">Active Investigation</div>
+      <div style="margin-left: auto; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 2px; color: var(--silver-dim); text-transform: uppercase;" id="m-num">CASE Nº —</div>
+    </div>
+
+    <h2 id="m-title" style="font-family: var(--f-display); font-size: 2rem; font-weight: 900; color: var(--pink); text-shadow: 0 0 20px var(--pink-glow); line-height: 1.1; margin-bottom: 0.5rem;"></h2>
+    <div style="display: inline-block; background: var(--pink); color: #000; padding: 5px 12px; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 2px; text-transform: uppercase;" id="m-type"></div>
+
+    <div class="dossier-section-title" style="margin-top: 1.5rem;">Evidence Submitted</div>
+    <div class="dossier-evidence" id="m-evidence"></div>
+
+    <div class="dossier-section-title">Investigator Narrative</div>
+    <div class="dossier-narrative" id="m-narrative"></div>
+
+    <div class="dossier-section-title">Case Particulars</div>
+    <div class="dossier-meta-grid">
+      <div class="meta">
+        <div class="label">Charge</div>
+        <div class="val" id="m-charge"></div>
+      </div>
+      <div class="meta">
+        <div class="label">Location</div>
+        <div class="val" id="m-location"></div>
+      </div>
+      <div class="meta">
+        <div class="label">Status</div>
+        <div class="val pink" id="m-status"></div>
+      </div>
+      <div class="meta">
+        <div class="label">Suspect Profile</div>
+        <div class="val" id="m-suspect"></div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+      <button class="btn-primary btn-block" onclick="showPage('report');closeCaseModal()"><span>File Related Report</span><span>→</span></button>
+      <button class="btn-outline" onclick="closeCaseModal()"><span>Seal File</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- STORY SUBMIT MODAL -->
+<div class="modal-overlay" id="storyModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeStoryModal()">✕</button>
+    <div class="stamp" style="transform: rotate(-2deg);">EVIDENCE SUBMISSION</div>
+    <h2 style="font-family: var(--f-display); font-size: 1.8rem; color: var(--pink); margin: 1rem 0 0.5rem; text-shadow: 0 0 20px var(--pink-glow);">Add Your Story</h2>
+    <p style="font-family: var(--f-mono); font-size: 0.65rem; color: var(--silver-dim); letter-spacing: 1.5px; margin-bottom: 1.5rem; text-transform: uppercase;">All stories documented. All identities protected. The lace will not be.</p>
+    <div class="form-group">
+      <label class="form-label">Case File Name</label>
+      <input class="form-input" placeholder="Give it a title...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">What Happened</label>
+      <textarea class="form-textarea" placeholder="Tell us everything. No filter needed."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">The Lesson</label>
+      <input class="form-input" placeholder="What did this teach you?">
+    </div>
+    <button class="btn-primary btn-block" id="storySubmitBtn" onclick="submitStory(event)"><span class="btn-label">Submit Evidence</span><span>→</span></button>
+  </div>
+</div>
+
+<!-- REPORT RECEIVED MODAL -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box received-box">
+    <button class="modal-close" onclick="document.getElementById('reportModal').classList.remove('open')">✕</button>
+    <div class="received-stage">
+      <div class="received-rings">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="received-icon">◆</div>
+    </div>
+    <div class="received-stamp">EVIDENCE RECEIVED</div>
+    <h2 class="received-title">File <span class="italic">Submitted</span>.</h2>
+    <p class="received-id">RECEIPT Nº R-<span id="reportReceiptId">DLFI-0613-304-X</span> · LOGGED <span id="reportTime">--:--</span> UTC · <span class="pink">VAULT 2</span></p>
+    <div class="received-rows">
+      <div class="rr-row"><span class="rr-l">Encryption</span><span class="rr-v pink">END-TO-END</span></div>
+      <div class="rr-row"><span class="rr-l">Status</span><span class="rr-v">UNDER REVIEW</span></div>
+      <div class="rr-row"><span class="rr-l">Routed To</span><span class="rr-v">FIELD OFFICE 304</span></div>
+    </div>
+    <div class="received-eta">
+      <div class="rr-eta-tag">◆ EXPECTED RESPONSE</div>
+      <div class="rr-eta-quote">
+        We'll get back to you in the time it takes <em>a lace front to attach to an actual hairline.</em>
+      </div>
+      <div class="rr-eta-meta">
+        Translation: <span class="pink">never on paper, eventually in spirit.</span><br>
+        The Department is on it.
+      </div>
+    </div>
+    <p class="received-body">
+      The receipts are safe with us.
+      <span class="pink">You stay innocent. The lace doesn't.</span>
+    </p>
+    <button class="btn-primary btn-block" onclick="document.getElementById('reportModal').classList.remove('open')"><span>Case File Created</span><span>→</span></button>
+    <div class="received-vault">
+      <span class="rv-tag">◆ KEEP A COPY?</span>
+      <span class="rv-text">You can view, download, or clear all your past submissions anytime.</span>
+      <button class="btn-outline btn-sm rv-btn" type="button" onclick="document.getElementById('reportModal').classList.remove('open');openSubmissionsVault();"><span>Open My Submissions</span><span>↗</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DIARY MODAL — opened from Evidence Room story cards -->
+<div class="modal-overlay" id="diaryModal">
+  <div class="modal-box diary-box">
+    <button class="modal-close" onclick="document.getElementById('diaryModal').classList.remove('open')">✕</button>
+    <div class="diary-head">
+      <span id="diaryCaseNum">CASE Nº —</span>
+      <span class="pink" id="diaryStamp">DIARY ENTRY</span>
+    </div>
+    <h2 class="diary-title" id="diaryTitle">—</h2>
+    <div class="diary-meta">
+      <span><strong>Filed:</strong> <span id="diaryDate">—</span></span>
+      <span><strong>By:</strong> <span id="diaryBy">—</span></span>
+      <span><strong>Mood:</strong> <span class="pink" id="diaryMood">—</span></span>
+    </div>
+    <div class="diary-body" id="diaryBody"></div>
+    <div class="diary-lesson">
+      <span class="dl-label">◆ DEPARTMENTAL LESSON</span>
+      <span id="diaryLesson">—</span>
+    </div>
+    <button class="btn-primary btn-block" onclick="document.getElementById('diaryModal').classList.remove('open')"><span>Seal Diary</span><span>→</span></button>
+  </div>
+</div>
+
+<!-- BIO MODAL — opened from each Department personnel card -->
+<div class="modal-overlay" id="bioModal">
+  <div class="modal-box bio-box">
+    <button class="modal-close" onclick="document.getElementById('bioModal').classList.remove('open')">✕</button>
+    <div class="bio-head">
+      <span id="bioAgent">AGT-</span>
+      <span class="pink" id="bioStamp">PERSONNEL FILE</span>
+    </div>
+    <div class="bio-portrait">
+      <img id="bioImg" src="" alt="">
+      <span class="bio-portrait-scan"></span>
+      <div class="bio-badge-id" id="bioBadgeId">DLFI / —</div>
+      <div class="bio-badge-clear" id="bioBadgeClear">A-—</div>
+    </div>
+    <div class="bio-title-row">
+      <span class="bio-rank" id="bioRank">RANK</span>
+      <h2 class="bio-name" id="bioName">—</h2>
+    </div>
+    <div class="bio-meta">
+      <span><strong>Codename:</strong> <span class="pink" id="bioCodename">—</span></span>
+      <span><strong>Specialty:</strong> <span id="bioSpecialty">—</span></span>
+    </div>
+    <div class="bio-section">
+      <div class="bio-section-h">◆ Why she became a Lace Tearer</div>
+      <div class="bio-body" id="bioBody"></div>
+    </div>
+    <div class="bio-section">
+      <div class="bio-section-h">◆ Departmental quote</div>
+      <div class="bio-quote" id="bioQuote">"Oh, you thought I was playin'."</div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER (always visible)                                       -->
+<!-- ============================================================ -->
+<div class="ticker-wrap">
+  <div class="ticker-label"><span style="width:6px;height:6px;background:#000;border-radius:50%;animation:livePulse 1.2s infinite;"></span>DISPATCH</div>
+  <div class="ticker-track">
+    <span>Heightened Lace Activity Detected</span><span class="star">★</span>
+    <span>Side-Eye Outbreak In Progress</span><span class="star">★</span>
+    <span>Baby Hair Smuggling At An All-Time High</span><span class="star">★</span>
+    <span>Moisture Levels Critical</span><span class="star">★</span>
+    <span>Multiple Sideburn Deserts Reported</span><span class="star">★</span>
+    <span>Glue Ghost Incidents Up 34%</span><span class="star">★</span>
+    <span>Humidity Warning In Effect</span><span class="star">★</span>
+    <span>Face Card Declined Epidemic Continues</span><span class="star">★</span>
+    <span>Heightened Lace Activity Detected</span><span class="star">★</span>
+    <span>Side-Eye Outbreak In Progress</span><span class="star">★</span>
+    <span>Baby Hair Smuggling At An All-Time High</span><span class="star">★</span>
+    <span>Moisture Levels Critical</span><span class="star">★</span>
+    <span>Multiple Sideburn Deserts Reported</span><span class="star">★</span>
+    <span>Glue Ghost Incidents Up 34%</span><span class="star">★</span>
+    <span>Humidity Warning In Effect</span><span class="star">★</span>
+    <span>Face Card Declined Epidemic Continues</span><span class="star">★</span>
+  </div>
+</div>
+
+<script src="dlfi-audio.js" defer></script>
+<script src="dlfi-app.js" defer></script>
+<script src="dlfi-extras.js" defer></script>
+<script src="dlfi-mobile.js" defer></script>
+<script src="dlfi-recruitment.js" defer></script>
+
+</body>
+</html>
+
