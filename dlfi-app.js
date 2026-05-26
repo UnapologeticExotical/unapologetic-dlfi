@@ -516,7 +516,7 @@
       }
       if (step >= steps.length - 1) {
         clearInterval(interval);
-        // Persist the submission + send via FormSubmit (handled by dlfi-extras.js)
+        // Persist the submission + send via Netlify Forms (handled by dlfi-extras.js)
         const result = window.dlfiSaveSubmission ? window.dlfiSaveSubmission('report', form) : { ok: true };
         if (result && result.ok === false) {
           if (btn) {

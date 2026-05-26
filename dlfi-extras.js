@@ -1,54 +1,18 @@
-// dlfi-extras.js
-// Handles: form-submission delivery + localStorage backup + admin Submissions Vault,
-// phone/desktop view toggle, branded reset-confirm modal, robust YouTube link, and
-// post-reset audio rebinding.
-//
 // ============================================================
-// PRIVACY & SAFETY (READ ME)
+// DLFI Form Submission Module
 // ============================================================
-// • The site owner's email is NOT in the page source. It is referenced only
-//   inside Web3Forms (an anonymous token below) and FormSubmit (commented
-//   out by default).
-// • Every form submission is SANITIZED client-side BEFORE storage and POST:
-//     - All HTML tags stripped (no <script>, no <img>, no <a>)
-//     - All URLs blocked (http, https, www, ftp, javascript:, data:)
-//     - All email addresses stripped
-//   This prevents visitors from injecting malware/phishing payloads
-//   that could harm you when you read the email or the vault.
-// • If a visitor's text contains a URL or HTML, they see a friendly error and
-//   the submission is rejected client-side. Nothing is sent until they remove it.
-// • localStorage is per-device — visitors only see their own submissions.
-// ============================================================
-//
-// ============================================================
-// HOW TO RECEIVE SUBMISSIONS BY EMAIL — read this carefully!
-// ============================================================
-// This site ships with two delivery providers. Whichever you set up first wins.
-//
-// OPTION A — WEB3FORMS (recommended, ~2 min, no signup)
-//   1. Go to https://web3forms.com  →  "Create Access Key"
-//   2. Enter moisturizedthoughts@gmail.com  →  click submit
-//   3. Web3Forms emails you an Access Key (UUID like 12ab34cd-5678-...)
-//   4. Copy that key into WEB3FORMS_KEY below.
-//   5. Done. Every submission will email you instantly.
-//
-// OPTION B — FORMSUBMIT.CO (fallback)
-//   1. Submit ONE test form from the site.
-//   2. FormSubmit.co emails you a one-time confirmation link.
-//   3. Click the link. After that, every submission lands in your inbox.
-//   Note: FormSubmit can be slow or temporarily offline; Web3Forms is more reliable.
-//
-// THE EMAIL ADDRESS LIVES IN JS, NOT IN HTML — so it isn't visible in page source
-// unless someone opens the JS file. If you want it truly hidden, use Web3Forms (the
-// access key contains no email).
+// Submissions flow:
+//   1. saveSubmission() persists locally to localStorage (for owner view)
+//   2. sendToProvider() POSTs to Netlify Forms (server-side handler)
+// No email addresses or API keys are embedded in this file.
+// Configure the notification recipient in Netlify → Forms → Settings.
 // ============================================================
 (function () {
   'use strict';
 
-  // ⚠️ REPLACE WITH YOUR WEB3FORMS ACCESS KEY (see Option A above):
-  const WEB3FORMS_KEY = 'e194ddcd-cc2d-4eeb-a398-7fae707dfb29';
-
-  const DLFI_OWNER_EMAIL = 'moisturizedthoughts@gmail.com';
+  // Submissions go to Netlify Forms — handled server-side, no email or
+  // access key exposed in client JS. Configure notification email in the
+  // Netlify dashboard under Forms → Settings → Form notifications.
   const SUBMISSIONS_KEY = 'dlfi-submissions-v1';
   const VIEW_KEY = 'dlfi-view-mode';
 
@@ -74,38 +38,22 @@
     writeSubs(all);
   }
 
-  // Fire-and-forget POST to whichever provider is configured.
+  // Fire-and-forget POST to Netlify Forms.
+  // Netlify intercepts POSTs to '/' that include a form-name field,
+  // matches it against the static <form data-netlify="true"> in the HTML,
+  // stores the submission, and emails the configured recipient — all
+  // server-side, with no email address ever leaving the Netlify dashboard.
   function sendToProvider(type, payload) {
-    const subjectLine = 'DLFI · ' + (type === 'report' ? 'New Disturbance Report' : 'New Evidence Submission');
-
-    // Provider 1 — Web3Forms (preferred)
-    if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'YOUR_WEB3FORMS_KEY_HERE') {
-      const body = new FormData();
-      body.append('access_key', WEB3FORMS_KEY);
-      body.append('subject', subjectLine);
-      body.append('from_name', 'DLFI Departmental Dispatch');
-      body.append('type', type);
-      body.append('submitted_at', new Date().toISOString());
-      Object.entries(payload).forEach(([k, v]) => body.append(k, v || ''));
-      try {
-        fetch('https://api.web3forms.com/submit', { method: 'POST', body }).catch(() => {});
-      } catch (e) {}
-      return;
-    }
-
-    // Provider 2 — FormSubmit fallback
+    const formName = type === 'report' ? 'report' : 'story';
+    const params = new URLSearchParams();
+    params.append('form-name', formName);
+    params.append('submitted_at', new Date().toISOString());
+    Object.entries(payload).forEach(([k, v]) => params.append(k, v || ''));
     try {
-      fetch('https://formsubmit.co/ajax/' + DLFI_OWNER_EMAIL, {
+      fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          _subject: subjectLine,
-          _template: 'table',
-          _captcha: 'false',
-          type,
-          ...payload,
-          submitted_at: new Date().toISOString()
-        })
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
       }).catch(() => {});
     } catch (e) {}
   }

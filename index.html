@@ -2048,12 +2048,14 @@ You can't copy realness.</div>
             <div class="script" style="margin: 0.5rem 0 1rem;">Spill what you know. We'll handle the rest.</div>
             <p class="mono-label" style="margin-bottom: 2rem;">Help us keep the streets — and the secrets — clean.</p>
 
-            <form style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;" onsubmit="submitReport(event)">
+            <form name="report" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;" onsubmit="submitReport(event)">
+              <input type="hidden" name="form-name" value="report">
+              <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
 
               <div class="grid-2">
                 <div class="form-group">
                   <label class="form-label">▸ Category of Disturbance</label>
-                  <select class="form-select" required>
+                  <select class="form-select" name="category" required>
                     <option value="">Select category...</option>
                     <option>Lace Front Violation</option>
                     <option>Eyeball Violation</option>
@@ -2067,24 +2069,24 @@ You can't copy realness.</div>
                 </div>
                 <div class="form-group">
                   <label class="form-label">▸ Who's Involved?</label>
-                  <input class="form-input" placeholder="Aliases or descriptions only">
+                  <input class="form-input" name="who" placeholder="Aliases or descriptions only">
                 </div>
               </div>
 
               <div class="grid-2">
                 <div class="form-group">
                   <label class="form-label">▸ Where Did It Go Down?</label>
-                  <input class="form-input" placeholder="Location, address, or general area">
+                  <input class="form-input" name="location" placeholder="Location, address, or general area">
                 </div>
                 <div class="form-group">
                   <label class="form-label">▸ When?</label>
-                  <input class="form-input" placeholder="Date / Time (best guess fine)">
+                  <input class="form-input" name="when" placeholder="Date / Time (best guess fine)">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="form-label">▸ Tell Us Everything.</label>
-                <textarea class="form-textarea" placeholder="Details. Receipts. Screenshots. Chaos. Give us the whole story."></textarea>
+                <textarea class="form-textarea" name="details" placeholder="Details. Receipts. Screenshots. Chaos. Give us the whole story."></textarea>
               </div>
 
               <!-- Security info strip -->
@@ -2227,19 +2229,23 @@ You can't copy realness.</div>
     <div class="stamp" style="transform: rotate(-2deg);">EVIDENCE SUBMISSION</div>
     <h2 style="font-family: var(--f-display); font-size: 1.8rem; color: var(--pink); margin: 1rem 0 0.5rem; text-shadow: 0 0 20px var(--pink-glow);">Add Your Story</h2>
     <p style="font-family: var(--f-mono); font-size: 0.65rem; color: var(--silver-dim); letter-spacing: 1.5px; margin-bottom: 1.5rem; text-transform: uppercase;">All stories documented. All identities protected. The lace will not be.</p>
-    <div class="form-group">
-      <label class="form-label">Case File Name</label>
-      <input class="form-input" placeholder="Give it a title...">
-    </div>
-    <div class="form-group">
-      <label class="form-label">What Happened</label>
-      <textarea class="form-textarea" placeholder="Tell us everything. No filter needed."></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-label">The Lesson</label>
-      <input class="form-input" placeholder="What did this teach you?">
-    </div>
-    <button class="btn-primary btn-block" id="storySubmitBtn" onclick="submitStory(event)"><span class="btn-label">Submit Evidence</span><span>→</span></button>
+    <form name="story" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitStory(event); return false;">
+      <input type="hidden" name="form-name" value="story">
+      <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <div class="form-group">
+        <label class="form-label">Case File Name</label>
+        <input class="form-input" name="title" placeholder="Give it a title...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">What Happened</label>
+        <textarea class="form-textarea" name="story" placeholder="Tell us everything. No filter needed."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">The Lesson</label>
+        <input class="form-input" name="lesson" placeholder="What did this teach you?">
+      </div>
+      <button type="submit" class="btn-primary btn-block" id="storySubmitBtn"><span class="btn-label">Submit Evidence</span><span>→</span></button>
+    </form>
   </div>
 </div>
 
