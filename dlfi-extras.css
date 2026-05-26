@@ -1043,7 +1043,7 @@ body.modal-open .nav-swipe-hint {
   box-shadow: 0 0 30px rgba(255,27,107,0.35);
 }
 .profile-card.is-clickable::after {
-  content: '↗  Tap to read bio';
+  content: '↗  Tap to read diary';
   position: absolute;
   bottom: 10px; right: 12px;
   font-family: var(--f-mono);

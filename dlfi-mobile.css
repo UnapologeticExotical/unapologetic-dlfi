@@ -1948,3 +1948,10 @@ body.modal-open #dlfi-scroll-hint { display: none !important; }
   #page-report .page-hero { padding-top: 0.8rem !important; }
 }
 
+
+/* Keep the always-visible 'Tap to open file' badge clear of the Status row
+   on mobile (badge sits at bottom-right of the card). */
+@media (pointer: coarse) {
+  .case-card .case-body { padding-bottom: 2.6rem; }
+  .training-card .training-body { padding-bottom: 2.6rem; }
+}
