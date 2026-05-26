@@ -62,12 +62,16 @@
     const data = {};
     if (!formEl) return data;
     formEl.querySelectorAll('input, select, textarea').forEach(el => {
-      const label = el.closest('.form-group')?.querySelector('.form-label')?.textContent
+      // Netlify Forms requires the field NAME attribute to match what was in
+      // the static form, so prefer that. Fall back to label/placeholder for
+      // local-storage display only.
+      const key = el.name
+        || el.closest('.form-group')?.querySelector('.form-label')?.textContent.replace(/^[▸◆●\s]+/, '').trim()
         || el.placeholder
-        || el.name
         || 'field';
-      const key = label.replace(/^[▸◆●\s]+/, '').trim();
-      data[key] = el.value || '';
+      if (key && key !== 'bot-field' && key !== 'form-name') {
+        data[key] = el.value || '';
+      }
     });
     return data;
   }
