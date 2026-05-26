@@ -1263,7 +1263,7 @@ body.modal-open .nav-swipe-hint {
    ============================================================ */
 .case-card { cursor: pointer; position: relative; }
 .case-card::after {
-  content: '↗ Open Diary';
+  content: '↗ Open File';
   position: absolute;
   bottom: 10px; right: 12px;
   font-family: var(--f-mono);
@@ -1934,4 +1934,23 @@ body.modal-open .audio-hint { display: none !important; }
 .recruit-card:hover {
   transform: translateY(-2px);
   transition: transform 0.4s ease;
+}
+
+/* Mobile: Evidence Room story cards always show 'Tap to read diary' hint
+   so visitors on phones know the popups are clickable. */
+@media (pointer: coarse) {
+  .story-card[onclick]::after {
+    content: '↗ Tap to read diary';
+    opacity: 1;
+  }
+  /* Give the story body breathing room so the badge doesn't overlap text. */
+  .story-card { padding-bottom: 2.4rem; }
+}
+
+/* Mobile: Tap to read bio on Chief Investigator card sits very close to the
+   'NO SARCASM. NO CLASS. CASE CLOSED.' neon frame text. Drop it lower so
+   there's clear visual breathing room. */
+@media (pointer: coarse) {
+  .chief-clickable { padding-bottom: 2.2rem; }
+  .chief-clickable::after { bottom: -8px; }
 }
