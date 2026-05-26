@@ -2048,9 +2048,9 @@ You can't copy realness.</div>
             <div class="script" style="margin: 0.5rem 0 1rem;">Spill what you know. We'll handle the rest.</div>
             <p class="mono-label" style="margin-bottom: 2rem;">Help us keep the streets — and the secrets — clean.</p>
 
-            <form name="report" method="POST" data-netlify="true" netlify-honeypot="bot-field" style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;" onsubmit="submitReport(event)">
+            <form name="report" method="POST" data-netlify="true" style="background: var(--noir-1); border: 1px solid var(--line); padding: 2rem;" onsubmit="submitReport(event)">
               <input type="hidden" name="form-name" value="report">
-              <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+              
 
               <div class="grid-2">
                 <div class="form-group">
@@ -2229,9 +2229,9 @@ You can't copy realness.</div>
     <div class="stamp" style="transform: rotate(-2deg);">EVIDENCE SUBMISSION</div>
     <h2 style="font-family: var(--f-display); font-size: 1.8rem; color: var(--pink); margin: 1rem 0 0.5rem; text-shadow: 0 0 20px var(--pink-glow);">Add Your Story</h2>
     <p style="font-family: var(--f-mono); font-size: 0.65rem; color: var(--silver-dim); letter-spacing: 1.5px; margin-bottom: 1.5rem; text-transform: uppercase;">All stories documented. All identities protected. The lace will not be.</p>
-    <form name="story" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitStory(event); return false;">
+    <form name="story" method="POST" data-netlify="true" onsubmit="submitStory(event); return false;">
       <input type="hidden" name="form-name" value="story">
-      <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+      
       <div class="form-group">
         <label class="form-label">Case File Name</label>
         <input class="form-input" name="title" placeholder="Give it a title...">
