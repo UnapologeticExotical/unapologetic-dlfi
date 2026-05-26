@@ -423,7 +423,7 @@
 /* ---- 5. Hotline CTA — clearer affordance on phone ---- */
 @media (max-width: 720px) {
   /* Add an "↗ open" suffix to the hotline shortcut button on the hero */
-  .page-hero .btn-outline[onclick*="showPage('hotline')"]::after {
+  .btn-outline[onclick*="showPage('hotline')"]::after {
     content: ' ↗ Tap to open';
     display: inline-block;
     margin-left: 8px;

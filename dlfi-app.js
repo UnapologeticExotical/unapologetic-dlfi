@@ -298,8 +298,8 @@
       by: 'Anonymous · Subject 20',
       mood: 'Holding court.',
       paragraphs: [
-        "Dear Department, my edge control was found upturned and used. I store it in a specific spot. The spot was disturbed. The brush was used in the wrong direction. The lid was not screwed back on. Three separate crimes.",
-        "She did not ask. She did not refill. She did not even close the cap. I said nothing. I simply began wearing my edges differently in her presence so she had nothing to study.",
+        "Dear Department, my mousse was found upturned and used. I store it in a specific spot. The spot was disturbed. The brush was used in the wrong direction. The lid was not screwed back on. Three separate crimes.",
+        "She did not ask. She did not refill. She did not even close the cap. I said nothing. I simply began wearing my curls differently in her presence so she had nothing to study.",
         "Within three weeks, her edges started receding on schedule. I did not gloat. The Department does not gloat. The Department documents."
       ],
       lesson: 'Touch my products, lose your edges. Fair is fair.'
