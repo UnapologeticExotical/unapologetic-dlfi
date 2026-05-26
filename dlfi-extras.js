@@ -45,14 +45,20 @@
   // server-side, with no email address ever leaving the Netlify dashboard.
   function sendToProvider(type, payload) {
     const formName = type === 'report' ? 'report' : 'story';
+    // Build a Akismet-friendly subject so submissions don't look like spam.
+    const subjectBase = type === 'report' ? 'DLFI Disturbance Report' : 'DLFI Evidence Submission';
+    const subject = payload.category ? `${subjectBase}: ${payload.category}`
+                  : payload.title ? `${subjectBase}: ${payload.title}`
+                  : subjectBase;
     const params = new URLSearchParams();
     params.append('form-name', formName);
+    params.append('subject', subject);
     params.append('submitted_at', new Date().toISOString());
     Object.entries(payload).forEach(([k, v]) => params.append(k, v || ''));
     try {
       fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
         body: params.toString()
       }).catch(() => {});
     } catch (e) {}

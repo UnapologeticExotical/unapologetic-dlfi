@@ -22,3 +22,10 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Redirect legacy /DLFI.html URL to root (fixes old PWA home-screen icons)
+[[redirects]]
+  from = "/DLFI.html"
+  to = "/"
+  status = 301
+  force = true
