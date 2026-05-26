@@ -1314,7 +1314,7 @@ body.modal-open .nav-swipe-hint {
   position: relative;
 }
 .chief-clickable::after {
-  content: '↗ Tap to read bio';
+  content: '↗ Tap to read diary';
   position: absolute;
   bottom: 10px; left: 50%;
   transform: translateX(-50%);
