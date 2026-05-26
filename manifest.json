@@ -2,7 +2,7 @@
   "name": "DLFI — Department of Lace Front Investigations",
   "short_name": "DLFI",
   "description": "An elite training program in emotional intelligence, observation tactics, receipt collection, and verbal self-defense.",
-  "start_url": "DLFI.html",
+  "start_url": "/",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
