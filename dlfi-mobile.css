@@ -1955,3 +1955,10 @@ body.modal-open #dlfi-scroll-hint { display: none !important; }
   .case-card .case-body { padding-bottom: 2.6rem; }
   .training-card .training-body { padding-bottom: 2.6rem; }
 }
+
+/* Profile-card 'Tap to read bio' badge sits at bottom-right of the card.
+   Add bottom padding to the body so the badge never overlaps the quote text. */
+@media (pointer: coarse) {
+  .profile-card .profile-body { padding-bottom: 2.6rem; }
+}
+.profile-card .profile-body { padding-bottom: 2.6rem; }
