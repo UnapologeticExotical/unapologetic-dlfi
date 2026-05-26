@@ -1963,3 +1963,33 @@ body.modal-open #dlfi-scroll-hint { display: none !important; }
   .profile-card .profile-body { padding-bottom: 2.6rem; }
 }
 .profile-card .profile-body { padding-bottom: 2.6rem; }
+
+/* ============================================================
+   iOS SAFE AREA — push the top status bar and nav down so the
+   battery / wifi / clock on iPhones (notch / dynamic island) don't
+   cover the 'Report A Disturbance' button or status bar text.
+   ============================================================ */
+@supports (top: env(safe-area-inset-top)) {
+  .status-bar {
+    top: env(safe-area-inset-top, 0px) !important;
+  }
+  nav {
+    top: calc(24px + env(safe-area-inset-top, 0px)) !important;
+  }
+  .page-content {
+    padding-top: calc(88px + env(safe-area-inset-top, 0px)) !important;
+  }
+}
+
+/* Skip the cinematic page-fade-in on touch devices — it can mask the
+   page during the first ~700ms and make swipes feel stuck. */
+@media (pointer: coarse) {
+  .page.active {
+    animation: none !important;
+  }
+  /* Make data-reveal items appear instantly on initial paint if they're
+     already in the viewport (prevents 'invisible content + cant scroll'). */
+  [data-reveal] {
+    transition-duration: 0.35s !important;
+  }
+}

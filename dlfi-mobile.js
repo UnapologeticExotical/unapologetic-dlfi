@@ -41,14 +41,27 @@
     document.body.appendChild(splash);
     /* removed overflow lock — splash is pointer-events:none now */
     // Dismiss
-    setTimeout(() => splash.classList.add('is-out'), 1600);
+    let splashDismissed = false;
+    function dismissSplashNow() {
+      if (splashDismissed) return;
+      splashDismissed = true;
+      splash.classList.add('is-out');
+      window.removeEventListener('touchstart', dismissSplashNow, { passive: true });
+      window.removeEventListener('wheel', dismissSplashNow, { passive: true });
+      window.removeEventListener('scroll', dismissSplashNow, { passive: true });
+      setTimeout(() => { try { splash.remove(); } catch (e) {} }, 550);
+    }
+    /* Dismiss on first user gesture — never block scrolling, ever */
+    window.addEventListener('touchstart', dismissSplashNow, { passive: true });
+    window.addEventListener('wheel', dismissSplashNow, { passive: true });
+    window.addEventListener('scroll', dismissSplashNow, { passive: true });
+    /* Auto-dismiss the cinematic intro after 1.4s if user doesn't interact */
+    setTimeout(dismissSplashNow, 1400);
     setTimeout(() => {
       try { splash.remove(); } catch (e) {}
-      /* overflow lock no longer set; nothing to clear */
-      // After the splash clears, surface a one-time scroll hint so
-      // non-tech-savvy visitors know there's more below the fold.
+      /* After the splash clears, show the one-time scroll hint. */
       showScrollHint();
-    }, 2200);
+    }, 2000);
   }
 
   // ============================================================
