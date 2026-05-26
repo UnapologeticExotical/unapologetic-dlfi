@@ -8,6 +8,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000000;
+  pointer-events: none; /* let touches pass through so the page scrolls from first swipe */
   background:
     radial-gradient(ellipse at 50% 35%, rgba(255,27,107,0.10), transparent 60%),
     linear-gradient(180deg, #0a0306 0%, #050204 50%, #0a0306 100%);

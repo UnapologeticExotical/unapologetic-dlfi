@@ -39,12 +39,12 @@
       <div class="ds-scan"></div>
     `;
     document.body.appendChild(splash);
-    document.documentElement.style.overflow = 'hidden';
+    /* removed overflow lock — splash is pointer-events:none now */
     // Dismiss
     setTimeout(() => splash.classList.add('is-out'), 1600);
     setTimeout(() => {
       try { splash.remove(); } catch (e) {}
-      document.documentElement.style.overflow = '';
+      /* overflow lock no longer set; nothing to clear */
       // After the splash clears, surface a one-time scroll hint so
       // non-tech-savvy visitors know there's more below the fold.
       showScrollHint();

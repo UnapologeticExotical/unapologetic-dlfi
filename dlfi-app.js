@@ -101,7 +101,7 @@
     const mnavEl = document.getElementById('mnav-' + page);
     if (mnavEl) mnavEl.classList.add('active');
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(pointer: coarse)').matches ? 'auto' : 'smooth' });
 
     if (Audio) Audio.pageEnter();
     if (Audio) Audio.click();
@@ -298,8 +298,8 @@
       by: 'Anonymous · Subject 20',
       mood: 'Holding court.',
       paragraphs: [
-        "Dear Department, my mousse was found upturned and used. I store it in a specific spot. The spot was disturbed. The brush was used in the wrong direction. The lid was not screwed back on. Three separate crimes.",
-        "She did not ask. She did not refill. She did not even close the cap. I said nothing. I simply began wearing my curls differently in her presence so she had nothing to study.",
+        "Dear Department, my mousse was found upturned and used. I store it in a specific spot. The spot was disturbed. The brush was used in the wrong direction. The pump's cap was not put back on. Three separate crimes.",
+        "She did not ask. She did not refill. She did not even wipe the mousse off the counter. I said nothing. I simply began wearing my curls differently in her presence so she had nothing to study.",
         "Within three weeks, her edges started receding on schedule. I did not gloat. The Department does not gloat. The Department documents."
       ],
       lesson: 'Touch my products, lose your edges. Fair is fair.'
@@ -373,7 +373,7 @@
       codename: 'The Archive',
       specialty: 'Screenshot retention · Cross-referencing · Paper trails',
       story: [
-        "Joined DLFI after the bead bandits made jokes about her glow-up at a baby shower and then borrowed her edge control without asking. She did not say a word. She started screenshotting.",
+        "Joined DLFI after the bead bandits made jokes about her glow-up at a baby shower and then borrowed her mousse without asking. She did not say a word. She started screenshotting.",
         "Three years later, she runs the largest receipt archive in the Department — twelve binders, cloud-backed, color-coded. If it happened on a screen, she has it. If it was whispered, she has the witness statement.",
         "She joined to make sure no bullying moment ever again gets to disappear without a trace. The bead bandits learned. Slowly."
       ],
